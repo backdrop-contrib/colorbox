@@ -22,6 +22,10 @@ function colorbox_init() {
   if (variable_get('colorbox_css_path', FALSE)) {
     drupal_add_css(variable_get('colorbox_css_path', ''));
   }
+  $js_settings = array(
+    'image_node_handler' => variable_get('colorbox_auto_image_nodes', 'disabled'),
+  );
+  drupal_add_js(array('colorbox' => $js_settings), 'setting');
   drupal_add_js(drupal_get_path('module', 'colorbox') .'/colorbox.js');
 }
 
@@ -38,7 +42,39 @@ function colorbox_admin_settings() {
     '#default_value' => variable_get('colorbox_css_path', ''),
     '#description' => t('Enter the path relative to Drupal root where colorbox.css is located'),
   );
+  $form['colorbox_automatic'] = array(
+	  '#type' => 'fieldset',
+	  '#title' => t('Automatic Image Settings'),
+	  '#collapsible' => TRUE,
+	  '#collapsed' => FALSE,
+  );
+  $form['colorbox_automatic']['colorbox_auto_image_nodes'] = array(
+    '#type' => 'select',
+    '#title' => t('Image Node Setting'),
+    '#default_value' => variable_get('colorbox_auto_image_nodes', 'disabled'),
+    '#options' => array(
+      'disabled' => t('Disabled'),
+      'colorbox' => t('Colorbox'),
+    ),
+  );
   return system_settings_form($form);
 }
 
-
+/**
+ * Implementation of hook_link_alter().
+ */
+function colorbox_link_alter(&$links, $node) { 
+  if ($node->type != 'image') {
+    return;
+  }
+  $sizes = array(
+    '_original',
+    'preview',
+    'thumbnail',
+  );
+  foreach ($sizes as $size) {
+    $links['image_size_'. $size]['attributes']['class'] = "image image-{$size} colorbox";
+    $links['image_size_'. $size]['href'] = $node->images[$size];
+    unset($links['image_size_'. $size]['query']);
+  }
+}
