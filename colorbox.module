@@ -63,7 +63,7 @@ function colorbox_admin_settings() {
 /**
  * Implementation of hook_link_alter().
  */
-function colorbox_link_alter(&$links, $node) { 
+function colorbox_link_alter(&$links, $node) {
   if ($node->type != 'image') {
     return;
   }
