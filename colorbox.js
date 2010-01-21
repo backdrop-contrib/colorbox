@@ -8,8 +8,8 @@ if (jQuery().colorbox) {
       // Add rel tag to group
       this.rel = "testing1";
       // Colorbox it
-      $("a[rel='testing1']").colorbox();
     });
+    $("a[rel='testing1']").colorbox();
     $('.colorbox').colorbox();
   };
 }
