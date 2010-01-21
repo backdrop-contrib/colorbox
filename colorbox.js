@@ -10,6 +10,7 @@ if (jQuery().colorbox) {
       // Colorbox it
     });
     $("a[rel='testing1']").colorbox();
+    $("a[rel='testing2']").colorbox();
     $('.colorbox').colorbox();
   };
 }

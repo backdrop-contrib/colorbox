@@ -78,3 +78,41 @@ function colorbox_link_alter(&$links, $node) {
     unset($links['image_size_'. $size]['query']);
   }
 }
+/**
+ * Implementation of CCK hook_field_formatter_info().
+ */
+function colorbox_field_formatter_info() {
+  return array(
+    'colorbox_slideshow' => array(
+      'label' => t('Colorbox Slideshow'),
+      'field types' => array('filefield'),
+      'description' => t('Adds a colorbox slideshow to images'),
+    ),
+  );
+}
+/**
+ * Implmentation of hook_theme().
+ */
+function colorbox_theme() {
+  $theme = array(
+    'colorbox_formatter_colorbox_slideshow' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+  return $theme;
+}
+/**
+ * Theme function for our video formatter
+ */
+function theme_colorbox_formatter_colorbox_slideshow($element) {
+  // Inside a view $element may contain null data. In that case, just return.
+  if (empty($element['#item']['fid'])) {
+    return '';
+  }
+
+  $item = $element['#item'];
+  $imagetag = theme('imagefield_formatter_image_plain', $element);
+  $original_image_url = file_create_url($item['filepath']);
+  $class = 'imagefield imagefield-imagelink imagefield-'. $element['#field_name'];
+  return l($imagetag, $original_image_url, array('attributes' => array('class' => $class, 'rel' => 'testing2'), 'html' => TRUE));
+}
