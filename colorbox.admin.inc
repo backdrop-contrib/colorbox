@@ -87,21 +87,25 @@ function colorbox_admin_settings() {
     '#collapsed' => TRUE
   );
   $colorbox_path = variable_get('colorbox_path', COLORBOX_PATH);
-  $example_styles = array(
+  $colorbox_styles = array(
     'default' => t('Default'),
     $colorbox_path .'/example1' => t('Example 1'),
     $colorbox_path .'/example2' => t('Example 2'),
     $colorbox_path .'/example3' => t('Example 3'),
     $colorbox_path .'/example4' => t('Example 4'),
     $colorbox_path .'/example5' => t('Example 5'),
-    'none' => t('Let the theme handle styling.'),
   );
+  $theme_path = path_to_theme();
+  if (is_file($theme_path .'/colorbox.css')) {
+    $colorbox_styles[$theme_path] = t('Theme');
+  }
+  $colorbox_styles['none'] = t('None');
   $form['colorbox_custom_settings']['colorbox_style'] = array(
     '#type' => 'select',
     '#title' => t('Style'),
-    '#options' => $example_styles,
+    '#options' => $colorbox_styles,
     '#default_value' => variable_get('colorbox_style', 'default'),
-    '#description' => t('Select the style to use for the Colorbox. The examples are the ones that comes with Colorbox.'),
+    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox script. Tips: Place a "colorbox.css" file in your theme directory to get an option "Theme".'),
   );
   $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
     '#type' => 'radios',
@@ -178,7 +182,7 @@ function colorbox_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Path to Colorbox'),
     '#default_value' => $colorbox_path,
-    '#description' => t('Enter the path relative to Drupal root to the colorbox directory. NO trailing slash!'),
+    '#description' => t('Enter the path relative to Drupal root where the colorbox directory is located. NO trailing slash!'),
   );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',

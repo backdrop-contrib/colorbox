@@ -145,7 +145,7 @@ function _colorbox_doheader() {
       'transition' => variable_get('colorbox_transition_type', 'elastic'),
       'speed' => variable_get('colorbox_transition_speed', 350),
       'opacity' => variable_get('colorbox_opacity', '0.9'),
-      'slideshow' => variable_get('colorbox_slideshow', FALSE),
+      'slideshow' => variable_get('colorbox_slideshow', 0) ? TRUE : FALSE,
       'current' => variable_get('colorbox_text_current', '{current} of {total}'),
       'previous' => variable_get('colorbox_text_previous', '« Prev'),
       'next' => variable_get('colorbox_text_next', 'Next »'),
