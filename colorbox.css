@@ -99,9 +99,12 @@
       }
       #cboxTitle {
         position: absolute;
-        bottom: 4px;
-        left: 100px;
-        color: #949494;
+        background: rgba(255, 255, 255, 0.7);
+        bottom: 28px;
+        left: 0;
+        color: #535353;
+        width: 100%;
+        padding: 4px;
       }
       #cboxCurrent {
         position: absolute;
@@ -136,7 +139,7 @@
       #cboxPrevious {
         position: absolute;
         bottom: 0;
-        left: 0px;
+        left: 0;
         background: url(images/controls.png) -75px 0px no-repeat;
         width: 25px;
         height: 25px;
@@ -175,3 +178,8 @@
       #cboxClose.hover {
         background-position: -25px -25px;
       }
+
+/* The following are fixes for IE. */
+.cboxIE #cboxTitle {
+  background: #fff;
+}
