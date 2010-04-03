@@ -18,7 +18,7 @@ define('COLORBOX_PATH', 'sites/all/libraries/colorbox');
 function colorbox_theme() {
   $theme = array(
     'colorbox_imagefield' => array(
-      'arguments' => array('namespace' => NULL, 'path' => NULL, 'alt' => NULL, 'title' => NULL, 'gid' => NULL, 'attributes' => NULL),
+      'arguments' => array('namespace' => NULL, 'path' => NULL, 'alt' => NULL, 'title' => NULL, 'gid' => NULL, 'field_name' => NULL, 'attributes' => NULL),
       'file' => 'colorbox.theme.inc',
     ),
   );
@@ -166,11 +166,20 @@ function _colorbox_doheader() {
   }
   drupal_add_js(array('colorbox' => $js_settings), 'setting');
 
-  drupal_add_js(variable_get('colorbox_path', COLORBOX_PATH) .'/colorbox/jquery.colorbox-min.js');
+  $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
+  drupal_add_js(variable_get('colorbox_path', COLORBOX_PATH) .'/colorbox/'. $colorbox_file[variable_get('colorbox_compression_type', 'min')]);
   drupal_add_js($path .'/js/colorbox.js');
+
+  if ($style == 'default') {
+    drupal_add_js($path .'/js/colorbox_default_style.js');
+  }
 
   if (module_exists('image') && variable_get('colorbox_auto_image_nodes', 0)) {
     drupal_add_js($path .'/js/colorbox_image_module.js');
+  }
+
+  if (variable_get('colorbox_form', 0)) {
+    drupal_add_js($path .'/js/colorbox_form.js');
   }
 
   if ($user->uid == 0 && variable_get('colorbox_login', 0)) {
@@ -204,6 +213,7 @@ function colorbox_link_alter(&$links, $node) {
     'preview',
     'thumbnail',
   );
+  // Add a colorbox class to the image link sizes on the image node.
   foreach ($sizes as $size) {
     $links['image_size_'. $size]['attributes']['class'] = "image image-{$size} colorbox";
     $links['image_size_'. $size]['href'] = $node->images[$size];

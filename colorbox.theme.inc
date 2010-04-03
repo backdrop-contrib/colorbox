@@ -42,11 +42,13 @@ function theme_colorbox_formatter_imagefield($element) {
         $item['data']['title'] = $node->title;
       }
 
-      // Shorten the title when it is too long or it will look bad.
-      if (drupal_strlen($item['data']['title']) > 75) {
-        $item['data']['title'] = drupal_substr($item['data']['title'], 0, 70) .'...';
-      }
     }
+
+    // Shorten the title when it is too long or it will look bad.
+    if ((variable_get('colorbox_style', 'default') != 'default') && (drupal_strlen($item['data']['title']) > 75)) {
+      $item['data']['title'] = drupal_substr($item['data']['title'], 0, 70) .'...';
+    }
+
     // Build the gallery id.
     $nid = $item['nid'] ? $item['nid'] : ($node->nid ? $node->nid : '');
     switch (variable_get('colorbox_imagefield_gallery', 1)) {
@@ -65,7 +67,7 @@ function theme_colorbox_formatter_imagefield($element) {
     }
     list($namespace, $presetname) = explode('][', $element['#formatter'], 2);
     if ($preset = imagecache_preset_by_name($namespace)) {
-      return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id);
+      return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id, $element['#field_name']);
     }
   }
 }
@@ -87,7 +89,7 @@ function theme_colorbox_formatter_imagefield($element) {
  *   optional drupal attributes array. If attributes is set, the default imagecache classes
  *   will not be set automatically, you must do this manually.
  */
-function theme_colorbox_imagefield($namespace, $path, $alt = '', $title = '', $gid = '', $attributes = NULL) {
+function theme_colorbox_imagefield($namespace, $path, $alt = '', $title = '', $gid = '', $field_name = '', $attributes = NULL) {
   if (!empty($path)) {
     $image = theme('imagecache', $namespace, $path, $alt, $title, $attributes);
     if ($presetname = variable_get('colorbox_imagecache_preset', 0)) {
@@ -96,7 +98,7 @@ function theme_colorbox_imagefield($namespace, $path, $alt = '', $title = '', $g
     else {
       $link_path = file_create_url($path);
     }
-    $class = 'colorbox imagefield imagefield-imagelink imagefield-'. $element['#field_name'];
+    $class = 'colorbox imagefield imagefield-imagelink imagefield-'. $field_name;
 
     return l($image, $link_path, array('html' => TRUE, 'attributes' => array('title' => $title, 'class' => $class, 'rel' => 'gallery-'. $gid)));
   }
