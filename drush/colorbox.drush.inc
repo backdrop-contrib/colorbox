@@ -31,7 +31,7 @@ function colorbox_drush_command() {
 
   // the key in the $items array is the name of the command.
   $items['colorbox-script'] = array(
-    'callback' => 'colorbox_drush_colorbox_script',
+    'callback' => 'drush_colorbox_script',
     'description' => dt("Downloads the Colorbox library."),
     'arguments' => array(
       'path' => dt('Optional. A path where to install the Colorbox library. If omitted Drush will use the default location.'),
@@ -71,7 +71,7 @@ function colorbox_drush_help($section) {
  * To print something to the terminal window, use drush_print().
  *
  */
-function colorbox_drush_colorbox_script() {
+function drush_colorbox_script() {
   $args = func_get_args();
   if ($args[0]) {
     $path = $args[0];
@@ -80,16 +80,22 @@ function colorbox_drush_colorbox_script() {
     $path = 'sites/all/libraries';
   }
 
+  // Create the path if it does not exist.
+  if (!is_dir($path)) {
+    drush_op('mkdir', $path);
+    drush_log(dt('Directory @path was created', array('@path' => $path)), 'notice');
+  }
+
   // Set the directory to the download location.
   $olddir = getcwd();
   chdir($path);
 
   $filename = basename(COLORBOX_DOWNLOAD_URI);
-  $dirname = basename(COLORBOX_DOWNLOAD_URI, ".zip");
+  $dirname = basename(COLORBOX_DOWNLOAD_URI, '.zip');
 
   // Remove any existing Colorbox library directory
   if (is_dir($dirname)) {
-    drush_log(dt('A existing Colorbox library was overwritten from @path', array('@path' => $path)), 'notice');
+    drush_log(dt('A existing Colorbox library was overwritten at @path', array('@path' => $path)), 'notice');
   }
   // Remove any existing Colorbox library zip archive
   if (is_file($filename)) {
