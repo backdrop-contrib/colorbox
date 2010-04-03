@@ -47,11 +47,12 @@ function colorbox_admin_settings() {
     $form['colorbox_image_module']['colorbox_auto_image_nodes'] = array(
       '#type' => 'select',
       '#title' => t('Image node setting'),
-      '#default_value' => variable_get('colorbox_auto_image_nodes', 'disabled'),
       '#options' => array(
         'disabled' => t('Disabled'),
         'colorbox' => t('Colorbox'),
       ),
+      '#default_value' => variable_get('colorbox_auto_image_nodes', 'disabled'),
+      '#description' => t('Select if Colorbox should be activated for the Image module.'),
     );
   }
 
@@ -76,9 +77,19 @@ function colorbox_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Custom login form'),
     '#default_value' => variable_get('colorbox_login_custom', ''),
-    '#description' => t('Specify the form here if you have set the login form to "custom" above.'),
+    '#description' => t('Specify the form id here if you have set the login form to "custom" above.'),
   );
 
+  $form['colorbox_form_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Form settings')
+  );
+  $form['colorbox_form_settings']['colorbox_form'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Colorbox forms'),
+    '#default_value' => variable_get('colorbox_form', 0),
+    '#description' => t('This enables custom links that can open any form in a Colorbox. Add the class "colorbox-from" to the link and build the url like this "/colorbox/form/[form_id]?width=500&height=500".'),
+  );
 
   $form['colorbox_custom_settings'] = array(
     '#type' => 'fieldset',
@@ -183,6 +194,15 @@ function colorbox_admin_settings() {
     '#title' => t('Path to Colorbox'),
     '#default_value' => $colorbox_path,
     '#description' => t('Enter the path relative to Drupal root where the colorbox directory is located. NO trailing slash!'),
+  );
+  $form['colorbox_advanced_settings']['colorbox_compression_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Choose Colorbox compression level'),
+    '#options' => array(
+      'min' => t('Production (Minified)'),
+      'none' => t('Development (Uncompressed Code)'),
+    ),
+    '#default_value' => variable_get('colorbox_compression_type', 'min'),
   );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',
