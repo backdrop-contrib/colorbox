@@ -6,7 +6,7 @@ Drupal.behaviors.initColorboxForm = function (context) {
     if (!results) { return 0; }
     return results[1] || 0;
   };
-  $('.colorbox-form', context).colorbox({
+  $('.colorbox-form', context).filter(':not(.initColorboxForm-processed)').addClass('initColorboxForm-processed').colorbox({
     innerWidth:function(){
       return $.urlParam('width', $(this).attr('href'));
     },
