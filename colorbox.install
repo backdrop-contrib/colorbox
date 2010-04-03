@@ -29,7 +29,9 @@
  */
 function colorbox_uninstall() {
   variable_del('colorbox_auto_image_nodes');
+  variable_del('colorbox_compression_type');
   variable_del('colorbox_custom_settings_activate');
+  variable_del('colorbox_form');
   variable_del('colorbox_imagecache_preset');
   variable_del('colorbox_imagefield_gallery');
   variable_del('colorbox_login_custom');
@@ -47,3 +49,29 @@ function colorbox_uninstall() {
   variable_del('colorbox_transition_speed');
   variable_del('colorbox_transition_type');
 }
+
+/**
+ * Provides a upgrade path for Thickbox users.
+ * Replaces "thickbox" with "colorbox" in
+ * content_node_field_instance -> display_settings
+ */
+// function colorbox_update_6001() {
+//   $ret = array();
+//
+//   $result = db_query("SELECT *  FROM {content_node_field_instance}");
+//   while ($type = db_fetch_array($result)) {
+//     $new_settings = array();
+//     $display_settings = unserialize($type['display_settings']);
+//     if (!empty($display_settings)) {
+//       foreach ($display_settings as $key => $val) {
+//         $new_settings[$key] = $val;
+//         if ($key == 'format' && is_array($val)) {
+//           $new_settings[$key]['exclude'] = 0;
+//         }
+//       }
+//     }
+//     db_query("UPDATE {content_node_field_instance} SET display_settings='%s' WHERE field_name='%s' AND type_name='%s'", serialize($new_settings), $type['field_name'], $type['type_name']);
+//   }
+//
+//   return $ret;
+// }
