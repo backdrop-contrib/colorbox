@@ -9,37 +9,53 @@ License - GPL (see LICENSE)
 
 Overview:
 --------
-The Colorbox module is a wrapper for Colorbox, a light-weight,
-customizable lightbox plugin for jQuery 1.3 and 1.4.
+Colorbox is a lightweight customizable lightbox plugin for jQuery
+1.3 and 1.4. This module allows for integration of Colorbox into Drupal.
 The jQuery library is a part of Drupal since version 5+.
 
-Integrates with Image, Imagefield and Imagecache modules.
-
-Provides a feature to display the login form in a Colorbox and a
-simple API to display any form in a Colorbox.
+Images, forms, iframed or inline content etc. can be displayed in a
+overlay above the current page.
 
 * jQuery - http://jquery.com/
 * Colorbox - http://colorpowered.com/colorbox/
 
 
-Drush:
-------
-A Drush command is provides for easy installation of the Colorbox
-script itself.
+Features:
+---------
 
-% drush colorbox-script
+The Colorbox module:
 
-The command will download the script and unpack it in sites/all/libraries.
-It is possible to add another path as an option to the command, but not 
-recommended unless you know what you are doing.
+* Excellent integration with Imagefield and Imagecache modules
+* Integration with Image module
+* Choose between a default style and 5 example styles that are included.
+* Style the Colorbox with a custom colorbox.css file in your theme.
+* Option to open a login form by clicking on any login link
+* Simple API to open any form in a Colorbox
+* Drush command to download and install the Colorbox script in
+  sites/all/libraries
+
+The Colorbox script:
+
+* Supports images, image groups, slideshow, ajax, inline, and
+  iframed content.
+* Appearance is controlled through CSS so users can restyle the box.
+* Preloads background images and can preload upcoming images in a
+  photo group.
+* Generates W3C valid XHTML and adds no JS global variables and
+  passes JSLint.
+* Tested in Firefox 2 & 3, Safari 3 & 4, Opera 9, Chrome,
+  Internet Explorer 6, 7, 8.
+* Released under the MIT License.
 
 
 Installation:
 ------------
 1. Download and install the jQuery Update module version 6.x-2.x.
+   Make sure you get the 2.x version since 1.x will not work.
 2. Download and unpack the Colorbox script itself to "sites/all/libraries".
-   Drush users can just use the command "drush colorbox-script".
-3. Place this module directory in your modules folder (this will
+   Link: http://colorpowered.com/colorbox/colorbox.zip
+   Drush users can use the command "drush colorbox-script".
+3. Place the Colorbox module directory in your modules folder (this will
    usually be "sites/all/modules/").
 4. Go to "Administer" -> "Site building" -> "Modules" and enable the module.
 
@@ -62,6 +78,18 @@ Here is an example where the user register form is opened in an
 500 by 250 pixel Colorbox.
 
 <a class="colorbox-form" href="/colorbox/form/user_register?width=500&height=250">Create new account</a>
+
+
+Drush:
+------
+A Drush command is provides for easy installation of the Colorbox
+script itself.
+
+% drush colorbox-script
+
+The command will download the script and unpack it in "sites/all/libraries".
+It is possible to add another path as an option to the command, but not 
+recommended unless you know what you are doing.
 
 
 Example styles borders do not display in Internet Explorer:
