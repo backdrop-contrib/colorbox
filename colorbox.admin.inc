@@ -127,14 +127,18 @@ function colorbox_admin_settings() {
     '#prefix' => '<div class="colorbox-custom-settings-activate">',
     '#suffix' => '</div>',
   );
+
   $js_hide = variable_get('colorbox_custom_settings_activate', 0) ? '' : ' js-hide';
+  $form['colorbox_custom_settings']['wrapper_start'] = array(
+    '#value' => '<div class="colorbox-custom-settings'. $js_hide .'">',
+  );
+
   $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
     '#type' => 'select',
     '#title' => t('Transition type'),
     '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
     '#default_value' => variable_get('colorbox_transition_type', 'elastic'),
     '#description' => t('The transition type.'),
-    '#prefix' => '<div class="colorbox-custom-settings'. $js_hide .'">',
   );
   $form['colorbox_custom_settings']['colorbox_transition_speed'] = array(
     '#type' => 'select',
@@ -149,13 +153,6 @@ function colorbox_admin_settings() {
     '#options' => drupal_map_assoc(array('0', '0.10', '0.15', '0.20', '0.25', '0.30', '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65', '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1')),
     '#default_value' => variable_get('colorbox_opacity', '0.90'),
     '#description' => t('The overlay opacity level. Range: 0 to 1.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_slideshow'] = array(
-    '#type' => 'radios',
-    '#title' => t('Slideshow'),
-    '#options' => array(0 => t('No'), 1 => t('Yes')),
-    '#default_value' => variable_get('colorbox_slideshow', 0),
-    '#description' => t('An automatic slideshow to a content group / gallery.'),
   );
   $form['colorbox_custom_settings']['colorbox_text_current'] = array(
     '#type' => 'textfield',
@@ -180,7 +177,50 @@ function colorbox_admin_settings() {
     '#title' => t('Close'),
     '#default_value' => variable_get('colorbox_text_close', 'Close'),
     '#description' => t('Text for the close button. The "Esc" key will also close Colorbox.'),
-    '#suffix' => '</div>',
+  );
+
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Slideshow settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE
+  );
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshow'] = array(
+    '#type' => 'radios',
+    '#title' => t('Slideshow'),
+    '#options' => array(0 => t('No'), 1 => t('Yes')),
+    '#default_value' => variable_get('colorbox_slideshow', 0),
+    '#description' => t('An automatic slideshow to a content group / gallery.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
+    '#type' => 'radios',
+    '#title' => t('Slideshow autostart'),
+    '#options' => array(0 => t('No'), 1 => t('Yes')),
+    '#default_value' => variable_get('colorbox_slideshowauto', 1),
+    '#description' => t('If the slideshow should automatically start to play.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowspeed'] = array(
+    '#type' => 'select',
+    '#title' => t('Slideshow speed'),
+    '#options' => drupal_map_assoc(array(1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000)),
+    '#default_value' => variable_get('colorbox_slideshowspeed', 2500),
+    '#description' => t('Sets the speed of the slideshow, in milliseconds.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_start'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Start slideshow'),
+    '#default_value' => variable_get('colorbox_text_start', 'start slideshow'),
+    '#description' => t('Text for the slideshow start button.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Stop slideshow'),
+    '#default_value' => variable_get('colorbox_text_stop', 'stop slideshow'),
+    '#description' => t('Text for the slideshow stop button.'),
+  );
+
+  $form['colorbox_custom_settings']['wrapper_stop'] = array(
+    '#value' => '</div>',
   );
 
   $form['colorbox_advanced_settings'] = array(
