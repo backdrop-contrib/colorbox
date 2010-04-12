@@ -25,7 +25,7 @@ function colorbox_theme() {
 
   if (module_exists('imagecache')) {
     foreach (imagecache_presets() as $preset) {
-      $theme['colorbox_formatter_'. $preset['presetname'] .'][colorbox'] = array(
+      $theme['colorbox_formatter_'. $preset['presetname'] .'__colorbox'] = array(
         'function' => 'theme_colorbox_formatter_imagefield',
         'arguments' => array('element' => NULL),
         'file' => 'colorbox.theme.inc',
@@ -65,7 +65,7 @@ function colorbox_menu() {
   );
   $items['colorbox/form'] = array(
     'title' => 'Form',
-    'page callback' => 'colorbox_form',
+    'page callback' => 'colorbox_form_page',
     'page arguments' => array(2),
     'access callback' => 'user_access',
     'access arguments' => array('access content'),
@@ -80,13 +80,13 @@ function colorbox_menu() {
  */
 function colorbox_login() {
   $form_id = variable_get('colorbox_login_form', '') == 'custom' ? variable_get('colorbox_login_custom', 'user_login') : variable_get('colorbox_login_form', 'user_login');
-  colorbox_form($form_id);
+  colorbox_form_page($form_id);
 }
 
 /**
- * Menu callback for colorbox_form.
+ * Menu callback for colorbox_form_page.
  */
-function colorbox_form($form_id) {
+function colorbox_form_page($form_id) {
   $GLOBALS['devel_shutdown'] = FALSE; // Prevent devel module from spewing.
   $form = drupal_get_form($form_id);
   if (!empty($form)) {
@@ -128,7 +128,6 @@ function _colorbox_doheader() {
 
   $path = drupal_get_path('module', 'colorbox');
   $style = variable_get('colorbox_style', 'default');
-
   switch ($style) {
     case 'default':
       drupal_add_css($path .'/colorbox.css');
@@ -156,7 +155,7 @@ function _colorbox_doheader() {
     $js_settings = array(
       'transition' => 'elastic',
       'speed' => 350,
-      'opacity' => '0.9',
+      'opacity' => '0.85',
       'slideshow' => FALSE,
       'current' => t('{current} of {total}'),
       'previous' => t('« Prev'),
@@ -223,13 +222,14 @@ function colorbox_link_alter(&$links, $node) {
 
 /**
  * Implementation of hook_field_formatter_info().
+ *
  * Adds certain colorbox+imagecache formatters to CCK image fields if imagefield.module and imagecache.module exist.
  */
 function colorbox_field_formatter_info() {
   $formatters = array();
   if (module_exists('imagefield') && module_exists('imagecache')) {
     foreach (imagecache_presets() as $preset) {
-      $formatters[$preset['presetname'] .'][colorbox'] = array(
+      $formatters[$preset['presetname'] .'__colorbox'] = array(
         'label' => t('Colorbox: @preset image', array('@preset' => $preset['presetname'])),
         'field types' => array('image', 'filefield'),
       );

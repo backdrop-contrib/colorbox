@@ -93,7 +93,7 @@ function colorbox_admin_settings() {
 
   $form['colorbox_custom_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Custom settings'),
+    '#title' => t('Style and Custom settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );

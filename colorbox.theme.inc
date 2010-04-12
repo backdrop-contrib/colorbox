@@ -20,7 +20,7 @@ function theme_colorbox_formatter_imagefield($element) {
     return;
   }
 
-  if (!empty($element['#item']['fid']) && isset($element['#item']['nid']) && $node = node_load($element['#item']['nid'])) {
+  if (!empty($element['#item']['fid']) && isset($element['#item']['nid'])) {
     $item = $element['#item'];
 
     if (is_string($item['data'])) {
@@ -39,18 +39,19 @@ function theme_colorbox_formatter_imagefield($element) {
         $item['data']['title'] = $item['data']['alt'];
       }
       else {
+        $node = node_load($item['nid']);
         $item['data']['title'] = $node->title;
       }
-
     }
 
-    // Shorten the title when it is too long or it will look bad.
-    if ((variable_get('colorbox_style', 'default') != 'default') && (drupal_strlen($item['data']['title']) > 75)) {
+    // Shorten the title for the example styles when necessary.
+    $style = variable_get('colorbox_style', 'default');
+    if ((strpos($style, 'colorbox/example') !== FALSE) && (drupal_strlen($item['data']['title']) > 75)) {
       $item['data']['title'] = drupal_substr($item['data']['title'], 0, 70) .'...';
     }
 
     // Build the gallery id.
-    $nid = $item['nid'] ? $item['nid'] : ($node->nid ? $node->nid : '');
+    $nid = $item['nid'] ? $item['nid'] : 'nid';
     switch (variable_get('colorbox_imagefield_gallery', 1)) {
       case 0:
         $gallery_id = 'all';
@@ -65,7 +66,8 @@ function theme_colorbox_formatter_imagefield($element) {
         $gallery_id = $nid .'-'. $item['fid'];
         break;
     }
-    list($namespace, $presetname) = explode('][', $element['#formatter'], 2);
+
+    list($namespace, $modulename) = explode('__', $element['#formatter'], 2);
     if ($preset = imagecache_preset_by_name($namespace)) {
       return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id, $element['#field_name']);
     }

@@ -28,26 +28,7 @@
  * Implementation of hook_uninstall().
  */
 function colorbox_uninstall() {
-  variable_del('colorbox_auto_image_nodes');
-  variable_del('colorbox_compression_type');
-  variable_del('colorbox_custom_settings_activate');
-  variable_del('colorbox_form');
-  variable_del('colorbox_imagecache_preset');
-  variable_del('colorbox_imagefield_gallery');
-  variable_del('colorbox_login_custom');
-  variable_del('colorbox_login_form');
-  variable_del('colorbox_login');
-  variable_del('colorbox_opacity');
-  variable_del('colorbox_pages');
-  variable_del('colorbox_path');
-  variable_del('colorbox_slideshow');
-  variable_del('colorbox_style');
-  variable_del('colorbox_text_close');
-  variable_del('colorbox_text_current');
-  variable_del('colorbox_text_next');
-  variable_del('colorbox_text_previous');
-  variable_del('colorbox_transition_speed');
-  variable_del('colorbox_transition_type');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'colorbox_%'");
 }
 
 /**
