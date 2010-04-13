@@ -47,11 +47,8 @@ function colorbox_admin_settings() {
     $form['colorbox_image_module']['colorbox_auto_image_nodes'] = array(
       '#type' => 'select',
       '#title' => t('Image node setting'),
-      '#options' => array(
-        'disabled' => t('Disabled'),
-        'colorbox' => t('Colorbox'),
-      ),
-      '#default_value' => variable_get('colorbox_auto_image_nodes', 'disabled'),
+      '#options' => array(0 => t('Disabled'), 1 => t('Colorbox')),
+      '#default_value' => variable_get('colorbox_auto_image_nodes', 0),
       '#description' => t('Select if Colorbox should be activated for the Image module.'),
     );
   }
