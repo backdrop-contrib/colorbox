@@ -88,7 +88,7 @@ function colorbox_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Enable Colorbox forms'),
     '#default_value' => variable_get('colorbox_form', 0),
-    '#description' => t('This enables custom links that can open any form in a Colorbox. Add the class "colorbox-from" to the link and build the url like this "/colorbox/form/[form_id]?width=500&height=500".'),
+    '#description' => t('This enables custom links that can open any form in a Colorbox. Add the class "colorbox-form" to the link and build the url like this "/colorbox/form/[form_id]?width=500&height=500".'),
   );
 
   $form['colorbox_custom_settings'] = array(
