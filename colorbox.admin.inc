@@ -45,11 +45,23 @@ function colorbox_admin_settings() {
       '#title' => t('Image module settings'),
     );
     $form['colorbox_image_module']['colorbox_auto_image_nodes'] = array(
-      '#type' => 'select',
+      '#type' => 'radios',
       '#title' => t('Image node setting'),
-      '#options' => array(0 => t('Disabled'), 1 => t('Colorbox')),
+      '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
       '#default_value' => variable_get('colorbox_auto_image_nodes', 0),
       '#description' => t('Select if Colorbox should be activated for the Image module.'),
+    );
+    $derivative_options = array();
+    $sizes = image_get_sizes();
+    foreach ($sizes as $label => $size) {
+      $derivative_options[$label] = $size['label'];
+    }
+    $form['colorbox_image_module']['colorbox_image_derivative'] = array(
+      '#type' => 'select',
+      '#title' => t('Image derivative'),
+      '#options' => $derivative_options,
+      '#default_value' => variable_get('colorbox_image_derivative', 'preview'),
+      '#description' => t('Select which image derivative to load in the Colorbox.'),
     );
   }
 
