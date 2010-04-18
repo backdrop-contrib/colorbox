@@ -31,10 +31,10 @@ The Colorbox module:
 * Style the Colorbox with a custom colorbox.css file in your theme.
 * Option to open a login form by clicking on any login link
 * Simple API to open any form in a Colorbox
-* Drush command to download and install the Colorbox script in
+* Drush command to download and install the Colorbox plugin in
   sites/all/libraries
 
-The Colorbox script:
+The Colorbox plugin:
 
 * Supports images, image groups, slideshow, ajax, inline, and
   iframed content.
@@ -52,9 +52,9 @@ Installation:
 ------------
 1. Download and install the jQuery Update module version 6.x-2.x.
    Make sure you get the 2.x version since 1.x will not work.
-2. Download and unpack the Colorbox script itself to "sites/all/libraries".
+2. Download and unpack the Colorbox plugin to "sites/all/libraries".
    Link: http://colorpowered.com/colorbox/colorbox.zip
-   Drush users can use the command "drush colorbox-script".
+   Drush users can use the command "drush colorbox-plugin".
 3. Place the Colorbox module directory in your modules folder (this will
    usually be "sites/all/modules/").
 4. Go to "Administer" -> "Site building" -> "Modules" and enable the module.
@@ -69,7 +69,7 @@ all the configuration options.
 Add a custom Colorbox style to your theme:
 ----------------------------------------
 The easiest is to start with either the default style or one of the
-example styles from the Colorbox script. Simply copy the whole
+example styles from the Colorbox plugin. Simply copy the whole
 style folder to the theme and rename it and the files to
 something logical.
 
@@ -96,11 +96,11 @@ Here is an example where the user register form is opened in an
 Drush:
 ------
 A Drush command is provides for easy installation of the Colorbox
-script itself.
+plugin itself.
 
-% drush colorbox-script
+% drush colorbox-plugin
 
-The command will download the script and unpack it in "sites/all/libraries".
+The command will download the plugin and unpack it in "sites/all/libraries".
 It is possible to add another path as an option to the command, but not
 recommended unless you know what you are doing.
 

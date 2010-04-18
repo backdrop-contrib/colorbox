@@ -140,7 +140,7 @@ function colorbox_admin_settings() {
     '#title' => t('Style'),
     '#options' => $colorbox_styles,
     '#default_value' => variable_get('colorbox_style', 'default'),
-    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox script. Select "None" if you have added Colorbox styles to your theme.'),
+    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.'),
   );
   $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
     '#type' => 'radios',
@@ -312,7 +312,7 @@ function colorbox_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Path to Colorbox'),
     '#default_value' => $colorbox_path,
-    '#description' => t('Enter the path relative to Drupal root where the colorbox directory is located. NO trailing slash!'),
+    '#description' => t('Enter the path relative to Drupal root where the Colorbox plugin directory is located. NO trailing slash!'),
   );
   $form['colorbox_advanced_settings']['colorbox_compression_type'] = array(
     '#type' => 'radios',

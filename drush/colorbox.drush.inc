@@ -7,7 +7,7 @@
  */
 
 /**
- * The Colorbox library URI.
+ * The Colorbox plugin URI.
  */
 define('COLORBOX_DOWNLOAD_URI', 'http://colorpowered.com/colorbox/colorbox.zip');
 
@@ -30,11 +30,11 @@ function colorbox_drush_command() {
   $items = array();
 
   // the key in the $items array is the name of the command.
-  $items['colorbox-script'] = array(
-    'callback' => 'drush_colorbox_script',
-    'description' => dt("Downloads the Colorbox library."),
+  $items['colorbox-plugin'] = array(
+    'callback' => 'drush_colorbox_plugin',
+    'description' => dt("Downloads the Colorbox plugin."),
     'arguments' => array(
-      'path' => dt('Optional. A path where to install the Colorbox library. If omitted Drush will use the default location.'),
+      'path' => dt('Optional. A path where to install the Colorbox plugin. If omitted Drush will use the default location.'),
     ),
   );
 
@@ -55,8 +55,8 @@ function colorbox_drush_command() {
  */
 function colorbox_drush_help($section) {
   switch ($section) {
-    case 'drush:colorbox-script':
-      return dt("Downloads the Colorbox library from colorpowered.com, default location is sites/all/libraries.");
+    case 'drush:colorbox-plugin':
+      return dt("Downloads the Colorbox plugin from colorpowered.com, default location is sites/all/libraries.");
   }
 }
 
@@ -71,7 +71,7 @@ function colorbox_drush_help($section) {
  * To print something to the terminal window, use drush_print().
  *
  */
-function drush_colorbox_script() {
+function drush_colorbox_plugin() {
   $args = func_get_args();
   if ($args[0]) {
     $path = $args[0];
@@ -93,11 +93,11 @@ function drush_colorbox_script() {
   $filename = basename(COLORBOX_DOWNLOAD_URI);
   $dirname = basename(COLORBOX_DOWNLOAD_URI, '.zip');
 
-  // Remove any existing Colorbox library directory
+  // Remove any existing Colorbox plugin directory
   if (is_dir($dirname)) {
-    drush_log(dt('A existing Colorbox library was overwritten at @path', array('@path' => $path)), 'notice');
+    drush_log(dt('A existing Colorbox plugin was overwritten at @path', array('@path' => $path)), 'notice');
   }
-  // Remove any existing Colorbox library zip archive
+  // Remove any existing Colorbox plugin zip archive
   if (is_file($filename)) {
     drush_op('unlink', $filename);
   }
@@ -118,9 +118,9 @@ function drush_colorbox_script() {
   chdir($olddir);
 
   if (is_dir($path .'/'. $dirname)) {
-    drush_log(dt('Colorbox library has been downloaded to @path', array('@path' => $path)), 'success');
+    drush_log(dt('Colorbox plugin has been downloaded to @path', array('@path' => $path)), 'success');
   }
   else {
-    drush_log(dt('Drush was unable to download the Colorbox library to @path', array('@path' => $path)), 'error');
+    drush_log(dt('Drush was unable to download the Colorbox plugin to @path', array('@path' => $path)), 'error');
   }
 }
