@@ -44,10 +44,11 @@ function theme_colorbox_formatter_imagefield($element) {
       }
     }
 
-    // Shorten the title for the example styles when necessary.
+    // Shorten the title for the example styles or when title shortening is active.
     $style = variable_get('colorbox_style', 'default');
-    if ((strpos($style, 'colorbox/example') !== FALSE) && (drupal_strlen($item['data']['title']) > 75)) {
-      $item['data']['title'] = drupal_substr($item['data']['title'], 0, 70) .'...';
+    $trim_length = variable_get('colorbox_title_trim_length', 75);
+    if (((strpos($style, 'colorbox/example') !== FALSE) || variable_get('colorbox_title_trim', 0)) && (drupal_strlen($item['data']['title']) > $trim_length)) {
+      $item['data']['title'] = drupal_substr($item['data']['title'], 0, $trim_length - 5) .'...';
     }
 
     // Build the gallery id.

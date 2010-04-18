@@ -238,6 +238,24 @@ function colorbox_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );
+  $form['colorbox_advanced_settings']['colorbox_title_trim'] = array(
+    '#type' => 'radios',
+    '#title' => t('Title shortening'),
+    '#options' => array(0 => t('Default'), 1 => t('Yes')),
+    '#default_value' => variable_get('colorbox_title_trim', 0),
+    '#description' => t('If the title should be made shorter in the Colorbox to avoid layout problems. The default is to shorten for the example styles, they need it, but not for other styles.'),
+    '#prefix' => '<div class="colorbox-title-trim-settings-activate">',
+    '#suffix' => '</div>',
+  );
+  $js_hide = variable_get('colorbox_title_trim', 0) ? '' : ' js-hide';
+  $form['colorbox_advanced_settings']['colorbox_title_trim_length'] = array(
+    '#type' => 'select',
+    '#title' => t('Title max length'),
+    '#options' => drupal_map_assoc(array(40, 45, 50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120)),
+    '#default_value' => variable_get('colorbox_title_trim_length', 75),
+    '#prefix' => '<div class="colorbox-title-trim-settings'. $js_hide .'">',
+    '#suffix' => '</div>',
+  );
   $form['colorbox_advanced_settings']['colorbox_path'] = array(
     '#type' => 'textfield',
     '#title' => t('Path to Colorbox'),
