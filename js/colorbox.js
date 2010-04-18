@@ -12,12 +12,13 @@ Drupal.behaviors.initColorbox = function (context) {
     slideshowAuto:settings.slideshowauto,
     slideshowStart:settings.slideshowstart,
     slideshowStop:settings.slideshowstop,
-    maxWidth:'100%',
-    maxHeight:'100%',
     current:settings.current,
     previous:settings.previous,
     next:settings.next,
-    close:settings.close
+    close:settings.close,
+    overlayClose:settings.overlayclose,
+    maxWidth:settings.maxwidth,
+    maxHeight:settings.maxheight
   });
 };
 

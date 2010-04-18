@@ -9,19 +9,22 @@ Drupal.behaviors.initColorboxForm = function (context) {
     return results[1] || 0;
   };
   $('.colorbox-form', context).filter(':not(.initColorboxForm-processed)').addClass('initColorboxForm-processed').colorbox({
+    transition:settings.transition,
+    speed:settings.speed,
+    opacity:settings.opacity,
+    close:settings.close,
+    overlayClose:settings.overlayclose,
+    maxWidth:settings.maxwidth,
+    maxHeight:settings.maxheight,
     innerWidth:function(){
       return $.urlParam('width', $(this).attr('href'));
     },
     innerHeight:function(){
       return $.urlParam('height', $(this).attr('href'));
     },
-    iframe:true,
-    transition:settings.transition,
-    speed:settings.speed,
-    opacity:settings.opacity,
-    maxWidth:'100%',
-    maxHeight:'100%',
-    close:settings.close
+    onComplete:function(){
+      $('input:first').focus();
+    }
   });
 };
 

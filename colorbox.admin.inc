@@ -46,7 +46,7 @@ function colorbox_admin_settings() {
     );
     $form['colorbox_image_module']['colorbox_auto_image_nodes'] = array(
       '#type' => 'radios',
-      '#title' => t('Image node setting'),
+      '#title' => t('Image module integration'),
       '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
       '#default_value' => variable_get('colorbox_auto_image_nodes', 0),
       '#description' => t('Select if Colorbox should be activated for the Image module.'),
@@ -62,6 +62,20 @@ function colorbox_admin_settings() {
       '#options' => $derivative_options,
       '#default_value' => variable_get('colorbox_image_derivative', 'preview'),
       '#description' => t('Select which image derivative to load in the Colorbox.'),
+    );
+  }
+
+  if (module_exists('insert')) {
+    $form['colorbox_insert_module'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Insert module settings'),
+    );
+    $form['colorbox_insert_module']['colorbox_insert_gallery'] = array(
+      '#type' => 'radios',
+      '#title' => t('Insert image gallery'),
+      '#default_value' => variable_get('colorbox_insert_gallery', 0),
+      '#options' => array(0 => t('Per page gallery'), 3 => t('No gallery')),
+      '#description' => t('Should the gallery be all images on the page (default) or disabled.'),
     );
   }
 
@@ -102,7 +116,7 @@ function colorbox_admin_settings() {
 
   $form['colorbox_custom_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Style and Custom settings'),
+    '#title' => t('Styles and options'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );
@@ -125,10 +139,10 @@ function colorbox_admin_settings() {
   );
   $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
     '#type' => 'radios',
-    '#options' => array(0 => t('Default settings'), 1 => t('Custom settings')),
-    '#title' => t('Custom Settings'),
+    '#title' => t('Options'),
+    '#options' => array(0 => t('Default'), 1 => t('Custom')),
     '#default_value' => variable_get('colorbox_custom_settings_activate', 0),
-    '#description' => t('Use the default or custom settings for Colorbox.'),
+    '#description' => t('Use the default or custom options for Colorbox.'),
     '#prefix' => '<div class="colorbox-custom-settings-activate">',
     '#suffix' => '</div>',
   );
@@ -139,7 +153,7 @@ function colorbox_admin_settings() {
   );
 
   $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
-    '#type' => 'select',
+    '#type' => 'radios',
     '#title' => t('Transition type'),
     '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
     '#default_value' => variable_get('colorbox_transition_type', 'elastic'),
@@ -163,25 +177,49 @@ function colorbox_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Current'),
     '#default_value' => variable_get('colorbox_text_current', '{current} of {total}'),
+    '#size' => 30,
     '#description' => t('Text format for the content group / gallery count. {current} and {total} are detected and replaced with actual numbers while Colorbox runs.'),
   );
   $form['colorbox_custom_settings']['colorbox_text_previous'] = array(
     '#type' => 'textfield',
     '#title' => t('Previous'),
     '#default_value' => variable_get('colorbox_text_previous', '« Prev'),
+    '#size' => 30,
     '#description' => t('Text for the previous button in a shared relation group.'),
   );
   $form['colorbox_custom_settings']['colorbox_text_next'] = array(
     '#type' => 'textfield',
     '#title' => t('Next'),
     '#default_value' => variable_get('colorbox_text_next', 'Next »'),
+    '#size' => 30,
     '#description' => t('Text for the next button in a shared relation group.'),
   );
   $form['colorbox_custom_settings']['colorbox_text_close'] = array(
     '#type' => 'textfield',
     '#title' => t('Close'),
     '#default_value' => variable_get('colorbox_text_close', 'Close'),
+    '#size' => 30,
     '#description' => t('Text for the close button. The "Esc" key will also close Colorbox.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_overlayclose'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Overlay close'),
+    '#default_value' => variable_get('colorbox_overlayclose', 1),
+    '#description' => t('Enable closing ColorBox by clicking on the background overlay.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max width'),
+    '#default_value' => variable_get('colorbox_maxwidth', '100%'),
+    '#size' => 30,
+    '#description' => t('Set a maximum width for loaded content. Example: "100%", 500, "500px".'),
+  );
+  $form['colorbox_custom_settings']['colorbox_maxheight'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max height'),
+    '#default_value' => variable_get('colorbox_maxheight', '100%'),
+    '#size' => 30,
+    '#description' => t('Set a maximum height for loaded content. Example: "100%", 500, "500px".'),
   );
 
   $form['colorbox_custom_settings']['colorbox_slideshow_settings'] = array(
@@ -193,14 +231,21 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshow'] = array(
     '#type' => 'radios',
     '#title' => t('Slideshow'),
-    '#options' => array(0 => t('No'), 1 => t('Yes')),
+    '#options' => array(0 => t('Off'), 1 => t('On')),
     '#default_value' => variable_get('colorbox_slideshow', 0),
     '#description' => t('An automatic slideshow to a content group / gallery.'),
+    '#prefix' => '<div class="colorbox-slideshow-settings-activate">',
+    '#suffix' => '</div>',
   );
+
+  $js_hide = variable_get('colorbox_slideshow', 0) ? '' : ' js-hide';
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_start'] = array(
+    '#value' => '<div class="colorbox-slideshow-settings'. $js_hide .'">',
+  );
+
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
-    '#type' => 'radios',
+    '#type' => 'checkbox',
     '#title' => t('Slideshow autostart'),
-    '#options' => array(0 => t('No'), 1 => t('Yes')),
     '#default_value' => variable_get('colorbox_slideshowauto', 1),
     '#description' => t('If the slideshow should automatically start to play.'),
   );
@@ -215,13 +260,19 @@ function colorbox_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Start slideshow'),
     '#default_value' => variable_get('colorbox_text_start', 'start slideshow'),
+    '#size' => 30,
     '#description' => t('Text for the slideshow start button.'),
   );
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
     '#type' => 'textfield',
     '#title' => t('Stop slideshow'),
     '#default_value' => variable_get('colorbox_text_stop', 'stop slideshow'),
+    '#size' => 30,
     '#description' => t('Text for the slideshow stop button.'),
+  );
+
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_stop'] = array(
+    '#value' => '</div>',
   );
 
   $form['colorbox_custom_settings']['wrapper_stop'] = array(

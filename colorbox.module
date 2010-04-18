@@ -117,7 +117,6 @@ function _colorbox_active() {
  * Loads the various js and css files.
  */
 function _colorbox_doheader() {
-  global $user;
   static $already_added = FALSE;
   if ($already_added) {
     return; // Don't add the JavaScript and CSS multiple times.
@@ -153,6 +152,9 @@ function _colorbox_doheader() {
       'previous' => variable_get('colorbox_text_previous', '« Prev'),
       'next' => variable_get('colorbox_text_next', 'Next »'),
       'close' => variable_get('colorbox_text_close', 'Close'),
+      'overlayclose' => variable_get('colorbox_overlayclose', 1) ? TRUE : FALSE,
+      'maxwidth' => variable_get('colorbox_maxwidth', '100%'),
+      'maxheight' => variable_get('colorbox_maxheight', '100%'),
     );
   }
   else {
@@ -169,6 +171,9 @@ function _colorbox_doheader() {
       'previous' => t('« Prev'),
       'next' => t('Next »'),
       'close' => t('Close'),
+      'overlayclose' => TRUE,
+      'maxwidth' => '100%',
+      'maxheight' => '100%',
     );
   }
   drupal_add_js(array('colorbox' => $js_settings), 'setting');
@@ -195,7 +200,7 @@ function _colorbox_doheader() {
     drupal_add_js($path .'/js/colorbox_form.js');
   }
 
-  if ($user->uid == 0 && variable_get('colorbox_login', 0)) {
+  if ($GLOBALS['user']->uid == 0 && variable_get('colorbox_login', 0)) {
     drupal_add_js($path .'/js/colorbox_login.js');
   }
 
@@ -272,7 +277,16 @@ function colorbox_insert_content($item, $style, $widget) {
     }
   }
 
+  switch (variable_get('colorbox_insert_gallery', 0)) {
+    case 0:
+      $gallery_id = 'insert-all';
+      break;
+    case 3:
+      $gallery_id = 'insert-'. $item['fid'];
+      break;
+  }
+
   list($namespace, $modulename) = explode('__', $style['name'], 2);
 
-  return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], 'insert-'. $item['fid'], 'insert');
+  return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id, 'insert');
 }
