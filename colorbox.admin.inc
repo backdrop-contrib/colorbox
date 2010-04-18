@@ -114,18 +114,14 @@ function colorbox_admin_settings() {
     $colorbox_path .'/example3' => t('Example 3'),
     $colorbox_path .'/example4' => t('Example 4'),
     $colorbox_path .'/example5' => t('Example 5'),
+    'none' => t('None'),
   );
-  $theme_path = path_to_theme();
-  if (is_file($theme_path .'/colorbox.css')) {
-    $colorbox_styles[$theme_path] = t('Theme');
-  }
-  $colorbox_styles['none'] = t('None');
   $form['colorbox_custom_settings']['colorbox_style'] = array(
     '#type' => 'select',
     '#title' => t('Style'),
     '#options' => $colorbox_styles,
     '#default_value' => variable_get('colorbox_style', 'default'),
-    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox script. Tips: Place a "colorbox.css" file in your theme directory to get an option "Theme".'),
+    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox script. Select "None" if you have added Colorbox styles to your theme.'),
   );
   $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
     '#type' => 'radios',

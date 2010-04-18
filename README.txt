@@ -66,6 +66,19 @@ Go to "Administer" -> "Site configuration" -> "Colorbox" to find
 all the configuration options.
 
 
+Add a custom Colorbox style to your theme:
+----------------------------------------
+The easiest is to start with either the default style or one of the
+example styles from the Colorbox script. Simply copy the whole
+style folder to the theme and rename it and the files to
+something logical.
+
+Add entries in the themes info file for the Colorbox CSS/JS files.
+
+In the Colorbox settings select "None" as style. This will leave the
+styling of Colorbox up to your theme.
+
+
 Opening any form in a Colorbox:
 ------------------------------
 Check the "Enable Colorbox forms" option in Colorbox settings.
@@ -88,7 +101,7 @@ script itself.
 % drush colorbox-script
 
 The command will download the script and unpack it in "sites/all/libraries".
-It is possible to add another path as an option to the command, but not 
+It is possible to add another path as an option to the command, but not
 recommended unless you know what you are doing.
 
 

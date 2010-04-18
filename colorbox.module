@@ -130,7 +130,7 @@ function _colorbox_doheader() {
   $style = variable_get('colorbox_style', 'default');
   switch ($style) {
     case 'default':
-      drupal_add_css($path .'/colorbox.css');
+      drupal_add_css($path .'/styles/default/colorbox_default_style.css');
       break;
     case 'none':
       break;
@@ -188,7 +188,7 @@ function _colorbox_doheader() {
   drupal_add_js($path .'/js/colorbox.js');
 
   if ($style == 'default') {
-    drupal_add_js($path .'/js/colorbox_default_style.js');
+    drupal_add_js($path .'/styles/default/colorbox_default_style.js');
   }
 
   if (variable_get('colorbox_form', 0)) {
