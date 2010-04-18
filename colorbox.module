@@ -104,10 +104,11 @@ function colorbox_form_page($form_id) {
 function _colorbox_active() {
   // Code from the block_list funtion in block.module.
   $path = drupal_get_path_alias($_GET['q']);
+  $colorbox_pages = variable_get('colorbox_pages', "admin*\nimg_assist*\nnode/add/*\nnode/*/edit");
   // Compare with the internal and path alias (if any).
-  $page_match = drupal_match_path($path, variable_get('colorbox_pages', ''));
+  $page_match = drupal_match_path($path, $colorbox_pages);
   if ($path != $_GET['q']) {
-    $page_match = $page_match || drupal_match_path($_GET['q'], variable_get('colorbox_pages', ''));
+    $page_match = $page_match || drupal_match_path($_GET['q'], $colorbox_pages);
   }
 
   return !$page_match;
@@ -212,7 +213,8 @@ function _colorbox_doheader() {
  * Reformat the login form.
  */
 function colorbox_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'user_login' && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
+  $colorbox_login_form = variable_get('colorbox_login_form', '') != 'custom' ? variable_get('colorbox_login_form', 'user_login') : '';
+  if ($form_id == $colorbox_login_form && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
     $form['#action'] = url('user/login', array('query' => array('destination' => $_GET['destination'])));
     $form['name']['#size'] = 25;
     $form['pass']['#size'] = 25;

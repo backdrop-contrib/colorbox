@@ -3,7 +3,7 @@
 
 Drupal.behaviors.initColorbox = function (context) {
   var settings = Drupal.settings.colorbox;
-  $('.colorbox', context).filter(':not(.initColorbox-processed)').addClass('initColorbox-processed').colorbox({
+  $('a, area, input', context).filter('.colorbox:not(.initColorbox-processed)').addClass('initColorbox-processed').colorbox({
     transition:settings.transition,
     speed:settings.speed,
     opacity:settings.opacity,
