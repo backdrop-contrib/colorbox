@@ -1,4 +1,6 @@
 // $Id$
+(function ($) {
+
 Drupal.behaviors.initColorboxImageModule = function (context) {
   var settings = Drupal.settings.colorbox;
 
@@ -30,3 +32,5 @@ Drupal.behaviors.initColorboxImageModule = function (context) {
     $(this).addClass('colorbox');
   });
 };
+
+})(jQuery);

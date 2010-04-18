@@ -1,4 +1,6 @@
 // $Id$
+(function ($) {
+
 Drupal.behaviors.initColorboxDefaultStyle = function (context) {
   $(document).bind('cbox_complete', function(){
     setTimeout(function(){ $('#cboxTitle').slideUp() }, 1500);
@@ -10,3 +12,5 @@ Drupal.behaviors.initColorboxDefaultStyle = function (context) {
     });
   });
 };
+
+})(jQuery);

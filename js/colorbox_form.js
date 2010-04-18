@@ -1,4 +1,6 @@
 // $Id$
+(function ($) {
+
 Drupal.behaviors.initColorboxForm = function (context) {
   var settings = Drupal.settings.colorbox;
   $.urlParam = function(name, url){
@@ -22,3 +24,5 @@ Drupal.behaviors.initColorboxForm = function (context) {
     close:settings.close
   });
 };
+
+})(jQuery);

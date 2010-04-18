@@ -1,4 +1,6 @@
 // $Id$
+(function ($) {
+
 Drupal.behaviors.initColorbox = function (context) {
   var settings = Drupal.settings.colorbox;
   $('.colorbox', context).filter(':not(.initColorbox-processed)').addClass('initColorbox-processed').colorbox({
@@ -18,3 +20,5 @@ Drupal.behaviors.initColorbox = function (context) {
     close:settings.close
   });
 };
+
+})(jQuery);
