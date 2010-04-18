@@ -52,7 +52,7 @@ Installation:
 ------------
 1. Download and install the jQuery Update module version 6.x-2.x.
    Make sure you get the 2.x version since 1.x will not work.
-2. Download and unpack the Colorbox plugin to "sites/all/libraries".
+2. Download and unpack the Colorbox plugin in "sites/all/libraries".
    Link: http://colorpowered.com/colorbox/colorbox.zip
    Drush users can use the command "drush colorbox-plugin".
 3. Place the Colorbox module directory in your modules folder (this will
@@ -118,6 +118,10 @@ Contributions:
 -------------
 * Porting all features from the Thickbox module,
   by Fredrik Jonsson (http://drupal.org/user/5546).
+* Image module integration improvements by recrit
+  (http://drupal.org/user/452914).
+* Help with testing and many good suggestions by Shane
+  (http://drupal.org/user/262473).
 
 
 Last updated:
