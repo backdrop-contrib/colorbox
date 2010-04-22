@@ -98,15 +98,9 @@ function colorbox_admin_settings() {
   $form['colorbox_login_settings']['colorbox_login_form'] = array(
     '#type' => 'select',
     '#title' => t('Login form to use'),
-    '#options' => array('user_login' => t('User login'), 'user_login_block' => t('User login block'), 'custom' => t('Custom')),
+    '#options' => array('user_login' => t('User login'), 'user_login_block' => t('User login block')),
     '#default_value' => variable_get('colorbox_login_form', 'user_login'),
-    '#description' => t('Select which form to use for login. If "custom", specify below.'),
-  );
-  $form['colorbox_login_settings']['colorbox_login_custom'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Custom login form'),
-    '#default_value' => variable_get('colorbox_login_custom', ''),
-    '#description' => t('Specify the form id here if you have set the login form to "custom" above.'),
+    '#description' => t('Select which form to use for login.'),
   );
 
   $form['colorbox_form_settings'] = array(

@@ -62,37 +62,43 @@ function colorbox_menu() {
     'page callback' => 'colorbox_login',
     'access callback' => 'user_is_anonymous',
     'type' => MENU_CALLBACK,
+    'file' => 'colorbox.pages.inc',
   );
   $items['colorbox/form'] = array(
     'title' => 'Form',
     'page callback' => 'colorbox_form_page',
     'page arguments' => array(2),
-    'access callback' => 'user_access',
-    'access arguments' => array('access content'),
+    'access callback' => '_colorbox_form_page_access',
+    'access arguments' => array(2),
     'type' => MENU_CALLBACK,
+    'file' => 'colorbox.pages.inc',
   );
 
   return $items;
 }
 
 /**
- * Menu callback for colorbox_login.
+ * Colorbox menu access check.
  */
-function colorbox_login() {
-  $form_id = variable_get('colorbox_login_form', '') == 'custom' ? variable_get('colorbox_login_custom', 'user_login') : variable_get('colorbox_login_form', 'user_login');
-  colorbox_form_page($form_id);
-}
-
-/**
- * Menu callback for colorbox_form_page.
- */
-function colorbox_form_page($form_id) {
-  $GLOBALS['devel_shutdown'] = FALSE; // Prevent devel module from spewing.
-  $form = drupal_get_form($form_id);
-  if (!empty($form)) {
-    print $form;
+function _colorbox_form_page_access($form_id) {
+  switch ($form_id) {
+    case 'contact_mail_page':
+      $access = user_access('access site-wide contact form');
+      break;
+    case 'user_register':
+      $access = user_register_access();
+      break;
+    case 'user_pass':
+    case 'user_login':
+    case 'user_login_block':
+      $access = user_is_anonymous();
+      break;
+    default:
+      // All other forms get no access.
+      $access = FALSE;
   }
-  exit;
+
+  return $access;
 }
 
 /**
@@ -213,8 +219,7 @@ function _colorbox_doheader() {
  * Reformat the login form.
  */
 function colorbox_form_alter(&$form, $form_state, $form_id) {
-  $colorbox_login_form = variable_get('colorbox_login_form', '') != 'custom' ? variable_get('colorbox_login_form', 'user_login') : '';
-  if ($form_id == $colorbox_login_form && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
+  if ($form_id == variable_get('colorbox_login_form', '') && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
     $form['#action'] = url('user/login', array('query' => array('destination' => $_GET['destination'])));
     $form['name']['#size'] = 25;
     $form['pass']['#size'] = 25;
