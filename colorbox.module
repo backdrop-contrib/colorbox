@@ -203,8 +203,8 @@ function _colorbox_doheader() {
     drupal_add_js($path .'/styles/default/colorbox_default_style.js');
   }
 
-  if (variable_get('colorbox_form', 0)) {
-    drupal_add_js($path .'/js/colorbox_form.js');
+  if (variable_get('colorbox_load', 0)) {
+    drupal_add_js($path .'/js/colorbox_load.js');
   }
 
   if ($GLOBALS['user']->uid == 0 && variable_get('colorbox_login', 0)) {

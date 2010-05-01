@@ -1,14 +1,14 @@
 // $Id$
 (function ($) {
 
-Drupal.behaviors.initColorboxForm = function (context) {
+Drupal.behaviors.initColorboxLoad = function (context) {
   var settings = Drupal.settings.colorbox;
   $.urlParam = function(name, url){
     var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
     if (!results) { return 0; }
     return results[1] || 0;
   };
-  $('a, area, input', context).filter('.colorbox-form:not(.initColorboxForm-processed)').addClass('initColorboxForm-processed').colorbox({
+  $('a, area, input', context).filter('.colorbox-load:not(.initColorboxLoad-processed)').addClass('initColorboxLoad-processed').colorbox({
     transition:settings.transition,
     speed:settings.speed,
     opacity:settings.opacity,
@@ -21,6 +21,9 @@ Drupal.behaviors.initColorboxForm = function (context) {
     },
     innerHeight:function(){
       return $.urlParam('height', $(this).attr('href'));
+    },
+    iframe:function(){
+      return $.urlParam('iframe', $(this).attr('href'));
     },
     onComplete:function(){
       $('input:first').focus();

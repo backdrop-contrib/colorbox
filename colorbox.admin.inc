@@ -87,7 +87,7 @@ function colorbox_admin_settings() {
 
   $form['colorbox_login_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Login settings')
+    '#title' => t('Login links settings')
   );
   $form['colorbox_login_settings']['colorbox_login'] = array(
     '#type' => 'checkbox',
@@ -103,15 +103,17 @@ function colorbox_admin_settings() {
     '#description' => t('Select which form to use for login.'),
   );
 
-  $form['colorbox_form_settings'] = array(
+  $form['colorbox_load_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Form settings')
+    '#title' => t('Load in Colorbox'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE
   );
-  $form['colorbox_form_settings']['colorbox_form'] = array(
+  $form['colorbox_load_settings']['colorbox_load'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable Colorbox forms'),
-    '#default_value' => variable_get('colorbox_form', 0),
-    '#description' => t('This enables custom links that can open any form in a Colorbox. Add the class "colorbox-form" to the link and build the url like this "/colorbox/form/[form_id]?width=500&height=500".'),
+    '#title' => t('Enable Colorbox load'),
+    '#default_value' => variable_get('colorbox_load', 0),
+    '#description' => t('This enables custom links that can open forms and paths in a Colorbox. Add the class "colorbox-load" to the link and build the url like this for forms "/colorbox/form/[form_id]?width=500&height=500" and like this for paths "[path]?width=500&height=500&iframe=true". If you do not want the box to persist set iframe to false. Other modules may activate this for easy Colorbox integration.'),
   );
 
   $form['colorbox_custom_settings'] = array(
