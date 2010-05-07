@@ -322,7 +322,7 @@ function colorbox_admin_settings() {
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',
     '#title' => t('Deactivate Colorbox on specific pages'),
-    '#default_value' => variable_get('colorbox_pages', "admin*\nimg_assist*\nnode/add/*\nnode/*/edit"),
+    '#default_value' => variable_get('colorbox_pages', "admin*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit"),
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
