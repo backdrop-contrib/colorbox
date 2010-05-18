@@ -44,6 +44,16 @@ function colorbox_init() {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function colorbox_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'colorbox') .'/views',
+  );
+}
+
+/**
  * Implementation of hook_menu().
  */
 function colorbox_menu() {
