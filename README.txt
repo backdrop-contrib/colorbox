@@ -79,9 +79,9 @@ In the Colorbox settings select "None" as style. This will leave the
 styling of Colorbox up to your theme.
 
 
-Opening a selection of forms in a Colorbox:
-------------------------------------------
-Check the "Enable Colorbox forms" option in Colorbox settings.
+Load a selection of forms in a Colorbox:
+----------------------------------------
+Check the "Enable Colorbox load" option in Colorbox settings.
 
 The following form_id can be used:
 * contact_mail_page
@@ -90,14 +90,14 @@ The following form_id can be used:
 * user_register
 * user_pass
 
-The links to open a form needs the class "colorbox-form". The URL should look like this.
+The links to open a form needs the class "colorbox-load". The URL should look like this.
 
 "/colorbox/form/[form_id]?width=[with_in_pixel]&height=[height_in_pixel]".
 
 Here is an example where the user register form is opened in an
 500 by 250 pixel Colorbox.
 
-<a class="colorbox-form" href="/colorbox/form/user_register?width=500&height=250">Create new account</a>
+<a class="colorbox-load" href="/colorbox/form/user_register?width=500&height=250">Create new account</a>
 
 
 Drush:
