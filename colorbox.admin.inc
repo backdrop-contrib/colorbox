@@ -10,7 +10,7 @@
  * General configuration form for controlling the colorbox behaviour.
  */
 function colorbox_admin_settings() {
-  drupal_add_js(drupal_get_path('module', 'colorbox') .'/js/colorbox_admin_settings.js', 'module', 'header', FALSE, TRUE, FALSE);
+  drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_admin_settings.js', array('preprocess' => FALSE));
 
   $colorbox_path = variable_get('colorbox_path', COLORBOX_PATH);
 
@@ -18,7 +18,7 @@ function colorbox_admin_settings() {
     drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => 'sites/all/libraries')), 'error');
   }
 
-  if (module_exists('imagefield')) {
+  if (module_exists('image')) {
     $form['colorbox_imagefield'] = array(
       '#type' => 'fieldset',
       '#title' => t('Image field options (CCK)')
@@ -30,22 +30,20 @@ function colorbox_admin_settings() {
       '#options' => array(0 => t('Per page gallery'), 1 => t('Per post gallery'), 2 => t('Per field gallery'), 3 => t('No gallery')),
       '#description' => t('Should the gallery be images within a single field, a single post (default) or all images on the page. The last option disables galleries.'),
     );
-    if (module_exists('imagecache')) {
-      $presets_options = array(0 => t('Original image (no preset)'));
-      foreach (imagecache_presets() as $preset) {
-        $presets_options[$preset['presetname']] = $preset['presetname'];
-      }
-      $form['colorbox_imagefield']['colorbox_imagecache_preset'] = array(
-        '#type' => 'select',
-        '#title' => t('Imagecache preset'),
-        '#options' => $presets_options,
-        '#default_value' => variable_get('colorbox_imagecache_preset', 0),
-        '#description' => t('Select which Imagecache preset to use for viewing images in the colorbox.'),
-      );
+    $style_options = array(0 => t('Original image (no preset)'));
+    foreach (image_styles() as $style) {
+      $style_options[$style['name']] = $style['name'];
     }
+    $form['colorbox_imagefield']['colorbox_image_style'] = array(
+      '#type' => 'select',
+      '#title' => t('Image style'),
+      '#options' => $style_options,
+      '#default_value' => variable_get('colorbox_image_style', 0),
+      '#description' => t('Select which Image style to use for viewing images in the colorbox.'),
+    );
   }
 
-  if (module_exists('image')) {
+  if (module_exists('image_old')) {
     $form['colorbox_image_module'] = array(
       '#type' => 'fieldset',
       '#title' => t('Image module settings'),
@@ -124,11 +122,11 @@ function colorbox_admin_settings() {
   );
   $colorbox_styles = array(
     'default' => t('Default'),
-    $colorbox_path .'/example1' => t('Example 1'),
-    $colorbox_path .'/example2' => t('Example 2'),
-    $colorbox_path .'/example3' => t('Example 3'),
-    $colorbox_path .'/example4' => t('Example 4'),
-    $colorbox_path .'/example5' => t('Example 5'),
+    $colorbox_path . '/example1' => t('Example 1'),
+    $colorbox_path . '/example2' => t('Example 2'),
+    $colorbox_path . '/example3' => t('Example 3'),
+    $colorbox_path . '/example4' => t('Example 4'),
+    $colorbox_path . '/example5' => t('Example 5'),
     'none' => t('None'),
   );
   $form['colorbox_custom_settings']['colorbox_style'] = array(
@@ -150,7 +148,7 @@ function colorbox_admin_settings() {
 
   $js_hide = variable_get('colorbox_custom_settings_activate', 0) ? '' : ' js-hide';
   $form['colorbox_custom_settings']['wrapper_start'] = array(
-    '#value' => '<div class="colorbox-custom-settings'. $js_hide .'">',
+    '#markup' => '<div class="colorbox-custom-settings' . $js_hide . '">',
   );
 
   $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
@@ -241,7 +239,7 @@ function colorbox_admin_settings() {
 
   $js_hide = variable_get('colorbox_slideshow', 0) ? '' : ' js-hide';
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_start'] = array(
-    '#value' => '<div class="colorbox-slideshow-settings'. $js_hide .'">',
+    '#markup' => '<div class="colorbox-slideshow-settings' . $js_hide . '">',
   );
 
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
@@ -273,11 +271,11 @@ function colorbox_admin_settings() {
   );
 
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_stop'] = array(
-    '#value' => '</div>',
+    '#markup' => '</div>',
   );
 
   $form['colorbox_custom_settings']['wrapper_stop'] = array(
-    '#value' => '</div>',
+    '#markup' => '</div>',
   );
 
   $form['colorbox_advanced_settings'] = array(
@@ -301,7 +299,7 @@ function colorbox_admin_settings() {
     '#title' => t('Title max length'),
     '#options' => drupal_map_assoc(array(40, 45, 50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120)),
     '#default_value' => variable_get('colorbox_title_trim_length', 75),
-    '#prefix' => '<div class="colorbox-title-trim-settings'. $js_hide .'">',
+    '#prefix' => '<div class="colorbox-title-trim-settings' . $js_hide . '">',
     '#suffix' => '</div>',
   );
   $form['colorbox_advanced_settings']['colorbox_path'] = array(

@@ -120,7 +120,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
    */
   function render($values) {
     // Load the necessary js file for Colorbox activation.
-    drupal_add_js(drupal_get_path('module', 'colorbox') .'/js/colorbox_inline.js');
+    drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_inline.js');
 
     // We need to have multiple unique IDs, one for each record.
     static $i = 0;
@@ -140,15 +140,15 @@ class colorbox_handler_field_colorbox extends views_handler_field {
 
     $width = $this->options['width'] ? $this->options['width'] : '600px';
     $height = $this->options['height'] ? $this->options['height'] : '400px';
-    $gallery_id = !empty($this->options['custom_gid']) ? $this->options['custom_gid'] : ($this->options['gid'] ? 'gallery-'. $this->view->name : '');
+    $gallery_id = !empty($this->options['custom_gid']) ? $this->options['custom_gid'] : ($this->options['gid'] ? 'gallery-' . $this->view->name : '');
     $link_text = $tokens["[{$this->options['trigger_field']}]"];
 
     $i++;
 
-    $link_tag = l($link_text, '', array('html' => TRUE, 'fragment' => 'colorbox-inline-'. $i, 'query' => 'width='. $width .'&height='. $height .'&inline=true', 'attributes' => array('title' => $caption, 'class' => 'colorbox-inline', 'rel' => $gallery_id)));
+    $link_tag = l($link_text, '', array('html' => TRUE, 'fragment' => 'colorbox-inline-' . $i, 'query' => 'width=' . $width . '&height=' . $height . '&inline=true', 'attributes' => array('title' => $caption, 'class' => 'colorbox-inline', 'rel' => $gallery_id)));
 
     // The outside div is there to hide all of the divs because if the specific Colorbox
     // div is hidden it won't show up as a Colorbox.
-    return $link_tag .'<div style="display: none;"><div id="colorbox-inline-'. $i .'">'. $popup .'</div></div>';
+    return $link_tag . '<div style="display: none;"><div id="colorbox-inline-' . $i . '">' . $popup . '</div></div>';
   }
 }

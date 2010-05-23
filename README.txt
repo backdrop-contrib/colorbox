@@ -3,7 +3,7 @@ Drupal colorbox module:
 Maintainers:
   Joe Wheaton (http://drupal.org/user/298179)
   Fredrik Jonsson (http://drupal.org/user/5546)
-Requires - Drupal 6 and jQuery Update version 6.x-2.x
+Requires - Drupal 7
 License - GPL (see LICENSE)
 
 
@@ -25,8 +25,7 @@ Features:
 
 The Colorbox module:
 
-* Excellent integration with Imagefield and Imagecache modules
-* Integration with Image module
+* Excellent integration with Image field and Image styles
 * Choose between a default style and 5 example styles that are included.
 * Style the Colorbox with a custom colorbox.css file in your theme.
 * Option to open a login form by clicking on any login link
@@ -50,14 +49,12 @@ The Colorbox plugin:
 
 Installation:
 ------------
-1. Download and install the jQuery Update module version 6.x-2.x.
-   Make sure you get the 2.x version since 1.x will not work.
-2. Download and unpack the Colorbox plugin in "sites/all/libraries".
+1. Download and unpack the Colorbox plugin in "sites/all/libraries".
    Link: http://colorpowered.com/colorbox/colorbox.zip
    Drush users can use the command "drush colorbox-plugin".
-3. Place the Colorbox module directory in your modules folder (this will
+2. Place the Colorbox module directory in your modules folder (this will
    usually be "sites/all/modules/").
-4. Go to "Administer" -> "Site building" -> "Modules" and enable the module.
+3. Go to "Administer" -> "Site building" -> "Modules" and enable the module.
 
 
 Configuration:

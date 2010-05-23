@@ -16,24 +16,30 @@ define('COLORBOX_PATH', 'sites/all/libraries/colorbox');
  * Implmentation of hook_theme().
  */
 function colorbox_theme() {
-  $theme = array(
+  return array(
     'colorbox_imagefield' => array(
-      'arguments' => array('namespace' => NULL, 'path' => NULL, 'alt' => NULL, 'title' => NULL, 'gid' => NULL, 'field_name' => NULL, 'attributes' => NULL),
+      'variables' => array(
+        'style_name' => NULL,
+        'path' => NULL,
+        'alt' => NULL,
+        'title' => NULL,
+        'gid' => NULL,
+        'attributes' => array(),
+        'getsize' => TRUE,
+      ),
+      'file' => 'colorbox.theme.inc',
+    ),
+
+    'colorbox_image_formatter' => array(
+      'variables' => array(
+        'item' => NULL,
+        'node' => NULL,
+        'field' => array(),
+        'image_style' => NULL,
+      ),
       'file' => 'colorbox.theme.inc',
     ),
   );
-
-  if (module_exists('imagecache')) {
-    foreach (imagecache_presets() as $preset) {
-      $theme['colorbox_formatter_'. $preset['presetname'] .'__colorbox'] = array(
-        'function' => 'theme_colorbox_formatter_imagefield',
-        'arguments' => array('element' => NULL),
-        'file' => 'colorbox.theme.inc',
-      );
-    }
-  }
-
-  return $theme;
 }
 
 /**
@@ -49,7 +55,7 @@ function colorbox_init() {
 function colorbox_views_api() {
   return array(
     'api' => 2,
-    'path' => drupal_get_path('module', 'colorbox') .'/views',
+    'path' => drupal_get_path('module', 'colorbox') . '/views',
   );
 }
 
@@ -59,7 +65,7 @@ function colorbox_views_api() {
 function colorbox_menu() {
   $items = array();
 
-  $items['admin/settings/colorbox'] = array(
+  $items['admin/config/media/colorbox'] = array(
     'title' => 'Colorbox',
     'description' => 'Adjust Colorbox settings.',
     'file' => 'colorbox.admin.inc',
@@ -146,12 +152,12 @@ function _colorbox_doheader() {
   $style = variable_get('colorbox_style', 'default');
   switch ($style) {
     case 'default':
-      drupal_add_css($path .'/styles/default/colorbox_default_style.css');
+      drupal_add_css($path . '/styles/default/colorbox_default_style.css');
       break;
     case 'none':
       break;
     default:
-      drupal_add_css($style .'/colorbox.css');
+      drupal_add_css($style . '/colorbox.css');
   }
 
   // Insert options and translated strings as javascript settings.
@@ -193,32 +199,32 @@ function _colorbox_doheader() {
       'maxheight' => '100%',
     );
   }
-  drupal_add_js(array('colorbox' => $js_settings), 'setting');
+  drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   if (module_exists('image') && variable_get('colorbox_auto_image_nodes', 0)) {
     $image_derivative = variable_get('colorbox_image_derivative', 'preview');
     // If the image derivative is set to IMAGE_ORIGINAL check if the
     // user has access before activating Colorbox.
     if (!($image_derivative == IMAGE_ORIGINAL && !user_access('view original images'))) {
-      drupal_add_js(array('colorbox' => array('image_derivative' => $image_derivative)), 'setting');
-      drupal_add_js($path .'/js/colorbox_image_module.js');
+      drupal_add_js(array('colorbox' => array('image_derivative' => $image_derivative)), array('type' => 'setting', 'scope' => JS_DEFAULT));
+      drupal_add_js($path . '/js/colorbox_image_module.js');
     }
   }
 
   $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
-  drupal_add_js(variable_get('colorbox_path', COLORBOX_PATH) .'/colorbox/'. $colorbox_file[variable_get('colorbox_compression_type', 'min')]);
-  drupal_add_js($path .'/js/colorbox.js');
+  drupal_add_js(variable_get('colorbox_path', COLORBOX_PATH) . '/colorbox/' . $colorbox_file[variable_get('colorbox_compression_type', 'min')]);
+  drupal_add_js($path . '/js/colorbox.js');
 
   if ($style == 'default') {
-    drupal_add_js($path .'/styles/default/colorbox_default_style.js');
+    drupal_add_js($path . '/styles/default/colorbox_default_style.js');
   }
 
   if (variable_get('colorbox_load', 0)) {
-    drupal_add_js($path .'/js/colorbox_load.js');
+    drupal_add_js($path . '/js/colorbox_load.js');
   }
 
   if ($GLOBALS['user']->uid == 0 && variable_get('colorbox_login', 0)) {
-    drupal_add_js($path .'/js/colorbox_login.js');
+    drupal_add_js($path . '/js/colorbox_login.js');
   }
 
   $already_added = TRUE;
@@ -243,9 +249,9 @@ function colorbox_link_alter(&$links, $node) {
   if ($node->type == 'image' && variable_get('colorbox_auto_image_nodes', 0)) {
     // Add a colorbox class to the image link sizes on the image node.
     foreach ($node->images as $size => $path) {
-      $links['image_size_'. $size]['attributes']['class'] = "image image-{$size} colorbox";
-      $links['image_size_'. $size]['href'] = $path;
-      unset($links['image_size_'. $size]['query']);
+      $links['image_size_' . $size]['attributes']['class'] = "image image-{$size} colorbox";
+      $links['image_size_' . $size]['href'] = $path;
+      unset($links['image_size_' . $size]['query']);
     }
   }
 }
@@ -257,17 +263,49 @@ function colorbox_link_alter(&$links, $node) {
  */
 function colorbox_field_formatter_info() {
   $formatters = array();
-  if (module_exists('imagefield') && module_exists('imagecache')) {
-    foreach (imagecache_presets() as $preset) {
-      $formatters[$preset['presetname'] .'__colorbox'] = array(
-        'label' => t('Colorbox: @preset image', array('@preset' => $preset['presetname'])),
-        'field types' => array('image', 'filefield'),
+  if (module_exists('image')) {
+    foreach (image_styles() as $style) {
+      $formatters['colorbox__' . $style['name']] = array(
+        'label' => t('Colorbox: @preset image', array('@preset' => $style['name'])),
+        'field types' => array('image', 'file'),
       );
     }
   }
 
   return $formatters;
 
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+// dpm($entity_type);
+// dpm($entity);
+// dpm($field);
+// dpm($instance);
+// dpm($langcode);
+// dpm($items);
+// dpm($display);
+  $element = array();
+
+  // Check if the formatter involves a particular image style.
+  $matches = array();
+  if (preg_match('/__([a-z0-9_]+)/', $display['type'], $matches)) {
+    $image_style = $matches[1];
+  }
+
+  foreach ($items as $delta => $item) {
+    $element[$delta] = array(
+      '#theme' => 'colorbox_image_formatter',
+      '#item' => $item,
+      '#node' => $entity,
+      '#field' => $field,
+      '#image_style' => isset($image_style) ? $image_style : '',
+    );
+  }
+
+  return $element;
 }
 
 /**
@@ -299,11 +337,11 @@ function colorbox_insert_content($item, $style, $widget) {
       $gallery_id = 'insert-all';
       break;
     case 3:
-      $gallery_id = 'insert-'. $item['fid'];
+      $gallery_id = 'insert-' . $item['fid'];
       break;
   }
 
   list($namespace, $modulename) = explode('__', $style['name'], 2);
 
-  return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id, 'insert');
+  return theme('colorbox_imagefield', array('namespace' => $namespace, 'path' => $item['filepath'], 'alt' => $item['data']['alt'], 'title' => $item['data']['title'], 'gid' => $gallery_id, 'field_name' => 'insert'));
 }

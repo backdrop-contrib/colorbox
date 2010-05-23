@@ -107,13 +107,13 @@ function drush_colorbox_plugin() {
   }
 
   // Download the zip archive
-  if (!drush_shell_exec('wget '. COLORBOX_DOWNLOAD_URI)) {
-    drush_shell_exec('curl -O '. COLORBOX_DOWNLOAD_URI);
+  if (!drush_shell_exec('wget ' . COLORBOX_DOWNLOAD_URI)) {
+    drush_shell_exec('curl -O ' . COLORBOX_DOWNLOAD_URI);
   }
 
   if (is_file($filename)) {
     // Decompress the zip archive
-    drush_shell_exec('unzip -qq -o '. $filename);
+    drush_shell_exec('unzip -qq -o ' . $filename);
     // Remove the zip archive
     drush_op('unlink', $filename);
   }
@@ -121,7 +121,7 @@ function drush_colorbox_plugin() {
   // Set working directory back to the previous working directory.
   chdir($olddir);
 
-  if (is_dir($path .'/'. $dirname)) {
+  if (is_dir($path . '/' . $dirname)) {
     drush_log(dt('Colorbox plugin has been downloaded to @path', array('@path' => $path)), 'success');
   }
   else {

@@ -3,6 +3,12 @@
 
 /**
  * @file
+ * Install, update and uninstall functions for the colorbox module.
+ *
+ */
+
+/**
+ * @file
  * Installation functions for colorbox.
  */
 

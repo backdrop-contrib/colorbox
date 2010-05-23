@@ -36,7 +36,7 @@ function colorbox_views_data() {
 function colorbox_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'colorbox') .'/views',
+      'path' => drupal_get_path('module', 'colorbox') . '/views',
     ),
     'handlers' => array(
       'colorbox_handler_field_colorbox' => array(

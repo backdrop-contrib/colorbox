@@ -8,101 +8,93 @@
 
 
 /**
- * Handler for Colorbox display of imagecache + imagefield CCK fields.
+ * Returns HTML for an Colorbox image field formatter.
  *
- * @param $element
- *   The CCK field element.
- * @return
- *   HTML output for displaying the image and link.
+ * @param $variables
+ *   An associative array containing:
+ *   - item: An array of image data.
+ *   - image_style: An optional image style.
+ *   - path: An array containing the link 'path' and link 'options'.
+ *
+ * @ingroup themeable
  */
-function theme_colorbox_formatter_imagefield($element) {
-  if (!module_exists('imagecache') || !module_exists('imagefield')) {
-    return;
+function theme_colorbox_image_formatter($variables) {
+  $item = $variables['item'];
+  $node = $variables['node'];
+  $field = $variables['field'];
+
+  $image = array(
+    'path' => $item['uri'],
+    'alt' => $item['alt'],
+    'title' => $item['title'],
+    'style_name' => $variables['image_style'],
+  );
+
+  // If the title is empty use alt or the node title in that order.
+  if (empty($item['title'])) {
+    if (!empty($image['alt'])) {
+      $image['title'] = $image['alt'];
+    }
+    else {
+      $image['title'] = $node->title;
+    }
   }
 
-  if (!empty($element['#item']['fid']) && isset($element['#item']['nid'])) {
-    $item = $element['#item'];
-
-    if (is_string($item['data'])) {
-      $item['data'] = unserialize($item['data']);
-    }
-    if (!isset($item['filepath'])) {
-      $file = field_file_load($item['fid']);
-      $item['filepath'] = $file['filepath'];
-    }
-    // If the title is empty use description, alt or the node title in that order.
-    if (empty($item['data']['title'])) {
-      if (!empty($item['data']['description'])) {
-        $item['data']['title'] = $item['data']['description'];
-      }
-      elseif (!empty($item['data']['alt'])) {
-        $item['data']['title'] = $item['data']['alt'];
-      }
-      else {
-        $node = node_load($item['nid']);
-        $item['data']['title'] = $node->title;
-      }
-    }
-
-    // Shorten the title for the example styles or when title shortening is active.
-    $style = variable_get('colorbox_style', 'default');
-    $trim_length = variable_get('colorbox_title_trim_length', 75);
-    if (((strpos($style, 'colorbox/example') !== FALSE) || variable_get('colorbox_title_trim', 0)) && (drupal_strlen($item['data']['title']) > $trim_length)) {
-      $item['data']['title'] = drupal_substr($item['data']['title'], 0, $trim_length - 5) .'...';
-    }
-
-    // Build the gallery id.
-    $nid = $item['nid'] ? $item['nid'] : 'nid';
-    switch (variable_get('colorbox_imagefield_gallery', 1)) {
-      case 0:
-        $gallery_id = 'all';
-        break;
-      case 1:
-        $gallery_id = $nid;
-        break;
-      case 2:
-        $gallery_id = $nid .'-'. $element['#field_name'];
-        break;
-      case 3:
-        $gallery_id = $nid .'-'. $item['fid'];
-        break;
-    }
-
-    list($namespace, $modulename) = explode('__', $element['#formatter'], 2);
-    if ($preset = imagecache_preset_by_name($namespace)) {
-      return theme('colorbox_imagefield', $namespace, $item['filepath'], $item['data']['alt'], $item['data']['title'], $gallery_id, $element['#field_name']);
-    }
+  // Shorten the title for the example styles or when title shortening is active.
+  $style = variable_get('colorbox_style', 'default');
+  $trim_length = variable_get('colorbox_title_trim_length', 75);
+  if (((strpos($style, 'colorbox/example') !== FALSE) || variable_get('colorbox_title_trim', 0)) && (drupal_strlen($item['title']) > $trim_length)) {
+    $image['title'] = drupal_substr($item['title'], 0, $trim_length - 5) . '...';
   }
+
+  // Build the gallery id.
+  $nid = $node->nid ? $node->nid : 'nid';
+  switch (variable_get('colorbox_imagefield_gallery', 1)) {
+    case 0:
+      $gallery_id = 'all';
+      break;
+    case 1:
+      $gallery_id = $nid;
+      break;
+    case 2:
+      $gallery_id = $nid . '-' . $field['field_name'];
+      break;
+    case 3:
+      $gallery_id = $nid . '-' . $field['fid'];
+      break;
+  }
+
+  return theme('colorbox_imagefield', array('style_name' => $image['style_name'], 'path' => $image['path'], 'alt' => $image['alt'], 'title' => $image['title'], 'gid' => $gallery_id));
 }
 
 /**
- * Implementation of theme_colorbox_imagefield().
+ * Returns HTML for an image using a specific Colorbox image style.
  *
- * @param $namespace
- *   presetname of the derivative you wish to generate a tag for.
- * @param $path
- *   path to the original image you wish to create a derivative image tag for.
- * @param $alt
- *   img tag alternate text
- * @param $title
- *   img tag title text
- * @param $gid
- *   gallery id
- * @param attributes
- *   optional drupal attributes array. If attributes is set, the default imagecache classes
- *   will not be set automatically, you must do this manually.
+ * @param $variables
+ *   An associative array containing:
+ *   - style_name: The name of the style to be used to alter the original image.
+ *   - path: The path of the image file relative to the Drupal files directory.
+ *     This function does not work with images outside the files directory nor
+ *     with remotely hosted images.
+ *   - alt: The alternative text for text-based browsers.
+ *   - title: The title text is displayed when the image is hovered in some
+ *     popular browsers.
+ *   - gid: Gallery id.
+ *   - attributes: Associative array of attributes to be placed in the img tag.
+ *   - getsize: If set to TRUE, the image's dimension are fetched and added as
+ *     width/height attributes.
+ *
+ * @ingroup themeable
  */
-function theme_colorbox_imagefield($namespace, $path, $alt = '', $title = '', $gid = '', $field_name = '', $attributes = NULL) {
-  if (!empty($path)) {
-    $image = theme('imagecache', $namespace, $path, $alt, $title, $attributes);
-    if ($presetname = variable_get('colorbox_imagecache_preset', 0)) {
-      $link_path = imagecache_create_url($presetname, $path);
-    }
-    else {
-      $link_path = file_create_url($path);
-    }
-    $class = 'colorbox imagefield imagefield-imagelink imagefield-'. $field_name;
-
-    return l($image, $link_path, array('html' => TRUE, 'attributes' => array('title' => $title, 'class' => $class, 'rel' => 'gallery-'. $gid)));
+function theme_colorbox_imagefield($variables) {
+  $image = theme('image_style', $variables);
+  if ($style_name = variable_get('colorbox_imagecache_preset', 0)) {
+    $link_path = image_style_url($style_name, $variables['path']);
   }
+  else {
+    $link_path = file_create_url($variables['path']);
+  }
+  $class = 'colorbox imagefield imagefield-imagelink';
+
+  return l($image, $link_path, array('html' => TRUE, 'attributes' => array('title' => $variables['title'], 'class' => $class, 'rel' => 'gallery-' . $variables['gid'])));
 }
