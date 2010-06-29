@@ -120,7 +120,9 @@ class colorbox_handler_field_colorbox extends views_handler_field {
    */
   function render($values) {
     // Load the necessary js file for Colorbox activation.
-    drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_inline.js');
+    if (_colorbox_active()) {
+      drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_inline.js');
+    }
 
     // We need to have multiple unique IDs, one for each record.
     static $i = 0;
