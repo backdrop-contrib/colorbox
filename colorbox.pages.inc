@@ -28,7 +28,7 @@ function colorbox_form_page($form_id) {
     default:
       $form = drupal_get_form($form_id);
       if (!empty($form)) {
-        print $form;
+        print drupal_render($form);
       }
   }
 
