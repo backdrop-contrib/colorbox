@@ -18,9 +18,9 @@ Drupal.behaviors.initColorboxInline = {
       speed:settings.colorbox.speed,
       opacity:settings.colorbox.opacity,
       close:settings.colorbox.close,
-      overlayClose:settings.colorbox.overlayclose,
-      maxWidth:settings.colorbox.maxwidth,
-      maxHeight:settings.colorbox.maxheight,
+      overlayClose:settings.colorbox.overlayClose,
+      maxWidth:settings.colorbox.maxWidth,
+      maxHeight:settings.colorbox.maxHeight,
       innerWidth:function(){
         return $.urlParam('width', $(this).attr('href'));
       },
