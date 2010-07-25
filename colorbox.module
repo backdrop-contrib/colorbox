@@ -10,6 +10,7 @@
  * The default path to the Colorbox directory.
  */
 define('COLORBOX_PATH', 'sites/all/libraries/colorbox');
+define('COLORBOX_MIN_PLUGIN_VERSION', '1.3.6');
 
 
 /**
@@ -118,6 +119,25 @@ function _colorbox_form_page_access($form_id) {
 }
 
 /**
+ * Check Colorbox dependencies, Colorbox plugin.
+ *
+ * @return
+ *   array with TRUE/FALSE for each dependency.
+ *
+ * @see colorbox_requirements()
+ */
+function _colorbox_status() {
+  $status = array();
+  $status['colorbox_plugin'] = FALSE;
+
+  if (version_compare(colorbox_get_version(), COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
+    $status['colorbox_plugin'] = TRUE;
+  }
+
+  return $status;
+}
+
+/**
  * Check if Colorbox should be active for the current URL.
  *
  * @return
@@ -211,8 +231,7 @@ function _colorbox_doheader() {
     }
   }
 
-  $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
-  drupal_add_js(variable_get('colorbox_path', COLORBOX_PATH) . '/colorbox/' . $colorbox_file[variable_get('colorbox_compression_type', 'min')]);
+  drupal_add_js(colorbox_get_path());
   drupal_add_js($path . '/js/colorbox.js');
 
   if ($style == 'default') {
@@ -228,6 +247,40 @@ function _colorbox_doheader() {
   }
 
   $already_added = TRUE;
+}
+
+/**
+ * Return the version of Colorbox plugin that is installed.
+ *
+ * This can be used by other modules' hook_requirements() to ensure that the
+ * proper version of Colorbox plugin is installed.
+ *
+ * @see version_compare
+ */
+function colorbox_get_version($colorbox_path = NULL) {
+  $version = 0;
+  $pattern = '#ColorBox v([0-9\.a-z]+)#';
+
+  // No file is passed in so use the default location.
+  if (is_null($colorbox_path)) {
+    $colorbox_path = colorbox_get_path();
+  }
+
+  // Return the version of Colorbox plugin.
+  $colorbox_plugin = file_get_contents($colorbox_path, NULL, NULL, 0, 32);
+  if (preg_match($pattern, $colorbox_plugin, $matches)) {
+    $version = $matches[1];
+  }
+
+  return $version;
+}
+
+/**
+ * Return the path to the Colorbox plugin.
+ */
+function colorbox_get_path() {
+  $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
+  return variable_get('colorbox_path', COLORBOX_PATH) .'/colorbox/'. $colorbox_file[variable_get('colorbox_compression_type', 'min')];
 }
 
 /**
@@ -280,13 +333,6 @@ function colorbox_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-// dpm($entity_type);
-// dpm($entity);
-// dpm($field);
-// dpm($instance);
-// dpm($langcode);
-// dpm($items);
-// dpm($display);
   $element = array();
 
   // Check if the formatter involves a particular image style.

@@ -4,31 +4,37 @@
 /**
  * @file
  * Install, update and uninstall functions for the colorbox module.
- *
- */
-
-/**
- * @file
- * Installation functions for colorbox.
  */
 
 /**
  * Implementation of hook_requirements().
  */
-// function colorbox_update_requirements($phase) {
-//   $requirements = array();
-//   $t = get_t();
-//
-//   if ($phase == 'runtime') {
-//     $requirements['colorbox'] = array(
-//       'title' => $t('Colorbox'),
-//       'severity' => REQUIREMENT_OK,
-//       'value' => ,
-//     );
-//   }
-//
-//   return $requirements;
-// }
+function colorbox_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $t = get_t();
+    $status = _colorbox_status();
+
+    if (!$status['colorbox_plugin']) {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => 'sites/all/libraries')),
+      );
+    }
+    else {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'severity' => REQUIREMENT_OK,
+        'value' => colorbox_get_version(),
+      );
+    }
+  }
+
+  return $requirements;
+}
 
 /**
  * Implementation of hook_uninstall().
