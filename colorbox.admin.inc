@@ -14,10 +14,6 @@ function colorbox_admin_settings() {
 
   $colorbox_path = variable_get('colorbox_path', COLORBOX_PATH);
 
-  if (!is_dir($colorbox_path)) {
-    drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => 'sites/all/libraries')), 'error');
-  }
-
   if (module_exists('image')) {
     $form['colorbox_imagefield'] = array(
       '#type' => 'fieldset',

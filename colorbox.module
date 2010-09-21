@@ -168,18 +168,6 @@ function _colorbox_doheader() {
     return; // Don't add the JavaScript and CSS on specified paths.
   }
 
-  $path = drupal_get_path('module', 'colorbox');
-  $style = variable_get('colorbox_style', 'default');
-  switch ($style) {
-    case 'default':
-      drupal_add_css($path . '/styles/default/colorbox_default_style.css');
-      break;
-    case 'none':
-      break;
-    default:
-      drupal_add_css($style . '/colorbox.css');
-  }
-
   // Insert options and translated strings as javascript settings.
   if (variable_get('colorbox_custom_settings_activate', 0)) {
     $js_settings = array(
@@ -219,6 +207,27 @@ function _colorbox_doheader() {
       'maxHeight' => '100%',
     );
   }
+
+  $path = drupal_get_path('module', 'colorbox');
+  $style = variable_get('colorbox_style', 'default');
+
+  // Give other modules the possibility to override Colorbox settings and
+  // style.
+  $data = &$js_settings;
+  $data['__drupal_alter_by_ref'] = array(&$style);
+  drupal_alter('colorbox_settings', $data);
+
+  // Add CSS based on selected style.
+  switch ($style) {
+    case 'none':
+      break;
+    case 'default':
+      drupal_add_css($path .'/styles/default/colorbox_default_style.css');
+      break;
+    default:
+      drupal_add_css($style .'/colorbox.css');
+  }
+
   drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   if (module_exists('image') && variable_get('colorbox_auto_image_nodes', 0)) {

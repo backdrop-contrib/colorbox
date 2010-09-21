@@ -27,6 +27,9 @@ Drupal.behaviors.initColorboxInline = {
       innerHeight:function(){
         return $.urlParam('height', $(this).attr('href'));
       },
+      title:function(){
+        return $.urlParam('title', $(this).attr('href'));
+      },
       iframe:function(){
         return $.urlParam('iframe', $(this).attr('href'));
       },

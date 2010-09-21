@@ -72,7 +72,7 @@ function colorbox_drush_help($section) {
  *
  */
 function drush_colorbox_plugin() {
-  if (!drush_shell_exec('type -P unzip')) {
+  if (!drush_shell_exec('type unzip')) {
     return drush_set_error(dt('Missing dependency: unzip. Install it before using this command.'));
   }
 
