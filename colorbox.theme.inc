@@ -48,7 +48,7 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Build the gallery id.
-  $nid = $node->nid ? $node->nid : 'nid';
+  $nid = !empty($node->nid) ? $node->nid : 'nid';
   switch (variable_get('colorbox_imagefield_gallery', 1)) {
     case 0:
       $gallery_id = 'all';
