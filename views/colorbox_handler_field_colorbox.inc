@@ -88,7 +88,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $form['height'] = array(
       '#type' => 'textfield',
       '#title' => t('Height'),
-      '#description' => t('Specify the height of the Colorbox popup window.  Because the content is dynamic, we cannot detect this value automatically.'),
+      '#description' => t('Specify the height of the Colorbox popup window. Because the content is dynamic, we cannot detect this value automatically. Example: "100%", 500, "500px".'),
       '#default_value' => $this->options['height'],
       '#weight' => -7,
     );
@@ -96,7 +96,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $form['width'] = array(
       '#type' => 'textfield',
       '#title' => t('Width'),
-      '#description' => t('Specify the width of the Colorbox popup window.  Because the content is dynamic, we cannot detect this value automatically.'),
+      '#description' => t('Specify the width of the Colorbox popup window. Because the content is dynamic, we cannot detect this value automatically. Example: "100%", 500, "500px".'),
       '#default_value' => $this->options['width'],
       '#weight' => -6,
     );

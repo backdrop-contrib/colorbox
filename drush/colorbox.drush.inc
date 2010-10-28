@@ -61,15 +61,17 @@ function colorbox_drush_help($section) {
 }
 
 /**
- * Example drush command callback.
- *
- * This is where the action takes place.
- *
- * In this function, all of Drupals API is (usually) available, including
- * any functions you have added in your own modules/themes.
- *
- * To print something to the terminal window, use drush_print().
- *
+ * Implements drush_MODULE_post_pm_enable().
+ */
+// function drush_colorbox_post_pm_enable() {
+//   $modules = func_get_args();
+//   if (in_array('colorbox', $modules)) {
+//     drush_colorbox_plugin();
+//   }
+// }
+
+/**
+ * Command to download the Colorbox plugin.
  */
 function drush_colorbox_plugin() {
   if (!drush_shell_exec('type unzip')) {
