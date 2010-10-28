@@ -216,17 +216,6 @@ function _colorbox_doheader() {
   $data['__drupal_alter_by_ref'] = array(&$style);
   drupal_alter('colorbox_settings', $data);
 
-  // Add CSS based on selected style.
-  switch ($style) {
-    case 'none':
-      break;
-    case 'default':
-      drupal_add_css($path .'/styles/default/colorbox_default_style.css');
-      break;
-    default:
-      drupal_add_css($style .'/colorbox.css');
-  }
-
   drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   if (module_exists('image') && variable_get('colorbox_auto_image_nodes', 0)) {
@@ -239,15 +228,32 @@ function _colorbox_doheader() {
     }
   }
 
+  // Add and initialise the Colorbox plugin.
   drupal_add_js(colorbox_get_path());
   drupal_add_js($path . '/js/colorbox.js');
 
-  if ($style == 'default') {
-    drupal_add_js($path . '/styles/default/colorbox_default_style.js');
+  // Add JS and CSS based on selected style.
+  switch ($style) {
+    case 'none':
+      break;
+    case 'default':
+      drupal_add_css($path . '/styles/default/colorbox_default_style.css');
+      drupal_add_js($path . '/styles/default/colorbox_default_style.js');
+      break;
+    case 'stockholmsyndrome':
+      drupal_add_css($path . '/styles/stockholmsyndrome/colorbox_stockholmsyndrome.css');
+      drupal_add_js($path . '/styles/stockholmsyndrome/colorbox_stockholmsyndrome.js');
+      break;
+    default:
+      drupal_add_css($style . '/colorbox.css');
   }
 
   if (variable_get('colorbox_load', 0)) {
     drupal_add_js($path . '/js/colorbox_load.js');
+  }
+
+  if (variable_get('colorbox_inline', 0)) {
+    drupal_add_js($path . '/js/colorbox_inline.js');
   }
 
   if ($GLOBALS['user']->uid == 0 && variable_get('colorbox_login', 0)) {
