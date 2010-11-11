@@ -31,6 +31,15 @@ function colorbox_theme() {
       'file' => 'colorbox.theme.inc',
     ),
 
+    'colorbox_insert_image' => array(
+      'variables' => array(
+        'item' => NULL,
+        'widget' => NULL,
+      ),
+      'template' => 'colorbox-insert-image',
+      'file' => 'colorbox.theme.inc',
+    ),
+
     'colorbox_image_formatter' => array(
       'variables' => array(
         'item' => NULL,
@@ -382,26 +391,6 @@ function colorbox_insert_styles() {
  * Implementation of hook_insert_content().
  */
 function colorbox_insert_content($item, $style, $widget) {
-  // If the title is empty use description or alt.
-  if (empty($item['data']['title'])) {
-    if (!empty($item['data']['description'])) {
-      $item['data']['title'] = $item['data']['description'];
-    }
-    elseif (!empty($item['data']['alt'])) {
-      $item['data']['title'] = $item['data']['alt'];
-    }
-  }
-
-  switch (variable_get('colorbox_insert_gallery', 0)) {
-    case 0:
-      $gallery_id = 'insert-all';
-      break;
-    case 3:
-      $gallery_id = 'insert-' . $item['fid'];
-      break;
-  }
-
-  list($namespace, $modulename) = explode('__', $style['name'], 2);
-
-  return theme('colorbox_imagefield', array('namespace' => $namespace, 'path' => $item['filepath'], 'alt' => $item['data']['alt'], 'title' => $item['data']['title'], 'gid' => $gallery_id, 'field_name' => 'insert'));
+  list($item['style_name'], $item['module_name']) = explode('__', $style['name'], 2);
+  return theme('colorbox_insert_image', $item, $widget);
 }
