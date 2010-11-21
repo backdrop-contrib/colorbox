@@ -312,7 +312,8 @@ function colorbox_get_path() {
  */
 function colorbox_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == variable_get('colorbox_login_form', '') && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
-    $form['#action'] = url('user/login', array('query' => array('destination' => $_GET['destination'])));
+    $destination = isset($_REQUEST['destination']) ? urlencode($_REQUEST['destination']) : 'user';
+    $form['#action'] = url($_GET['q'], array('query' => array('destination' => $destination)));
     $form['name']['#size'] = 25;
     $form['pass']['#size'] = 25;
   }
