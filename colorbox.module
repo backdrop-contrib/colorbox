@@ -108,10 +108,10 @@ function colorbox_menu() {
  */
 function _colorbox_form_page_access($form_id) {
   switch ($form_id) {
-    case 'contact_mail_page':
+    case 'contact_site_form':
       $access = user_access('access site-wide contact form');
       break;
-    case 'user_register':
+    case 'user_register_form':
       $access = user_register_access();
       break;
     case 'user_pass':
