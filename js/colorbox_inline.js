@@ -13,7 +13,7 @@ Drupal.behaviors.initColorboxInline = {
       if (!results) { return 0; }
       return results[1] || 0;
     };
-    $('a, area, input', context).filter('.colorbox-inline:not(.initColorboxInline-processed)').addClass('initColorboxInline-processed').colorbox({
+    $('a, area, input', context).filter('.colorbox-inline').once('init-colorbox-inline-processed').colorbox({
       transition:settings.colorbox.transition,
       speed:settings.colorbox.speed,
       opacity:settings.colorbox.opacity,

@@ -8,7 +8,7 @@ Drupal.behaviors.initColorboxLoad = {
       if (!results) { return 0; }
       return results[1] || 0;
     };
-    $('a, area, input', context).filter('.colorbox-load:not(.initColorboxLoad-processed)').addClass('initColorboxLoad-processed').colorbox({
+    $('a, area, input', context).filter('.colorbox-load').once('init-colorbox-load-processed').colorbox({
       transition:settings.colorbox.transition,
       speed:settings.colorbox.speed,
       opacity:settings.colorbox.opacity,

@@ -25,6 +25,7 @@
   overflow: hidden;
 }
 #cboxLoadedContent {
+  color: #000;
   overflow: auto;
 }
 #cboxLoadedContent iframe {
