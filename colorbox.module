@@ -20,13 +20,10 @@ function colorbox_theme() {
   return array(
     'colorbox_imagefield' => array(
       'variables' => array(
-        'style_name' => NULL,
+        'image' => array(),
         'path' => NULL,
-        'alt' => NULL,
         'title' => NULL,
         'gid' => NULL,
-        'attributes' => array(),
-        'getsize' => TRUE,
       ),
       'file' => 'colorbox.theme.inc',
     ),
@@ -45,7 +42,8 @@ function colorbox_theme() {
         'item' => NULL,
         'node' => NULL,
         'field' => array(),
-        'image_style' => NULL,
+        'colorbox_node_style' => NULL,
+        'colorbox_image_style' => NULL,
       ),
       'file' => 'colorbox.theme.inc',
     ),
@@ -335,35 +333,83 @@ function colorbox_link_alter(&$links, $node) {
 
 /**
  * Implementation of hook_field_formatter_info().
- *
- * Adds certain colorbox+imagecache formatters to CCK image fields if imagefield.module and imagecache.module exist.
  */
 function colorbox_field_formatter_info() {
-  $formatters = array();
   if (module_exists('image')) {
-    foreach (image_styles() as $style) {
-      $formatters['colorbox__' . $style['name']] = array(
-        'label' => t('Colorbox: @preset image', array('@preset' => $style['name'])),
-        'field types' => array('image', 'file'),
-      );
-    }
+    $formatters = array(
+      'colorbox' => array(
+        'label' => t('Colorbox'),
+        'field types' => array('image'),
+        'settings' => array('colorbox_node_style' => '', 'colorbox_image_style' => ''),
+      ),
+    );
   }
 
   return $formatters;
-
 }
 
 /**
- * Implements hook_field_formatter_view().
+ * Implementation of hook_field_formatter_settings_form().
+ */
+function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $image_styles = image_style_options(FALSE);
+  $element['colorbox_node_style'] = array(
+    '#title' => t('Node image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['colorbox_node_style'],
+    '#empty_option' => t('None (original image)'),
+    '#options' => $image_styles,
+  );
+  $element['colorbox_image_style'] = array(
+    '#title' => t('Colorbox image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['colorbox_image_style'],
+    '#empty_option' => t('None (original image)'),
+    '#options' => $image_styles,
+  );
+
+  return $element;
+}
+
+/**
+ * Implementation of hook_field_formatter_settings_summary().
+ */
+function colorbox_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  $image_styles = image_style_options(FALSE);
+  // Unset possible 'No defined styles' option.
+  unset($image_styles['']);
+  // Styles could be lost because of enabled/disabled modules that defines
+  // their styles in code.
+  if (isset($image_styles[$settings['colorbox_node_style']])) {
+    $summary[] = t('Node image style: @style', array('@style' => $image_styles[$settings['colorbox_node_style']]));
+  }
+  else {
+    $summary[] = t('Node image style: Original image');
+  }
+
+  if (isset($image_styles[$settings['colorbox_image_style']])) {
+    $summary[] = t('Colorbox image style: @style', array('@style' => $image_styles[$settings['colorbox_image_style']]));
+  }
+  else {
+    $summary[] = t('Colorbox image style: Original image');
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implementation of hook_field_formatter_view().
  */
 function colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-
-  // Check if the formatter involves a particular image style.
-  $matches = array();
-  if (preg_match('/__([a-z0-9_]+)/', $display['type'], $matches)) {
-    $image_style = $matches[1];
-  }
 
   foreach ($items as $delta => $item) {
     $element[$delta] = array(
@@ -371,7 +417,8 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
       '#item' => $item,
       '#node' => $entity,
       '#field' => $field,
-      '#image_style' => isset($image_style) ? $image_style : '',
+      '#colorbox_node_style' => $display['settings']['colorbox_node_style'],
+      '#colorbox_image_style' => $display['settings']['colorbox_image_style'],
     );
   }
 
