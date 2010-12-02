@@ -26,17 +26,6 @@ function colorbox_admin_settings() {
       '#options' => array(0 => t('Per page gallery'), 1 => t('Per post gallery'), 2 => t('Per field gallery'), 3 => t('No gallery')),
       '#description' => t('Should the gallery be images within a single field, a single post (default) or all images on the page. The last option disables galleries.'),
     );
-    $style_options = array(0 => t('Original image (no preset)'));
-    foreach (image_styles() as $style) {
-      $style_options[$style['name']] = $style['name'];
-    }
-    $form['colorbox_imagefield']['colorbox_image_style'] = array(
-      '#type' => 'select',
-      '#title' => t('Image style'),
-      '#options' => $style_options,
-      '#default_value' => variable_get('colorbox_image_style', 0),
-      '#description' => t('Select which Image style to use for viewing images in the colorbox.'),
-    );
   }
 
   if (module_exists('image_old')) {
@@ -69,6 +58,15 @@ function colorbox_admin_settings() {
     $form['colorbox_insert_module'] = array(
       '#type' => 'fieldset',
       '#title' => t('Insert module settings'),
+    );
+    $image_styles = image_style_options(FALSE);
+    $form['colorbox_insert_module']['colorbox_image_style'] = array(
+      '#type' => 'select',
+      '#title' => t('Image style'),
+      '#empty_option' => t('None (original image)'),
+      '#options' => $image_styles,
+      '#default_value' => variable_get('colorbox_image_style', 0),
+      '#description' => t('Select which image style to use for viewing images in the colorbox.'),
     );
     $form['colorbox_insert_module']['colorbox_insert_gallery'] = array(
       '#type' => 'radios',
