@@ -11,3 +11,4 @@ files[] = colorbox.theme.inc
 files[] = drush/colorbox.drush.inc
 files[] = views/colorbox.views.inc
 files[] = views/colorbox_handler_field_colorbox.inc
+configure = admin/config/media/colorbox
