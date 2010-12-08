@@ -35,7 +35,7 @@ function theme_colorbox_image_formatter($variables) {
     if (!empty($image['alt'])) {
       $image['title'] = $image['alt'];
     }
-    else {
+    elseif (!empty($node)) {
       $image['title'] = $node->title;
     }
   }
