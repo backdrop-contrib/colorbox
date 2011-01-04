@@ -63,6 +63,11 @@ Go to "Administer" -> "Site configuration" -> "Colorbox" to find
 all the configuration options.
 
 
+Use the Views Colorbox Trigger field:
+------------------------------------
+TODO
+
+
 Add a custom Colorbox style to your theme:
 ----------------------------------------
 The easiest is to start with either the default style or one of the

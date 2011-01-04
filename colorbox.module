@@ -105,6 +105,9 @@ function colorbox_menu() {
  * Colorbox menu access check.
  */
 function _colorbox_form_page_access($form_id) {
+  $access = FALSE;
+
+  // First check if this is one of the forms Colorbox support out of the box.
   switch ($form_id) {
     case 'contact_site_form':
       $access = user_access('access site-wide contact form');
@@ -117,9 +120,15 @@ function _colorbox_form_page_access($form_id) {
     case 'user_login_block':
       $access = user_is_anonymous();
       break;
-    default:
-      // All other forms get no access.
-      $access = FALSE;
+  }
+
+  // Invoke hook_colorbox_form_access for all modules.
+  if (!$access) {
+    foreach (module_implements('colorbox_form_access') as $module) {
+      if ($access = module_invoke($module, 'colorbox_form_access', $form_id)) {
+        return $access;
+      }
+    }
   }
 
   return $access;
