@@ -33,10 +33,12 @@ class colorbox_handler_field_colorbox extends views_handler_field {
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
+    // Get a list of the available fields and arguments for token replacement.
+    $options = array();
     $fields = array('trigger_field' => t('<None>'));
     foreach ($this->view->display_handler->get_handlers('field') as $field => $handler) {
-      // We only use fields up to this one.  Obviously we can't use this handler
-      // as the trigger handler.
+      $options[t('Fields')]["[$field]"] = $handler->ui_name();
+      // We only use fields up to (and including) this one.
       if ($field == $this->options['id']) {
         break;
       }
@@ -56,7 +58,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $form['popup'] = array(
       '#type' => 'textarea',
       '#title' => t('Popup'),
-      '#description' => t('Combine tokens from the "Replacement patterns" below and html to create what the Colorbox popup will become.'),
+      '#description' => t('The Colorbox popup content. You may include HTML. You may enter data from this view as per the "Replacement patterns" below.'),
       '#default_value' => $this->options['popup'],
       '#weight' => -11,
     );
@@ -64,7 +66,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $form['caption'] = array(
       '#type' => 'textfield',
       '#title' => t('Caption'),
-      '#description' => t('Combine tokens from the "Replacement patterns" below and html to create the caption for the Colorbox. Leave empty for no caption.'),
+      '#description' => t('The Colorbox Caption. You may include HTML. You may enter data from this view as per the "Replacement patterns" below.'),
       '#default_value' => $this->options['caption'],
       '#weight' => -10,
     );
@@ -100,19 +102,6 @@ class colorbox_handler_field_colorbox extends views_handler_field {
       '#default_value' => $this->options['width'],
       '#weight' => -6,
     );
-
-
-
-    // Remove the checkboxs and other irrelevant controls.
-    unset($form['alter']['alter_text']);
-    unset($form['alter']['make_link']);
-    unset($form['alter']['text']);
-    unset($form['alter']['path']);
-    unset($form['alter']['alt']);
-    unset($form['alter']['prefix']);
-    unset($form['alter']['suffix']);
-    unset($form['alter']['text']['#dependency']);
-    unset($form['alter']['text']['#process']);
   }
 
   /**
@@ -144,10 +133,24 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $height = $this->options['height'] ? $this->options['height'] : '400px';
     $gallery_id = !empty($this->options['custom_gid']) ? $this->options['custom_gid'] : ($this->options['gid'] ? 'gallery-' . $this->view->name : '');
     $link_text = $tokens["[{$this->options['trigger_field']}]"];
+    $link_options = array(
+      'html' => TRUE,
+      'fragment' => 'colorbox-inline-' . $i,
+      'query' => array(
+        'width' => $width,
+        'height' => $height,
+        'title' => $caption,
+        'inline' => 'true'
+      ),
+      'attributes' => array(
+        'class' => 'colorbox-inline',
+        'rel' => $gallery_id
+      )
+    );
 
     $i++;
 
-    $link_tag = l($link_text, '', array('html' => TRUE, 'fragment' => 'colorbox-inline-' . $i, 'query' => 'width=' . $width . '&height=' . $height . '&title='. $caption . '&inline=true', 'attributes' => array('class' => 'colorbox-inline', 'rel' => $gallery_id)));
+    $link_tag = l($link_text, '', $link_options);
 
     // The outside div is there to hide all of the divs because if the specific Colorbox
     // div is hidden it won't show up as a Colorbox.
