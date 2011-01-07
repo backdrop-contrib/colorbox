@@ -439,7 +439,9 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
  */
 function colorbox_insert_styles() {
   $insert_styles = array();
-  $insert_styles = colorbox_field_formatter_info();
+  foreach (image_styles() as $key => $style) {
+    $insert_styles['colorbox__' . $key] = array('label' => 'Colorbox ' . $style['name']);
+  }
 
   return $insert_styles;
 }
@@ -448,6 +450,6 @@ function colorbox_insert_styles() {
  * Implementation of hook_insert_content().
  */
 function colorbox_insert_content($item, $style, $widget) {
-  list($item['style_name'], $item['module_name']) = explode('__', $style['name'], 2);
+  list($item['module_name'], $item['style_name']) = explode('__', $style['name'], 2);
   return theme('colorbox_insert_image', $item, $widget);
 }
