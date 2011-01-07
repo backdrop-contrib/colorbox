@@ -310,7 +310,7 @@ function colorbox_get_version($colorbox_path = NULL) {
  */
 function colorbox_get_path() {
   $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
-  return variable_get('colorbox_path', COLORBOX_PATH) .'/colorbox/'. $colorbox_file[variable_get('colorbox_compression_type', 'min')];
+  return variable_get('colorbox_path', COLORBOX_PATH) . '/colorbox/' . $colorbox_file[variable_get('colorbox_compression_type', 'min')];
 }
 
 /**
