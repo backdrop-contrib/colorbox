@@ -93,6 +93,11 @@ function colorbox_admin_settings() {
     '#options' => array('user_login' => t('User login'), 'user_login_block' => t('User login block')),
     '#default_value' => variable_get('colorbox_login_form', 'user_login'),
     '#description' => t('Select which form to use for login.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="colorbox_login"]' => array('checked' => TRUE),
+      ),
+    ),
   );
 
   $form['colorbox_extra_settings'] = array(
@@ -115,8 +120,6 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Styles and options'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE
   );
   $colorbox_styles = array(
     'default' => t('Default'),
