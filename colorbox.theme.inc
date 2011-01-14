@@ -94,7 +94,13 @@ function theme_colorbox_image_formatter($variables) {
  * @ingroup themeable
  */
 function theme_colorbox_imagefield($variables) {
-  $image = theme('image_style', $variables['image']);
+  if (!empty($variables['image']['style_name'])) {
+    $image = theme('image_style', $variables['image']);
+  }
+  else {
+    $image = theme('image', $variables['image']);
+  }
+
   $options = array(
     'html' => TRUE,
     'attributes' => array(
@@ -103,9 +109,8 @@ function theme_colorbox_imagefield($variables) {
       'rel' => 'gallery-' . $variables['gid']
     )
   );
-  $output = l($image, $variables['path'], $options);
 
-  return $output;
+  return l($image, $variables['path'], $options);
 }
 
 /**

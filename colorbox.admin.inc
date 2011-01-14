@@ -65,7 +65,7 @@ function colorbox_admin_settings() {
       '#title' => t('Image style'),
       '#empty_option' => t('None (original image)'),
       '#options' => $image_styles,
-      '#default_value' => variable_get('colorbox_image_style', 0),
+      '#default_value' => variable_get('colorbox_image_style', ''),
       '#description' => t('Select which image style to use for viewing images in the colorbox.'),
     );
     $form['colorbox_insert_module']['colorbox_insert_gallery'] = array(
