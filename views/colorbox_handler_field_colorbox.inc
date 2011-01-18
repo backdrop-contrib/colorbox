@@ -115,6 +115,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
 
     // We need to have multiple unique IDs, one for each record.
     static $i = 0;
+    $i++;
 
     // Return nothing if no trigger filed is selected.
     if (empty($this->options['trigger_field'])) {
@@ -147,8 +148,6 @@ class colorbox_handler_field_colorbox extends views_handler_field {
         'rel' => $gallery_id
       )
     );
-
-    $i++;
 
     $link_tag = l($link_text, '', $link_options);
 
