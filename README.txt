@@ -102,6 +102,13 @@ Here is an example where the user register form is opened in an
 <a class="colorbox-load" href="/colorbox/form/user_register?width=500&height=250">Create new account</a>
 
 
+Load inline content in a Colorbox:
+----------------------------------
+Check the "Enable Colorbox inline"  option in Colorbox settings.
+
+This enables custom links that can open inline content in a Colorbox. Add the class "colorbox-inline" to the link and build the url like this "?width=500&height=500&inline=true#id-of-content". Other modules may activate this for easy Colorbox integration.
+
+
 Drush:
 ------
 A Drush command is provides for easy installation of the Colorbox
