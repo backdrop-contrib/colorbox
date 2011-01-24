@@ -1,8 +1,8 @@
 Drupal colorbox module:
 ------------------------
 Maintainers:
-  Joe Wheaton (http://drupal.org/user/298179)
   Fredrik Jonsson (http://drupal.org/user/5546)
+  Joe Wheaton (http://drupal.org/user/298179)
 Requires - Drupal 7
 License - GPL (see LICENSE)
 
@@ -52,9 +52,9 @@ Installation:
 1. Download and unpack the Colorbox plugin in "sites/all/libraries".
    Link: http://colorpowered.com/colorbox/colorbox.zip
    Drush users can use the command "drush colorbox-plugin".
-2. Place the Colorbox module directory in your modules folder (this will
-   usually be "sites/all/modules/").
-3. Go to "Administer" -> "Site building" -> "Modules" and enable the module.
+2. Download and unpack the Colorbox module directory in your modules folder
+   (this will usually be "sites/all/modules/").
+3. Go to "Administer" -> "Modules" and enable the module.
 
 
 Configuration:
