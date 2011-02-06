@@ -132,7 +132,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
     case 0:
     case 1:
     case 2:
-      $variables['gallery_id'] = 'insert-all';
+      $variables['gallery_id'] = 'all';
       break;
     case 3:
       $variables['gallery_id'] = 'insert-' . $variables['item']['fid'];
