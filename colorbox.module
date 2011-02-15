@@ -344,17 +344,13 @@ function colorbox_link_alter(&$links, $node) {
  * Implementation of hook_field_formatter_info().
  */
 function colorbox_field_formatter_info() {
-  if (module_exists('image')) {
-    $formatters = array(
-      'colorbox' => array(
-        'label' => t('Colorbox'),
-        'field types' => array('image'),
-        'settings' => array('colorbox_node_style' => '', 'colorbox_image_style' => ''),
-      ),
-    );
-  }
-
-  return $formatters;
+  return array(
+    'colorbox' => array(
+      'label' => t('Colorbox'),
+      'field types' => array('image'),
+      'settings' => array('colorbox_node_style' => '', 'colorbox_image_style' => ''),
+    ),
+  );
 }
 
 /**
