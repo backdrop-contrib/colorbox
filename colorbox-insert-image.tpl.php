@@ -22,4 +22,4 @@
  * - __description__: A description of the image, sometimes used as a caption.
  */
 ?>
-<a href="<?php print $link_path; ?>" title="__title__" class="colorbox colorbox-insert-image" rel="gallery-<?php print $gallery_id; ?>"><img src="<?php print $image_path; ?>" alt="__alt__" title="__title__" class="imagecache imagecache-<?php print $style_name; ?>" /></a>
+<a href="<?php print $link_path; ?>" title="__title__" class="colorbox colorbox-insert-image" rel="<?php print $gallery_id; ?>"><img src="<?php print $image_path; ?>" alt="__alt__" title="__title__" class="imagecache imagecache-<?php print $style_name; ?>" /></a>
