@@ -284,7 +284,7 @@ function _colorbox_doheader() {
  * This can be used by other modules' hook_requirements() to ensure that the
  * proper version of Colorbox plugin is installed.
  *
- * @see version_compare
+ * @see version_compare()
  */
 function colorbox_get_version($colorbox_path = NULL) {
   $version = 0;
@@ -329,7 +329,7 @@ function colorbox_form_alter(&$form, $form_state, $form_id) {
  * Implements hook_link_alter().
  */
 function colorbox_link_alter(&$links, $node) {
-  if ($node->type == 'image' && variable_get('colorbox_auto_image_nodes', 0)) {
+  if ($node->type == 'image' && is_array($node->images) && variable_get('colorbox_auto_image_nodes', 0)) {
     // Add a colorbox class to the image link sizes on the image node.
     foreach ($node->images as $size => $path) {
       $links['image_size_' . $size]['attributes']['class'] = "image image-{$size} colorbox";
