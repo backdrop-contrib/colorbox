@@ -50,14 +50,14 @@ function colorbox_theme() {
 }
 
 /**
- * Implementation of hook_init().
+ * Implements hook_init().
  */
 function colorbox_init() {
   _colorbox_doheader();
 }
 
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function colorbox_views_api() {
   return array(
@@ -67,7 +67,7 @@ function colorbox_views_api() {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function colorbox_menu() {
   $items = array();
@@ -313,7 +313,7 @@ function colorbox_get_path() {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implements hook_form_alter().
  * Reformat the login form.
  */
 function colorbox_form_alter(&$form, $form_state, $form_id) {
@@ -326,7 +326,7 @@ function colorbox_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * Implementation of hook_link_alter().
+ * Implements hook_link_alter().
  */
 function colorbox_link_alter(&$links, $node) {
   if ($node->type == 'image' && variable_get('colorbox_auto_image_nodes', 0)) {
@@ -340,7 +340,7 @@ function colorbox_link_alter(&$links, $node) {
 }
 
 /**
- * Implementation of hook_field_formatter_info().
+ * Implements hook_field_formatter_info().
  */
 function colorbox_field_formatter_info() {
   return array(
@@ -353,7 +353,7 @@ function colorbox_field_formatter_info() {
 }
 
 /**
- * Implementation of hook_field_formatter_settings_form().
+ * Implements hook_field_formatter_settings_form().
  */
 function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
@@ -379,7 +379,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
 }
 
 /**
- * Implementation of hook_field_formatter_settings_summary().
+ * Implements hook_field_formatter_settings_summary().
  */
 function colorbox_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
@@ -410,7 +410,7 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
 }
 
 /**
- * Implementation of hook_field_formatter_view().
+ * Implements hook_field_formatter_view().
  */
 function colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
@@ -430,7 +430,7 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
 }
 
 /**
- * Implementation of hook_insert_styles().
+ * Implements hook_insert_styles().
  */
 function colorbox_insert_styles() {
   $insert_styles = array();
@@ -442,7 +442,7 @@ function colorbox_insert_styles() {
 }
 
 /**
- * Implementation of hook_insert_content().
+ * Implements hook_insert_content().
  */
 function colorbox_insert_content($item, $style, $widget) {
   list($item['module_name'], $item['style_name']) = explode('__', $style['name'], 2);
