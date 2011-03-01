@@ -316,7 +316,7 @@ function colorbox_get_path() {
  * Implements hook_form_alter().
  * Reformat the login form.
  */
-function colorbox_form_alter(&$form, $form_state, $form_id) {
+function colorbox_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == variable_get('colorbox_login_form', '') && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
     $destination = isset($_GET['destination']) ? urlencode($_GET['destination']) : 'user';
     $form['#action'] = url('user/login', array('query' => array('destination' => $destination)));
