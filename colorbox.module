@@ -446,5 +446,5 @@ function colorbox_insert_styles() {
  */
 function colorbox_insert_content($item, $style, $widget) {
   list($item['module_name'], $item['style_name']) = explode('__', $style['name'], 2);
-  return theme('colorbox_insert_image', $item, $widget);
+  return theme('colorbox_insert_image', array('item' => $item, 'widget' => $widget));
 }

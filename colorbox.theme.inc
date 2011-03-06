@@ -116,15 +116,18 @@ function theme_colorbox_imagefield($variables) {
  * Preprocess variables for the colorbox-insert-image.tpl.php file.
  */
 function template_preprocess_colorbox_insert_image(&$variables) {
-  $variables['file'] = file_load($variables['fid']);
-  $variables['image_path'] = image_style_url($variables['style_name'], $variables['file']->uri);
+  $file = file_load($variables['item']['fid']);
+
+  $variables['image_path'] = image_style_url($variables['item']['style_name'], $file->uri);
 
   if ($style_name = variable_get('colorbox_image_style', '')) {
-    $variables['link_path'] = image_style_url($style_name, $variables['file']->uri);
+    $variables['link_path'] = image_style_url($style_name, $file->uri);
   }
   else {
-    $variables['link_path'] = file_create_url($variables['file']->uri);
+    $variables['link_path'] = file_create_url($file->uri);
   }
+
+  $variables['class'] = $variables['widget']['settings']['insert_class'];
 
   $variables['gallery_id'] = '';
   switch (variable_get('colorbox_insert_gallery', 0)) {
