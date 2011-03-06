@@ -97,12 +97,12 @@ The following form_id can be used:
 
 The links to open a form needs the class "colorbox-load". The URL should look like this.
 
-"/colorbox/form/[form_id]?width=[with_in_pixel]&height=[height_in_pixel]".
+"/colorbox/form/[form_id]?destination=[path_to_send_user_to_after_submit]&width=[with_in_pixel]&height=[height_in_pixel]".
 
 Here is an example where the user register form is opened in an
 500 by 250 pixel Colorbox.
 
-<a class="colorbox-load" href="/colorbox/form/user_register?width=500&height=250">Create new account</a>
+<a class="colorbox-load" href="/colorbox/form/user_register_form?destination=user&width=500&height=250">Create new account</a>
 
 
 Load inline content in a Colorbox:
