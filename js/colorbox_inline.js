@@ -9,8 +9,8 @@ Drupal.behaviors.initColorboxInline = {
       else {
         var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
       }
-      if (!results) { return 0; }
-      return results[1] || 0;
+      if (!results) { return ''; }
+      return results[1] || '';
     };
     $('a, area, input', context).filter('.colorbox-inline').once('init-colorbox-inline-processed').colorbox({
       transition:settings.colorbox.transition,

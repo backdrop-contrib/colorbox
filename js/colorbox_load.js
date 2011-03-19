@@ -4,8 +4,8 @@ Drupal.behaviors.initColorboxLoad = {
   attach: function (context, settings) {
     $.urlParam = function(name, url){
       var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
-      if (!results) { return 0; }
-      return results[1] || 0;
+      if (!results) { return ''; }
+      return results[1] || '';
     };
     $('a, area, input', context).filter('.colorbox-load').once('init-colorbox-load-processed').colorbox({
       transition:settings.colorbox.transition,
