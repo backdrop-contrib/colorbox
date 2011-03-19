@@ -20,7 +20,7 @@ define('COLORBOX_DOWNLOAD_URI', 'http://colorpowered.com/colorbox/colorbox.zip')
  * Notice how this structure closely resembles how
  * you define menu hooks.
  *
- * @See drush_parse_command() for a list of recognized keys.
+ * See `drush topic docs-commands` for a list of recognized keys.
  *
  * @return
  *   An associative array describing your command(s).
@@ -32,9 +32,11 @@ function colorbox_drush_command() {
   $items['colorbox-plugin'] = array(
     'callback' => 'drush_colorbox_plugin',
     'description' => dt("Downloads the Colorbox plugin."),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap.
     'arguments' => array(
       'path' => dt('Optional. A path where to install the Colorbox plugin. If omitted Drush will use the default location.'),
     ),
+    'aliases' => array('colorboxplugin'),
   );
 
   return $items;
