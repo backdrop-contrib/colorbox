@@ -2,6 +2,9 @@
 
 Drupal.behaviors.initColorboxInline = {
   attach: function (context, settings) {
+    if (!$.isFunction($.colorbox)) {
+      return;
+    }
     $.urlParam = function(name, url){
       if (name == 'fragment') {
         var results = new RegExp('(#[^&#]*)').exec(url);
