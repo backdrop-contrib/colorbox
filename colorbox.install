@@ -13,21 +13,22 @@ function colorbox_requirements($phase) {
 
   if ($phase == 'runtime') {
     $t = get_t();
-    $status = _colorbox_status();
+    $library_path = colorbox_get_path();
+    $colorbox_version = colorbox_get_version();
 
-    if (!$status['colorbox_plugin']) {
+    if (version_compare($colorbox_version, COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
       $requirements['colorbox_plugin'] = array(
         'title' => $t('Colorbox plugin'),
-        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
-        'severity' => REQUIREMENT_ERROR,
-        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => 'sites/all/libraries')),
+        'severity' => REQUIREMENT_OK,
+        'value' => $colorbox_version,
       );
     }
     else {
       $requirements['colorbox_plugin'] = array(
         'title' => $t('Colorbox plugin'),
-        'severity' => REQUIREMENT_OK,
-        'value' => colorbox_get_version(),
+        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)),
       );
     }
   }

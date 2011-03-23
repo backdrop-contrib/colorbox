@@ -134,25 +134,6 @@ function _colorbox_form_page_access($form_id) {
 }
 
 /**
- * Check Colorbox dependencies, Colorbox plugin.
- *
- * @return
- *   array with TRUE/FALSE for each dependency.
- *
- * @see colorbox_requirements()
- */
-function _colorbox_status() {
-  $status = array();
-  $status['colorbox_plugin'] = FALSE;
-
-  if (version_compare(colorbox_get_version(), COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
-    $status['colorbox_plugin'] = TRUE;
-  }
-
-  return $status;
-}
-
-/**
  * Check if Colorbox should be active for the current URL.
  *
  * @return
@@ -244,7 +225,7 @@ function _colorbox_doheader() {
   }
 
   // Add and initialise the Colorbox plugin.
-  drupal_add_js(colorbox_get_path());
+  drupal_add_js(colorbox_get_js());
   drupal_add_js($path . '/js/colorbox.js');
 
   // Add JS and CSS based on selected style.
@@ -286,30 +267,81 @@ function _colorbox_doheader() {
  *
  * @see version_compare()
  */
-function colorbox_get_version($colorbox_path = NULL) {
+function colorbox_get_version($colorbox_js = NULL) {
   $version = 0;
   $pattern = '#ColorBox v([0-9\.a-z]+)#';
 
   // No file is passed in so use the default location.
-  if (is_null($colorbox_path)) {
-    $colorbox_path = colorbox_get_path();
+  if (is_null($colorbox_js)) {
+    $colorbox_js = colorbox_get_js();
   }
 
-  // Return the version of Colorbox plugin.
-  $colorbox_plugin = file_get_contents($colorbox_path, NULL, NULL, 0, 32);
-  if (preg_match($pattern, $colorbox_plugin, $matches)) {
-    $version = $matches[1];
+  // Return the version of Colorbox plugin, it it exists.
+  if (file_exists($colorbox_js)) {
+    $colorbox_plugin = file_get_contents($colorbox_js, NULL, NULL, 0, 32);
+    if (preg_match($pattern, $colorbox_plugin, $matches)) {
+      $version = $matches[1];
+    }
   }
 
   return $version;
 }
 
 /**
+ * Return the JS filename for Colorbox plugin.
+ *
+ * @return
+ *   Boolean indicating if the JS is located.
+ */
+function colorbox_get_js() {
+  $library_path = colorbox_get_path();
+
+  if (file_exists($library_path .'/colorbox/jquery.colorbox.js') && file_exists($library_path .'/colorbox/jquery.colorbox-min.js')) {
+    $colorbox_js_map = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
+    $colorbox_js = $colorbox_js_map[variable_get('colorbox_compression_type', 'min')];
+    return $library_path .'/colorbox/'. $colorbox_js;
+  }
+  else {
+    drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)), 'error', FALSE);
+    return FALSE;
+  }
+}
+
+/**
  * Return the path to the Colorbox plugin.
  */
 function colorbox_get_path() {
-  $colorbox_file = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
-  return variable_get('colorbox_path', COLORBOX_PATH) . '/colorbox/' . $colorbox_file[variable_get('colorbox_compression_type', 'min')];
+  static $library_path = NULL;
+
+  // Try to locate the library path in any possible setup.
+  if ($library_path == NULL) {
+    // First check the default location.
+    $path = variable_get('colorbox_path', COLORBOX_PATH);
+    if (is_dir($path .'/colorbox')) {
+      $library_path = $path;
+    }
+    // Ask the libraries module as a fallback.
+    elseif ($library_path == NULL && module_exists('libraries')) {
+      if ($path = libraries_get_path('colorbox')) {
+        $library_path = $path;
+        variable_set('colorbox_path', $library_path);
+      }
+    }
+    // HACK: If libraries api module is not installed but available, load it.
+    elseif ($library_path == NULL && file_exists(dirname(__FILE__) . '/../libraries/libraries.module')) {
+      require_once(dirname(__FILE__) . '/../libraries/libraries.module');
+      if ($path = libraries_get_path('colorbox')) {
+        $library_path = $path;
+        variable_set('colorbox_path', $library_path);
+      }
+    }
+    // If no path is found suggest the default one.
+    elseif ($library_path == NULL) {
+      $library_path = COLORBOX_PATH;
+    }
+  }
+
+  return $library_path;
 }
 
 /**
