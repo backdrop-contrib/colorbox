@@ -349,11 +349,44 @@ function colorbox_get_path() {
  * Reformat the login form.
  */
 function colorbox_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == variable_get('colorbox_login_form', '') && arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
-    $destination = isset($_GET['destination']) ? urlencode($_GET['destination']) : 'user';
-    $form['#action'] = url('user/login', array('query' => array('destination' => $destination)));
-    $form['name']['#size'] = 25;
-    $form['pass']['#size'] = 25;
+  switch ($form_id) {
+    case 'user_login':
+      if (arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
+        $form['name']['#size'] = 25;
+        $form['pass']['#size'] = 25;
+
+        // Add links as needed.
+        if (variable_get('colorbox_login_links', 0)) {
+          $items = array();
+          // Add standard links.
+          if (variable_get('colorbox_login_links', 0) == 1) {
+            if (variable_get('user_register', 1)) {
+              $items[] = l(t('Create new account'), 'user/register', array('attributes' => array('title' => t('Create a new user account.'))));
+            }
+            $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+          }
+          // Add links that opens in a Colorbox.
+          if (variable_get('colorbox_login_links', 0) == 2) {
+            if (variable_get('user_register', 1)) {
+              $items[] = l(t('Create new account'), 'colorbox/form/user_register', array('query' => 'width=300&height=auto', 'attributes' => array('title' => t('Create a new user account.'), 'class' => 'colorbox-load')));
+            }
+            $items[] = l(t('Request new password'), 'colorbox/form/user_pass', array('query' => 'width=300&height=150', 'attributes' => array('title' => t('Request new password via e-mail.'), 'class' => 'colorbox-load')));
+          }
+          $form['links'] = array('#value' => theme('item_list', $items));
+        }
+      }
+      break;
+    case 'user_register':
+      if (arg(0) == 'colorbox' && arg(1) == 'form') {
+        $form['name']['#size'] = 30;
+        $form['mail']['#size'] = 30;
+      }
+      break;
+    case 'user_pass':
+      if (arg(0) == 'colorbox' && arg(1) == 'form') {
+        $form['name']['#size'] = 30;
+      }
+      break;
   }
 }
 
