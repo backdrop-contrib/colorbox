@@ -89,7 +89,7 @@ Load a selection of forms in a Colorbox:
 Check the "Enable Colorbox load" option in Colorbox settings.
 
 The following form_id can be used:
-* contact_mail_page
+* contact_site_form
 * user_login
 * user_login_block
 * user_register

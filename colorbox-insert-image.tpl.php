@@ -9,7 +9,6 @@
  * - $image_path: The URL to the image.
  * - $link_path: The URL to the image that Colorbox should open.
  * - $class: A set of classes assigned to this image (if any).
- * - $style_name: The Image style being used.
  * - $gallery_id: The ID of the Colorbox gallery.
  *
  * Note that ALT and Title fields should not be filled in here, instead they
