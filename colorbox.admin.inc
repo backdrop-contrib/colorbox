@@ -347,7 +347,7 @@ function colorbox_admin_settings() {
  */
 function _colorbox_admin_settings_check_plugin_path($form_element) {
   $library_path = $form_element['#value'];
-  if (!is_dir($library_path) || !(file_exists($library_path .'/colorbox/jquery.colorbox.js') && file_exists($library_path .'/colorbox/jquery.colorbox-min.js'))) {
+  if (!is_dir($library_path) || !(file_exists($library_path . '/colorbox/jquery.colorbox.js') && file_exists($library_path . '/colorbox/jquery.colorbox-min.js'))) {
     form_set_error($form_element['#parents'][0], t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)));
   }
 
