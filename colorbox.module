@@ -53,7 +53,11 @@ function colorbox_theme() {
  * Implements hook_init().
  */
 function colorbox_init() {
-  _colorbox_doheader();
+  // Do not load colorbox during the Drupal installation process, e.g. if part
+  // of installation profiles.
+  if (!drupal_installation_attempted()) {
+    _colorbox_doheader();
+  }
 }
 
 /**
