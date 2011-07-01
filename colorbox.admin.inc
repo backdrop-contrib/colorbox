@@ -194,7 +194,7 @@ function colorbox_admin_settings() {
     '#type' => 'select',
     '#title' => t('Opacity'),
     '#options' => drupal_map_assoc(array('0', '0.10', '0.15', '0.20', '0.25', '0.30', '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65', '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1')),
-    '#default_value' => variable_get('colorbox_opacity', '0.90'),
+    '#default_value' => variable_get('colorbox_opacity', '0.85'),
     '#description' => t('The overlay opacity level. Range: 0 to 1.'),
   );
   $form['colorbox_custom_settings']['colorbox_text_current'] = array(
