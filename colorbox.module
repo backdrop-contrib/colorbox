@@ -297,10 +297,10 @@ function colorbox_get_js() {
     $colorbox_js = $colorbox_js_map[variable_get('colorbox_compression_type', 'min')];
     return $library_path . '/colorbox/' . $colorbox_js;
   }
-  else {
-    drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)), 'error', FALSE);
-    return FALSE;
-  }
+//   else {
+//     drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)), 'error', FALSE);
+//     return FALSE;
+//   }
 }
 
 /**
