@@ -116,7 +116,17 @@ function theme_colorbox_imagefield($variables) {
  * Preprocess variables for the colorbox-insert-image.tpl.php file.
  */
 function template_preprocess_colorbox_insert_image(&$variables) {
+  $class = array();
   $file = file_load($variables['item']['fid']);
+
+  if (!empty($variables['widget']['settings']['insert_class'])) {
+    $class = explode(' ', $variables['widget']['settings']['insert_class']);
+  }
+  $class[] = 'image-' . $variables['item']['style_name'];
+
+  foreach ($class as $key => $value) {
+    $class[$key] = drupal_html_class($value);
+  }
 
   $variables['image_path'] = image_style_url($variables['item']['style_name'], $file->uri);
 
@@ -127,7 +137,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
     $variables['link_path'] = file_create_url($file->uri);
   }
 
-  $variables['class'] = $variables['widget']['settings']['insert_class'];
+  $variables['class'] = implode(' ', $class);
 
   $variables['gallery_id'] = '';
   switch (variable_get('colorbox_insert_gallery', 0)) {
