@@ -29,6 +29,11 @@ function theme_colorbox_image_formatter($variables) {
     'style_name' => $variables['colorbox_node_style'],
   );
 
+  if (isset($item['width']) && isset($item['height'])) {
+    $image['width'] = $item['width'];
+    $image['height'] = $item['height'];
+  }
+
   // If the title is empty use alt or the node title in that order.
   if (empty($image['title'])) {
     if (!empty($image['alt'])) {
