@@ -143,6 +143,12 @@ function _colorbox_form_page_access($form_id) {
  *   TRUE if Colorbox should be active for the current page.
  */
 function _colorbox_active() {
+  // Make it possible deactivate Colorbox with
+  // parameter ?colorbox=no in the url.
+  if (isset($_GET['colorbox']) && $_GET['colorbox'] == 'no') {
+    return FALSE;
+  }
+
   // Code from the block_list funtion in block.module.
   $path = drupal_get_path_alias($_GET['q']);
   $colorbox_pages = variable_get('colorbox_pages', "admin*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit");
