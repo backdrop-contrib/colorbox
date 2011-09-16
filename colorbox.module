@@ -444,6 +444,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#default_value' => $settings['colorbox_node_style'],
     '#empty_option' => t('None (original image)'),
     '#options' => $image_styles_hide,
+    '#description' => t('Image style to use in the node.'),
   );
   $element['colorbox_image_style'] = array(
     '#title' => t('Colorbox image style'),
@@ -451,6 +452,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#default_value' => $settings['colorbox_image_style'],
     '#empty_option' => t('None (original image)'),
     '#options' => $image_styles,
+    '#description' => t('Image style to use in the Colorbox.'),
   );
 
   $gallery = array(
@@ -466,7 +468,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#type' => 'select',
     '#default_value' => $settings['colorbox_gallery'],
     '#options' => $gallery,
-    '#description' => t('Should the gallery be disabled, images within a single field, a single post (default) or all images on the page. The "Custom" option will display a field where a custom value may be entered.'),
+    '#description' => t('How Colorbox should group the image galleries.'),
   );
   $element['colorbox_gallery_custom'] = array(
     '#title' => t('Custom gallery'),
@@ -498,7 +500,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#type' => 'select',
     '#default_value' => $settings['colorbox_caption'],
     '#options' => $caption,
-    '#description' => t('With "Automatic" (default) Colorbox will use the first none empty value of title, the alt text or the node title, in that order as the Caption.'),
+    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the node title.'),
   );
 
   return $element;
@@ -543,7 +545,9 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
     'custom' => t('Custom'),
     'none' => t('No gallery'),
   );
-  $summary[] = t('Colorbox gallery type: @type', array('@type' => $gallery[$settings['colorbox_gallery']])) . ($settings['colorbox_gallery'] == 'custom' ? ' (' . $settings['colorbox_gallery_custom'] . ')' : '');
+  if (isset($settings['colorbox_gallery'])) {
+    $summary[] = t('Colorbox gallery type: @type', array('@type' => $gallery[$settings['colorbox_gallery']])) . ($settings['colorbox_gallery'] == 'custom' ? ' (' . $settings['colorbox_gallery_custom'] . ')' : '');
+  }
 
   $caption = array(
     'auto' =>  t('Automatic'),
@@ -552,7 +556,9 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
     'node_title' => t('Node title'),
     'none' => t('None'),
   );
-  $summary[] = t('Colorbox caption: @type', array('@type' => $caption[$settings['colorbox_caption']]));
+  if (isset($settings['colorbox_caption'])) {
+    $summary[] = t('Colorbox caption: @type', array('@type' => $caption[$settings['colorbox_caption']]));
+  }
 
   return implode('<br />', $summary);
 }
