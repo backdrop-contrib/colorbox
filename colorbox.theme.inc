@@ -60,6 +60,14 @@ function theme_colorbox_image_formatter($variables) {
     case 'node_title':
       $caption = $node->title;
       break;
+    case 'custom':
+      if (module_exists('token')) {
+        $caption = token_replace($settings['colorbox_caption_custom'], array('node' => $node));
+      }
+      else {
+        $caption = $settings['colorbox_caption_custom'];
+      }
+      break;
     default:
       $caption = '';
   }
