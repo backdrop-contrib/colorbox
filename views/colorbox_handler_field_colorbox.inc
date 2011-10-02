@@ -129,8 +129,8 @@ class colorbox_handler_field_colorbox extends views_handler_field {
     $popup = strtr($popup, $tokens);
     $caption = strtr($caption, $tokens);
 
-    $width = $this->options['width'] ? $this->options['width'] : '600px';
-    $height = $this->options['height'] ? $this->options['height'] : '400px';
+    $width = $this->options['width'] ? $this->options['width'] : '';
+    $height = $this->options['height'] ? $this->options['height'] : '';
     $gallery_id = !empty($this->options['custom_gid']) ? $this->options['custom_gid'] : ($this->options['gid'] ? 'gallery-' . $this->view->name : '');
     $link_text = $tokens["[{$this->options['trigger_field']}]"];
     $link_options = array(
@@ -147,6 +147,8 @@ class colorbox_handler_field_colorbox extends views_handler_field {
         'rel' => $gallery_id
       )
     );
+    // Remove any parameters that aren't set.
+    $link_options['query'] = array_filter($link_options['query']);
 
     $link_tag = l($link_text, '', $link_options);
 
