@@ -194,6 +194,7 @@ function _colorbox_doheader() {
       'initialWidth' => variable_get('colorbox_initialwidth', '300'),
       'initialHeight' => variable_get('colorbox_initialheight', '100'),
       'fixed' => variable_get('colorbox_fixed', 1) ? TRUE : FALSE,
+      'scrolling' => variable_get('colorbox_scrolling', 1) ? TRUE : FALSE,
     );
   }
   else {
