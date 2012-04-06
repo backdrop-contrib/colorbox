@@ -34,7 +34,7 @@ class colorbox_handler_field_colorbox extends views_handler_field {
 
     // Get a list of the available fields and arguments for token replacement.
     $options = array();
-    $fields = array('trigger_field' => t('<None>'));
+    $fields = array('trigger_field' => t('- None -'));
     foreach ($this->view->display_handler->get_handlers('field') as $field => $handler) {
       $options[t('Fields')]["[$field]"] = $handler->ui_name();
       // We only use fields up to (and including) this one.
