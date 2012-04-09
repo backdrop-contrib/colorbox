@@ -1,13 +1,6 @@
 name = Colorbox
-description = A light-weight, customizable lightbox plugin for jQuery 1.3 through 1.6.
+description = A light-weight, customizable lightbox plugin for jQuery 1.4.3+.
 core = 7.x
 configure = admin/config/media/colorbox
 
-files[] = colorbox.admin.inc
-files[] = colorbox.install
-files[] = colorbox.module
-files[] = colorbox.pages.inc
-files[] = colorbox.theme.inc
-files[] = drush/colorbox.drush.inc
-files[] = views/colorbox.views.inc
 files[] = views/colorbox_handler_field_colorbox.inc
