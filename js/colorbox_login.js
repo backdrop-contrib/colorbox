@@ -22,7 +22,7 @@ Drupal.behaviors.initColorboxLogin = {
       initialWidth:200,
       initialHeight:200,
       onComplete:function(){
-        $('#edit-name').focus();
+        $('#cbox-edit-name').focus();
       }
     });
   }

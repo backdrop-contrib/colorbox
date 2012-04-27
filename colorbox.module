@@ -359,7 +359,9 @@ function colorbox_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login':
       if (arg(0) == 'user' && arg(1) == 'login' && arg(2) == 'colorbox') {
         $form['name']['#size'] = 25;
+        $form['name']['#id'] = 'cbox-edit-name';
         $form['pass']['#size'] = 25;
+        $form['pass']['#id'] = 'cbox-edit-pass';
 
         // Add links as needed.
         if (variable_get('colorbox_login_links', 0)) {
