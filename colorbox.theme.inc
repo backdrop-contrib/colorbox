@@ -19,7 +19,8 @@
  */
 function theme_colorbox_image_formatter($variables) {
   $item = $variables['item'];
-  $node = $variables['node'];
+  $entity_type = $variables['entity_type'];
+  $entity = $variables['entity'];
   $field = $variables['field'];
   $settings = $variables['display_settings'];
 
@@ -44,8 +45,8 @@ function theme_colorbox_image_formatter($variables) {
       elseif (!empty($image['alt'])) {
         $caption = $image['alt'];
       }
-      elseif (!empty($node->title)) {
-        $caption = $node->title;
+      elseif (!empty($entity->title)) {
+        $caption = $entity->title;
       }
       else {
         $caption = '';
@@ -58,10 +59,10 @@ function theme_colorbox_image_formatter($variables) {
       $caption = $image['alt'];
       break;
     case 'node_title':
-      $caption = $node->title;
+      $caption = $entity->title;
       break;
     case 'custom':
-      $caption = token_replace($settings['colorbox_caption_custom'], array('node' => $node));
+      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity));
       break;
     default:
       $caption = '';
@@ -75,7 +76,7 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Build the gallery id.
-  $nid = !empty($node->nid) ? $node->nid : 'nid';
+  $nid = !empty($entity->nid) ? $entity->nid : 'nid';
   switch ($settings['colorbox_gallery']) {
     case 'post':
       $gallery_id = 'gallery-' . $nid;

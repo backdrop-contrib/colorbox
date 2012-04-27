@@ -39,7 +39,9 @@ function colorbox_theme() {
     'colorbox_image_formatter' => array(
       'variables' => array(
         'item' => NULL,
-        'node' => NULL,
+        'entity_type' => NULL,
+        'entity' => NULL,
+        'node' => NULL,  // Left for legacy support.
         'field' => array(),
         'display_settings' => array(),
       ),
@@ -614,7 +616,9 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
     $element[$delta] = array(
       '#theme' => 'colorbox_image_formatter',
       '#item' => $item,
-      '#node' => $entity,
+      '#entity_type' => $entity_type,
+      '#entity' => $entity,
+      '#node' => $entity, // Left for legacy support.
       '#field' => $field,
       '#display_settings' => $display['settings'],
     );
