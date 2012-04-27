@@ -498,7 +498,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     'auto' =>  t('Automatic'),
     'title' => t('Title text'),
     'alt' => t('Alt text'),
-    'node_title' => t('Node title'),
+    'node_title' => t('Entity title'),
     'custom' => t('Custom (with tokens)'),
     'none' => t('None'),
   );
@@ -524,7 +524,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
       '#type' => 'fieldset',
       '#title' => t('Replacement patterns'),
       '#theme' => 'token_tree',
-      '#token_types' => array('node'),
+      '#token_types' => array($instance['entity_type']),
       '#states' => array(
         'visible' => array(
           ':input[name$="[settings_edit_form][settings][colorbox_caption]"]' => array('value' => 'custom'),
@@ -595,7 +595,7 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
     'auto' =>  t('Automatic'),
     'title' => t('Title text'),
     'alt' => t('Alt text'),
-    'node_title' => t('Node title'),
+    'node_title' => t('Entity title'),
     'custom' => t('Custom (with tokens)'),
     'none' => t('None'),
   );

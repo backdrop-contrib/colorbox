@@ -36,6 +36,8 @@ function theme_colorbox_image_formatter($variables) {
     $image['height'] = $item['height'];
   }
 
+  $entity_title = entity_label($entity_type, $entity);
+
   switch ($settings['colorbox_caption']) {
      case 'auto':
       // If the title is empty use alt or the node title in that order.
@@ -45,8 +47,8 @@ function theme_colorbox_image_formatter($variables) {
       elseif (!empty($image['alt'])) {
         $caption = $image['alt'];
       }
-      elseif (!empty($entity->title)) {
-        $caption = $entity->title;
+      elseif (!empty($entity_title)) {
+        $caption = $entity_title;
       }
       else {
         $caption = '';
@@ -59,7 +61,7 @@ function theme_colorbox_image_formatter($variables) {
       $caption = $image['alt'];
       break;
     case 'node_title':
-      $caption = $entity->title;
+      $caption = $entity_title;
       break;
     case 'custom':
       $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity));
@@ -76,16 +78,17 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Build the gallery id.
-  $nid = !empty($entity->nid) ? $entity->nid : 'nid';
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $entity_id = !empty($id) ? $entity_type . '-' . $id : 'entity-id';
   switch ($settings['colorbox_gallery']) {
     case 'post':
-      $gallery_id = 'gallery-' . $nid;
+      $gallery_id = 'gallery-' . $entity_id;
       break;
     case 'page':
       $gallery_id = 'gallery-all';
       break;
     case 'field_post':
-      $gallery_id = 'gallery-' . $nid . '-' . $field['field_name'];
+      $gallery_id = 'gallery-' . $entity_id . '-' . $field['field_name'];
       break;
     case 'field_page':
       $gallery_id = 'gallery-' . $field['field_name'];
