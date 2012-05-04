@@ -40,7 +40,7 @@ function theme_colorbox_image_formatter($variables) {
 
   switch ($settings['colorbox_caption']) {
      case 'auto':
-      // If the title is empty use alt or the node title in that order.
+      // If the title is empty use alt or the entity title in that order.
       if (!empty($image['title'])) {
         $caption = $image['title'];
       }

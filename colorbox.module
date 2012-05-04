@@ -445,12 +445,12 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
   $image_styles_hide = $image_styles;
   $image_styles_hide['hide'] = t('Hide (do not display image)');
   $element['colorbox_node_style'] = array(
-    '#title' => t('Node image style'),
+    '#title' => t('Content image style'),
     '#type' => 'select',
     '#default_value' => $settings['colorbox_node_style'],
     '#empty_option' => t('None (original image)'),
     '#options' => $image_styles_hide,
-    '#description' => t('Image style to use in the node.'),
+    '#description' => t('Image style to use in the content.'),
   );
   $element['colorbox_image_style'] = array(
     '#title' => t('Colorbox image style'),
@@ -507,7 +507,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#type' => 'select',
     '#default_value' => $settings['colorbox_caption'],
     '#options' => $caption,
-    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the node title.'),
+    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the entity title.'),
   );
   $element['colorbox_caption_custom'] = array(
     '#title' => t('Custom caption'),
@@ -563,13 +563,13 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
   // Styles could be lost because of enabled/disabled modules that defines
   // their styles in code.
   if (isset($image_styles[$settings['colorbox_node_style']])) {
-    $summary[] = t('Node image style: @style', array('@style' => $image_styles[$settings['colorbox_node_style']]));
+    $summary[] = t('Content image style: @style', array('@style' => $image_styles[$settings['colorbox_node_style']]));
   }
   else if ($settings['colorbox_node_style'] == 'hide') {
-    $summary[] = t('Node image style: Hide');
+    $summary[] = t('Content image style: Hide');
   }
   else {
-    $summary[] = t('Node image style: Original image');
+    $summary[] = t('Content image style: Original image');
   }
 
   if (isset($image_styles[$settings['colorbox_image_style']])) {
