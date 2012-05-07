@@ -47,6 +47,9 @@
   display: block;
   border: 0;
 }
+#colorbox, #cboxContent, #cboxLoadedContent {
+  box-sizing:content-box;
+}
 
 /**
  * Colorbox module Stockholm syndrome style:
