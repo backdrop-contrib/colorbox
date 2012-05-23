@@ -67,6 +67,7 @@ function theme_colorbox_image_formatter($variables) {
       $caption = token_replace($settings['colorbox_caption_custom'], array(
         $entity_type => $entity,
         'file' => (object) $item,
+        'clear' => TRUE,
       ));
       break;
     default:
