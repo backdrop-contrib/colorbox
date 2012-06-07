@@ -49,7 +49,7 @@
   border: 0;
 }
 #colorbox, #cboxContent, #cboxLoadedContent {
-  box-sizing:content-box;
+  box-sizing: content-box;
 }
 
 /**
