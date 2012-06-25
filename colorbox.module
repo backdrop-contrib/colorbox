@@ -222,16 +222,6 @@ function _colorbox_doheader() {
 
   drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
-  if (module_exists('image') && variable_get('colorbox_auto_image_nodes', 0)) {
-    $image_derivative = variable_get('colorbox_image_derivative', 'preview');
-    // If the image derivative is set to IMAGE_ORIGINAL check if the
-    // user has access before activating Colorbox.
-    if (!($image_derivative == IMAGE_ORIGINAL && !user_access('view original images'))) {
-      drupal_add_js(array('colorbox' => array('image_derivative' => $image_derivative)), array('type' => 'setting', 'scope' => JS_DEFAULT));
-      drupal_add_js($path . '/js/colorbox_image_module.js');
-    }
-  }
-
   // Add and initialise the Colorbox plugin.
   drupal_add_js(colorbox_get_js());
   drupal_add_js($path . '/js/colorbox.js');
