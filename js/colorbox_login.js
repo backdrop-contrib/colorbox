@@ -9,7 +9,7 @@ Drupal.behaviors.initColorboxLogin = {
       var path = this.href;
       var new_path = path.replace(/user\/login/,'user/login/colorbox')
       var addquery = (path.indexOf('?') !=-1) ? '&' : '?';
-      var dest = window.location.pathname.replace(Drupal.settings.basePath, '');
+      var dest = window.location.pathname.replace(Drupal.settings.basePath, '').replace(Drupal.settings.pathPrefix, '');
 
       // If no destination, add one to the current page.
       if (path.indexOf('destination') != -1 || dest == '') {
