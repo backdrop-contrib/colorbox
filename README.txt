@@ -72,15 +72,20 @@ TODO
 
 Add a custom Colorbox style to your theme:
 ----------------------------------------
-The easiest is to start with either the default style or one of the
-example styles from the Colorbox plugin. Simply copy the whole
-style folder to the theme and rename it and the files to
-something logical.
+The easiest way is to start with either the default style or one of the
+example styles included in the Colorbox JS library download. Simply copy the entire
+style folder to your theme and rename it to something logical like "mycolorbox".
+Inside that folder are both a .css and .js file, rename both of those as well to match
+your folder name: i.e. "colorbox_mycolorbox.css" and "colorbox_mycolorbox.js"
 
-Add entries in the themes info file for the Colorbox CSS/JS files.
+Add entries in your theme's .info file for the Colorbox CSS/JS files:
 
-In the Colorbox settings select "None" as style. This will leave the
-styling of Colorbox up to your theme.
+stylesheets[all][] = mycolorbox/colorbox_mycolorbox.css
+scripts[] = mycolorbox/colorbox_mycolorbox.js
+
+Go to "Configuration" -> "Media" -> "Colorbox" and select "None" under
+"Styles and Options". This will leave the styling of Colorbox up to your theme.
+Make any CSS adjustments to your "colorbox_mycolorbox.css" file.
 
 
 Load images from custom links in a Colorbox:
