@@ -159,8 +159,9 @@ function _colorbox_active() {
   if ($path != $_GET['q']) {
     $page_match = $page_match || drupal_match_path($_GET['q'], $colorbox_pages);
   }
+  $page_match = variable_get('colorbox_visibility', 0) == 0 ? !$page_match : $page_match;
 
-  return !$page_match;
+  return $page_match;
 }
 
 /**

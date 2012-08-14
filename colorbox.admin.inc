@@ -314,11 +314,17 @@ function colorbox_admin_settings() {
       ),
     ),
   );
+  $form['colorbox_advanced_settings']['colorbox_visibility'] = array(
+    '#type' => 'radios',
+    '#title' => t('Show Colorbox on specific pages'),
+    '#options' => array(0 => t('All pages except those listed'), 1 => t('Only the listed pages')),
+    '#default_value' => variable_get('colorbox_visibility', 0),
+  );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',
-    '#title' => t('Deactivate Colorbox on specific pages'),
+    '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
     '#default_value' => variable_get('colorbox_pages', "admin*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*"),
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
   return system_settings_form($form);
