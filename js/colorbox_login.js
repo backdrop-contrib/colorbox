@@ -5,7 +5,7 @@ Drupal.behaviors.initColorboxLogin = {
     if (!$.isFunction($.colorbox)) {
       return;
     }
-    $("a[href*='/user/login'], a[href*='?q=user/login']", context).once('init-colorbox-login-processed', function () {
+    $("a[href*='/user/login'], a[href*='?q=user/login']", context).once('init-colorbox-login', function () {
       var path = this.href;
       var new_path = path.replace(/user\/login/,'user/login/colorbox')
       var addquery = (path.indexOf('?') !=-1) ? '&' : '?';

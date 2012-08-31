@@ -17,7 +17,7 @@ function colorbox_admin_settings() {
     '#type' => 'fieldset',
     '#title' => t('Colorbox plugin settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE
+    '#collapsed' => TRUE,
   );
   $form['colorbox_plugin_settings']['colorbox_path'] = array(
     '#type' => 'textfield',
@@ -61,7 +61,7 @@ function colorbox_admin_settings() {
 
   $form['colorbox_login_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Login links settings')
+    '#title' => t('Login links settings'),
   );
   $form['colorbox_login_settings']['colorbox_login'] = array(
     '#type' => 'checkbox',
@@ -230,7 +230,7 @@ function colorbox_admin_settings() {
     '#type' => 'fieldset',
     '#title' => t('Slideshow settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE
+    '#collapsed' => TRUE,
   );
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshow'] = array(
     '#type' => 'radios',
@@ -294,7 +294,7 @@ function colorbox_admin_settings() {
     '#type' => 'fieldset',
     '#title' => t('Advanced settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE
+    '#collapsed' => TRUE,
   );
   $form['colorbox_advanced_settings']['colorbox_caption_trim'] = array(
     '#type' => 'radios',
