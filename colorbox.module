@@ -627,7 +627,7 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
 function colorbox_insert_styles() {
   $insert_styles = array();
   foreach (image_styles() as $key => $style) {
-    $insert_styles['colorbox__' . $key] = array('label' => 'Colorbox ' . $style['name']);
+    $insert_styles['colorbox__' . $key] = array('label' => t('Colorbox @style', array('@style' => $style['name'])));
   }
 
   return $insert_styles;
