@@ -218,8 +218,7 @@ function _colorbox_doheader() {
 
   // Give other modules the possibility to override Colorbox settings and style.
   $data = &$js_settings;
-  $data['__drupal_alter_by_ref'] = array(&$style);
-  drupal_alter('colorbox_settings', $data);
+  drupal_alter('colorbox_settings', $data, $style);
 
   drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
