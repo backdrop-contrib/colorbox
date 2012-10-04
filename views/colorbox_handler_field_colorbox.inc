@@ -150,7 +150,7 @@ If you would like to have the characters %5B and %5D please use the html entity 
 
     // We need to have multiple unique IDs, one for each record.
     static $i = 0;
-    $i++;
+    $i = mt_rand();
 
     // Return nothing if no trigger filed is selected.
     if (empty($this->options['trigger_field'])) {
