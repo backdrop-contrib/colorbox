@@ -290,20 +290,6 @@ function colorbox_get_path() {
 }
 
 /**
- * Implements hook_link_alter().
- */
-function colorbox_link_alter(&$links, $node) {
-  if ($node->type == 'image' && is_array($node->images) && variable_get('colorbox_auto_image_nodes', 0)) {
-    // Add a colorbox class to the image link sizes on the image node.
-    foreach ($node->images as $size => $path) {
-      $links['image_size_' . $size]['attributes']['class'] = "image image-{$size} colorbox";
-      $links['image_size_' . $size]['href'] = $path;
-      unset($links['image_size_' . $size]['query']);
-    }
-  }
-}
-
-/**
  * Implements hook_field_formatter_info().
  */
 function colorbox_field_formatter_info() {

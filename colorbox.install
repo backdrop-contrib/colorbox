@@ -84,3 +84,13 @@ function colorbox_update_7200() {
   return $ret;
 }
 
+/**
+ * Delete the unused colorbox_auto_image_nodes variabel.
+ */
+function colorbox_update_7201() {
+  $ret = array();
+  variable_del('colorbox_auto_image_nodes');
+
+  return $ret;
+}
+
