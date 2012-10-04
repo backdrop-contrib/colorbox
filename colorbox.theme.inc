@@ -5,7 +5,6 @@
  * Colorbox theme functions.
  */
 
-
 /**
  * Returns HTML for an Colorbox image field formatter.
  *

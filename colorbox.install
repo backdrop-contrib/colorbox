@@ -13,14 +13,21 @@ function colorbox_requirements($phase) {
 
   if ($phase == 'runtime') {
     $t = get_t();
-    $library_path = colorbox_get_path();
-    $colorbox_version = colorbox_get_version();
+    $library = libraries_detect('colorbox');
 
-    if (version_compare($colorbox_version, COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
+    if (empty($library['installed'])) {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => 'sites/all/libraries')),
+      );
+    }
+    elseif (version_compare($library['version'], COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
       $requirements['colorbox_plugin'] = array(
         'title' => $t('Colorbox plugin'),
         'severity' => REQUIREMENT_OK,
-        'value' => $colorbox_version,
+        'value' => $library['version'],
       );
     }
     else {
@@ -28,7 +35,7 @@ function colorbox_requirements($phase) {
         'title' => $t('Colorbox plugin'),
         'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
         'severity' => REQUIREMENT_ERROR,
-        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)),
+        'description' => $t('You need to download a later version of the !colorbox and replace the old version located in the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => $library['library path'])),
       );
     }
   }
@@ -90,6 +97,21 @@ function colorbox_update_7200() {
 function colorbox_update_7201() {
   $ret = array();
   variable_del('colorbox_auto_image_nodes');
+
+  return $ret;
+}
+
+/**
+ * Update the colorbox_compression_type variabel.
+ */
+function colorbox_update_7202() {
+  $ret = array();
+  if (variable_get('colorbox_compression_type', 'minified') == 'none') {
+    variable_set('colorbox_compression_type', 'source');
+  }
+  else {
+    variable_set('colorbox_compression_type', 'minified');
+  }
 
   return $ret;
 }

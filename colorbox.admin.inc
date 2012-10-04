@@ -11,7 +11,7 @@
 function colorbox_admin_settings() {
   drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_admin_settings.js', array('preprocess' => FALSE));
 
-  $colorbox_path = colorbox_get_path();
+  $library = libraries_detect('colorbox');
 
   $form['colorbox_plugin_settings'] = array(
     '#type' => 'fieldset',
@@ -19,21 +19,14 @@ function colorbox_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['colorbox_plugin_settings']['colorbox_path'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Path'),
-    '#default_value' => $colorbox_path,
-    '#description' => t('The location where Colorbox plugin is installed. Relative paths are from the Drupal root directory.'),
-    '#after_build' => array('_colorbox_admin_settings_check_plugin_path'),
-  );
   $form['colorbox_plugin_settings']['colorbox_compression_type'] = array(
     '#type' => 'radios',
     '#title' => t('Choose Colorbox compression level'),
     '#options' => array(
-      'min' => t('Production (Minified)'),
-      'none' => t('Development (Uncompressed Code)'),
+      'minified' => t('Production (Minified)'),
+      'source' => t('Development (Uncompressed Code)'),
     ),
-    '#default_value' => variable_get('colorbox_compression_type', 'min'),
+    '#default_value' => variable_get('colorbox_compression_type', 'minified'),
   );
 
   if (module_exists('insert')) {
@@ -83,11 +76,11 @@ function colorbox_admin_settings() {
   $colorbox_styles = array(
     'default' => t('Default'),
     'stockholmsyndrome' => t('Stockholm Syndrome'),
-    $colorbox_path . '/example1' => t('Example 1'),
-    $colorbox_path . '/example2' => t('Example 2'),
-    $colorbox_path . '/example3' => t('Example 3'),
-    $colorbox_path . '/example4' => t('Example 4'),
-    $colorbox_path . '/example5' => t('Example 5'),
+    $library['library path'] . '/example1' => t('Example 1'),
+    $library['library path'] . '/example2' => t('Example 2'),
+    $library['library path'] . '/example3' => t('Example 3'),
+    $library['library path'] . '/example4' => t('Example 4'),
+    $library['library path'] . '/example5' => t('Example 5'),
     'none' => t('None'),
   );
   $form['colorbox_custom_settings']['colorbox_style'] = array(
@@ -304,21 +297,4 @@ function colorbox_admin_settings() {
   );
 
   return system_settings_form($form);
-}
-
-/**
- * Checks if the directory in $form_element exists and contains a file named
- * 'jquery.colorbox.js'. If validation fails, the form element is flagged
- * with an error from within the file_check_directory function.
- *
- * @param $form_element
- *   The form element containing the name of the directory to check.
- */
-function _colorbox_admin_settings_check_plugin_path($form_element) {
-  $library_path = $form_element['#value'];
-  if (!is_dir($library_path) || !(file_exists($library_path . '/colorbox/jquery.colorbox.js') && file_exists($library_path . '/colorbox/jquery.colorbox-min.js'))) {
-    form_set_error($form_element['#parents'][0], t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)));
-  }
-
-  return $form_element;
 }

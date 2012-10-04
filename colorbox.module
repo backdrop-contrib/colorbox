@@ -72,6 +72,46 @@ function colorbox_views_api() {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function colorbox_libraries_info() {
+  $libraries['colorbox'] = array(
+    'name' => 'Colorbox plugin',
+    'vendor url' => 'http://www.jacklmoore.com/colorbox',
+    'download url' => 'http://www.jacklmoore.com/colorbox',
+    'path' => 'colorbox',
+    'version arguments' => array(
+      'file' => 'colorbox/jquery.colorbox-min.js',
+      'pattern' => '@ColorBox v([0-9\.a-z]+)@',
+      'lines' => 1,
+    ),
+    'files' => array(
+      'js' => array(
+        'jquery.colorbox-min.js',
+      ),
+    ),
+    'variants' => array(
+      'minified' => array(
+        'files' => array(
+          'js' => array(
+            'jquery.colorbox-min.js',
+          ),
+        ),
+      ),
+      'source' => array(
+        'files' => array(
+          'js' => array(
+            'jquery.colorbox.js',
+          ),
+        ),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Implements hook_menu().
  */
 function colorbox_menu() {
@@ -174,7 +214,8 @@ function _colorbox_doheader() {
   drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   // Add and initialise the Colorbox plugin.
-  drupal_add_js(colorbox_get_js());
+  $variant = variable_get('colorbox_compression_type', 'minified');
+  libraries_load('colorbox', $variant);
   drupal_add_js($path . '/js/colorbox.js');
 
   // Add JS and CSS based on selected style.
@@ -230,63 +271,6 @@ function colorbox_get_version($colorbox_js = NULL) {
   }
 
   return $version;
-}
-
-/**
- * Return the JS filename for Colorbox plugin.
- *
- * @return
- *   Boolean indicating if the JS is located.
- */
-function colorbox_get_js() {
-  $library_path = colorbox_get_path();
-
-  if (file_exists($library_path . '/colorbox/jquery.colorbox.js') && file_exists($library_path . '/colorbox/jquery.colorbox-min.js')) {
-    $colorbox_js_map = array('none' => 'jquery.colorbox.js', 'min' => 'jquery.colorbox-min.js');
-    $colorbox_js = $colorbox_js_map[variable_get('colorbox_compression_type', 'min')];
-    return $library_path . '/colorbox/' . $colorbox_js;
-  }
-//   else {
-//     drupal_set_message(t('You need to download the !colorbox and extract the entire contents of the archive into the %path folder of your server.', array('!colorbox' => l(t('Colorbox plugin'), 'http://colorpowered.com/colorbox/'), '%path' => $library_path)), 'error', FALSE);
-//     return FALSE;
-//   }
-}
-
-/**
- * Return the path to the Colorbox plugin.
- */
-function colorbox_get_path() {
-  static $library_path = NULL;
-
-  // Try to locate the library path in any possible setup.
-  if ($library_path == NULL) {
-    // First check the default location.
-    $path = variable_get('colorbox_path', COLORBOX_PATH);
-    if (is_dir($path . '/colorbox')) {
-      $library_path = $path;
-    }
-    // Ask the libraries module as a fallback.
-    elseif ($library_path == NULL && module_exists('libraries')) {
-      if ($path = libraries_get_path('colorbox')) {
-        $library_path = $path;
-        variable_set('colorbox_path', $library_path);
-      }
-    }
-    // HACK: If libraries api module is not installed but available, load it.
-    elseif ($library_path == NULL && file_exists(dirname(__FILE__) . '/../libraries/libraries.module')) {
-      require_once(dirname(__FILE__) . '/../libraries/libraries.module');
-      if ($path = libraries_get_path('colorbox')) {
-        $library_path = $path;
-        variable_set('colorbox_path', $library_path);
-      }
-    }
-    // If no path is found suggest the default one.
-    elseif ($library_path == NULL) {
-      $library_path = COLORBOX_PATH;
-    }
-  }
-
-  return $library_path;
 }
 
 /**
