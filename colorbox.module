@@ -427,7 +427,7 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
   if (isset($image_styles[$settings['colorbox_node_style']])) {
     $summary[] = t('Content image style: @style', array('@style' => $image_styles[$settings['colorbox_node_style']]));
   }
-  else if ($settings['colorbox_node_style'] == 'hide') {
+  elseif ($settings['colorbox_node_style'] == 'hide') {
     $summary[] = t('Content image style: Hide');
   }
   else {

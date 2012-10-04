@@ -128,7 +128,7 @@ function theme_colorbox_imagefield($variables) {
     $image = '';
     $class[] = 'js-hide';
   }
-  else if (!empty($variables['image']['style_name'])) {
+  elseif (!empty($variables['image']['style_name'])) {
     $image = theme('image_style', $variables['image']);
   }
   else {
