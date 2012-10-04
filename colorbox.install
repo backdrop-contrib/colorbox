@@ -72,3 +72,15 @@ function colorbox_update_7002() {
 
   return $ret;
 }
+
+/**
+ * Delete the unused colorbox_login and colorbox_login_links variabels.
+ */
+function colorbox_update_7200() {
+  $ret = array();
+  variable_del('colorbox_login');
+  variable_del('colorbox_login_links');
+
+  return $ret;
+}
+

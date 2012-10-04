@@ -27,22 +27,3 @@ function hook_colorbox_settings_alter(&$settings, &$style) {
     $style = 'mystyle';
   }
 }
-
-
-/**
- * Allow other modules to control access to forms opening in Colorbox.
- *
- * Implements hook_colorbox_form_access().
- *
- * @param $form_id
- *   The unique string identifying the current form.
- */
-function hook_colorbox_form_access($form_id) {
-  $access = FALSE;
-
-  if ($form_id == 'forward_form') {
-    return user_access('access forward');
-  }
-
-  return $access;
-}
