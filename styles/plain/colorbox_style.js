@@ -4,7 +4,9 @@ Drupal.behaviors.initColorboxPlainStyle = {
   attach: function (context, settings) {
     $(document).bind('cbox_complete', function () {
       // Make all the controls invisible.
-      $('#cboxCurrent, #cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose', context).addClass('element-invisible');
+      $('#cboxCurrent, #cboxSlideshow, #cboxPrevious, #cboxNext', context).addClass('element-invisible');
+      // Replace "Close" with "×".
+      $('#cboxClose', context).html('\327');
       // Only run if there is a title.
       if ($('#cboxTitle:empty', context).length == false) {
         setTimeout(function () { $('#cboxTitle', context).slideUp() }, 1500);
