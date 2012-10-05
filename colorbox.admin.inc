@@ -75,6 +75,7 @@ function colorbox_admin_settings() {
   );
   $colorbox_styles = array(
     'default' => t('Default'),
+    'plain' => t('Plain'),
     'stockholmsyndrome' => t('Stockholm Syndrome'),
     $library['library path'] . '/example1' => t('Example 1'),
     $library['library path'] . '/example2' => t('Example 2'),
@@ -163,14 +164,14 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
     '#type' => 'textfield',
     '#title' => t('Max width'),
-    '#default_value' => variable_get('colorbox_maxwidth', '100%'),
+    '#default_value' => variable_get('colorbox_maxwidth', '98%'),
     '#size' => 30,
     '#description' => t('Set a maximum width for loaded content. Example: "100%", 500, "500px".'),
   );
   $form['colorbox_custom_settings']['colorbox_maxheight'] = array(
     '#type' => 'textfield',
     '#title' => t('Max height'),
-    '#default_value' => variable_get('colorbox_maxheight', '100%'),
+    '#default_value' => variable_get('colorbox_maxheight', '98%'),
     '#size' => 30,
     '#description' => t('Set a maximum height for loaded content. Example: "100%", 500, "500px".'),
   );
@@ -184,7 +185,7 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_initialheight'] = array(
     '#type' => 'textfield',
     '#title' => t('Initial height'),
-    '#default_value' => variable_get('colorbox_initialheight', '100'),
+    '#default_value' => variable_get('colorbox_initialheight', '250'),
     '#size' => 30,
     '#description' => t('Set the initial height, prior to any content being loaded. Example: "100%", 500, "500px".'),
   );

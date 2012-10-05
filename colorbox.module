@@ -183,10 +183,10 @@ function _colorbox_doheader() {
       'next' => variable_get('colorbox_text_next', 'Next »'),
       'close' => variable_get('colorbox_text_close', 'Close'),
       'overlayClose' => variable_get('colorbox_overlayclose', 1) ? TRUE : FALSE,
-      'maxWidth' => variable_get('colorbox_maxwidth', '100%'),
-      'maxHeight' => variable_get('colorbox_maxheight', '100%'),
+      'maxWidth' => variable_get('colorbox_maxwidth', '98%'),
+      'maxHeight' => variable_get('colorbox_maxheight', '98%'),
       'initialWidth' => variable_get('colorbox_initialwidth', '300'),
-      'initialHeight' => variable_get('colorbox_initialheight', '100'),
+      'initialHeight' => variable_get('colorbox_initialheight', '250'),
       'fixed' => variable_get('colorbox_fixed', 1) ? TRUE : FALSE,
       'scrolling' => variable_get('colorbox_scrolling', 1) ? TRUE : FALSE,
     );
@@ -198,8 +198,8 @@ function _colorbox_doheader() {
       'previous' => t('« Prev'),
       'next' => t('Next »'),
       'close' => t('Close'),
-      'maxWidth' => '100%',
-      'maxHeight' => '100%',
+      'maxWidth' => '98%',
+      'maxHeight' => '98%',
       'fixed' => TRUE,
     );
   }
@@ -223,12 +223,10 @@ function _colorbox_doheader() {
     case 'none':
       break;
     case 'default':
-      drupal_add_css($path . '/styles/default/colorbox_default_style.css');
-      drupal_add_js($path . '/styles/default/colorbox_default_style.js');
-      break;
+    case 'plain':
     case 'stockholmsyndrome':
-      drupal_add_css($path . '/styles/stockholmsyndrome/colorbox_stockholmsyndrome.css');
-      drupal_add_js($path . '/styles/stockholmsyndrome/colorbox_stockholmsyndrome.js');
+      drupal_add_css($path . '/styles/' . $style . '/colorbox_style.css');
+      drupal_add_js($path . '/styles/' . $style . '/colorbox_style.js');
       break;
     default:
       drupal_add_css($style . '/colorbox.css');
