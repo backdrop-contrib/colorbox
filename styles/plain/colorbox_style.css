@@ -102,20 +102,22 @@
         background: url(images/loading_animation.gif) center center no-repeat;
       }
       #cboxClose {
+        visibility: hidden; /* Hide initially to avoid flicker. */
         position: absolute;
-        font-size: 16px;
+        font-size: 20px;
+        line-height: 18px;;
         text-align: center;
-        color: #535353;
-        top: 6px;
-        right: 6px;
+        color: rgba(255, 255, 255, 0.7);
+        background: rgba(0, 0, 0, 0.5);
+        top: 4px;
+        right: 4px;
         width: 20px;
         height: 20px;
-        background: rgba(204,204,204,0.2);
-        border: 1px solid #535353;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
       }
       #cboxClose:hover {
-        background: rgba(204,204,204,0.6);
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(0, 0, 0, 0.8);
       }
