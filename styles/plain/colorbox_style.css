@@ -101,8 +101,7 @@
       #cboxLoadingGraphic {
         background: url(images/loading_animation.gif) center center no-repeat;
       }
-      #cboxClose {
-        visibility: hidden; /* Hide initially to avoid flicker. */
+      .cbox-close-plain {
         position: absolute;
         font-size: 20px;
         line-height: 18px;;
@@ -117,7 +116,7 @@
         -moz-border-radius: 10px;
         border-radius: 10px;
       }
-      #cboxClose:hover {
+      .cbox-close-plain:hover {
         color: rgba(255, 255, 255, 0.9);
         background: rgba(0, 0, 0, 0.8);
       }

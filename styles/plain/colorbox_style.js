@@ -5,20 +5,31 @@ Drupal.behaviors.initColorboxPlainStyle = {
     $(document).bind('cbox_complete', function () {
       // Make all the controls invisible.
       $('#cboxCurrent, #cboxSlideshow, #cboxPrevious, #cboxNext', context).addClass('element-invisible');
+      // Set some vars.
+      var cboxTitle = $('#cboxTitle', context);
+      var cboxClose = $('#cboxClose', context);
       // Replace "Close" with "×" and show.
-      $('#cboxClose', context).html('\327').css('visibility', 'visible');
+      cboxClose.html('\327').addClass('cbox-close-plain');
       // Only run if there is a title.
-      if ($('#cboxTitle:empty', context).length == false) {
-        $('#cboxLoadedContent img', context).bind('mouseover', function () {
-          $('#cboxTitle', context).slideDown();
-        });
-        $('#cboxOverlay', context).bind('mouseover', function () {
-          $('#cboxTitle', context).slideUp();
-        });
+      var isTitle = ($('#cboxTitle:empty', context).length == false) ? true : false;
+      $('#cboxLoadedContent img', context).bind('mouseover', function () {
+        if (isTitle == true) {
+          cboxTitle.slideDown();
+        }
+        cboxClose.animate({opacity: 1}, 400);
+      });
+      $('#cboxOverlay', context).bind('mouseover', function () {
+        if (isTitle == true) {
+          cboxTitle.slideUp();
+        }
+        cboxClose.animate({opacity: 0}, 400);
+      });
+      if (isTitle == false) {
+        cboxTitle.hide();
       }
-      else {
-        $('#cboxTitle', context).hide();
-      }
+    });
+    $(document).bind('cbox_closed', function () {
+      $('#cboxClose', context).removeClass('cbox-close-plain');
     });
   }
 };
