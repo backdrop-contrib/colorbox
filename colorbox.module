@@ -355,7 +355,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     'auto' =>  t('Automatic'),
     'title' => t('Title text'),
     'alt' => t('Alt text'),
-    'node_title' => t('Entity title'),
+    'node_title' => t('Content title'),
     'custom' => t('Custom (with tokens)'),
     'none' => t('None'),
   );
@@ -364,7 +364,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#type' => 'select',
     '#default_value' => $settings['colorbox_caption'],
     '#options' => $caption,
-    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the entity title.'),
+    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the content title.'),
   );
   $element['colorbox_caption_custom'] = array(
     '#title' => t('Custom caption'),
@@ -455,7 +455,7 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
     'auto' =>  t('Automatic'),
     'title' => t('Title text'),
     'alt' => t('Alt text'),
-    'node_title' => t('Entity title'),
+    'node_title' => t('Content title'),
     'custom' => t('Custom (with tokens)'),
     'none' => t('None'),
   );
