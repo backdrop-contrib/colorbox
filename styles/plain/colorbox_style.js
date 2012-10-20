@@ -16,13 +16,13 @@ Drupal.behaviors.initColorboxPlainStyle = {
         if (isTitle == true) {
           cboxTitle.slideDown();
         }
-        cboxClose.animate({opacity: 1}, 400);
+        cboxClose.animate({opacity: 1}, 'fast');
       });
       $('#cboxOverlay', context).bind('mouseover', function () {
         if (isTitle == true) {
           cboxTitle.slideUp();
         }
-        cboxClose.animate({opacity: 0}, 400);
+        cboxClose.animate({opacity: 0}, 'fast');
       });
       if (isTitle == false) {
         cboxTitle.hide();
