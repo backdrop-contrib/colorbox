@@ -116,6 +116,14 @@ Replace "id-of-content" with the id of the tag you want to open.
 Add the class "colorbox-inline" to the link and build the url like
 this "?width=500&height=500&inline=true#id-of-content".
 
+It could e.g. look like this.
+
+<a class="colorbox-inline" href="?width=500&height=500&inline=true#id-of-content">Link to click</a>
+
+<div style="display: none;">
+<div id="id-of-content">What ever content you want to display in a Colorbox.</div>
+</div>
+
 Other modules may activate this for easy Colorbox integration.
 
 
