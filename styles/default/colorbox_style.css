@@ -50,6 +50,7 @@
   border: 0;
 }
 #colorbox, #cboxContent, #cboxLoadedContent {
+  -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 
