@@ -68,7 +68,7 @@
       overflow: hidden;
       font: 12px "Lucida Grande", Verdana, Arial, sans-serif;
     }
-      .cboxPhoto {
+      #cboxContent, .cboxPhoto {
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
