@@ -13,22 +13,6 @@ function colorbox_admin_settings() {
 
   $library = libraries_detect('colorbox');
 
-  $form['colorbox_plugin_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Colorbox plugin settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $form['colorbox_plugin_settings']['colorbox_compression_type'] = array(
-    '#type' => 'radios',
-    '#title' => t('Choose Colorbox compression level'),
-    '#options' => array(
-      'minified' => t('Production (Minified)'),
-      'source' => t('Development (Uncompressed Code)'),
-    ),
-    '#default_value' => variable_get('colorbox_compression_type', 'minified'),
-  );
-
   if (module_exists('insert')) {
     $form['colorbox_insert_module'] = array(
       '#type' => 'fieldset',
@@ -52,17 +36,17 @@ function colorbox_admin_settings() {
     );
   }
 
-  $form['colorbox_extra_settings'] = array(
+  $form['colorbox_extra_features'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Extra settings'),
+    '#title' => t('Extra features'),
   );
-  $form['colorbox_extra_settings']['colorbox_load'] = array(
+  $form['colorbox_extra_features']['colorbox_load'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable Colorbox load'),
     '#default_value' => variable_get('colorbox_load', 0),
     '#description' => t('This enables custom links that can open forms and paths in a Colorbox. Add the class "colorbox-load" to the link and build the url like this for forms "/colorbox/form/[form_id]?destination=some_path&width=500&height=500" and like this for paths "[path]?width=500&height=500&iframe=true" or "[path]?width=500&height=500" if you don\'t want an iframe. Other modules may activate this for easy Colorbox integration.'),
   );
-  $form['colorbox_extra_settings']['colorbox_inline'] = array(
+  $form['colorbox_extra_features']['colorbox_inline'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable Colorbox inline'),
     '#default_value' => variable_get('colorbox_inline', 0),
@@ -295,6 +279,15 @@ function colorbox_admin_settings() {
     '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
     '#default_value' => variable_get('colorbox_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*"),
     '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+  );
+  $form['colorbox_advanced_settings']['colorbox_compression_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Choose Colorbox compression level'),
+    '#options' => array(
+      'minified' => t('Production (Minified)'),
+      'source' => t('Development (Uncompressed Code)'),
+    ),
+    '#default_value' => variable_get('colorbox_compression_type', 'minified'),
   );
 
   return system_settings_form($form);
