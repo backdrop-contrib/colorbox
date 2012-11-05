@@ -59,7 +59,7 @@ function colorbox_admin_settings() {
   );
   $colorbox_styles = array(
     'default' => t('Default'),
-    'plain' => t('Plain'),
+    'plain' => t('Plain (mainly for images)'),
     'stockholmsyndrome' => t('Stockholm Syndrome'),
     $library['library path'] . '/example1' => t('Example 1'),
     $library['library path'] . '/example2' => t('Example 2'),
