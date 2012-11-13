@@ -244,34 +244,6 @@ function _colorbox_doheader() {
 }
 
 /**
- * Return the version of Colorbox plugin that is installed.
- *
- * This can be used by other modules' hook_requirements() to ensure that the
- * proper version of Colorbox plugin is installed.
- *
- * @see version_compare()
- */
-function colorbox_get_version($colorbox_js = NULL) {
-  $version = 0;
-  $pattern = '#ColorBox v([0-9\.a-z]+)#';
-
-  // No file is passed in so use the default location.
-  if (is_null($colorbox_js)) {
-    $colorbox_js = colorbox_get_js();
-  }
-
-  // Return the version of Colorbox plugin, it it exists.
-  if (file_exists($colorbox_js)) {
-    $colorbox_plugin = file_get_contents($colorbox_js, NULL, NULL, 0, 32);
-    if (preg_match($pattern, $colorbox_plugin, $matches)) {
-      $version = $matches[1];
-    }
-  }
-
-  return $version;
-}
-
-/**
  * Implements hook_field_formatter_info().
  */
 function colorbox_field_formatter_info() {
