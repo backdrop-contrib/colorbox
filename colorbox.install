@@ -51,7 +51,7 @@ function colorbox_uninstall() {
 }
 
 /**
- * Delete the unused colorbox_login_form variabel.
+ * Delete the unused colorbox_login_form variable.
  */
 function colorbox_update_7001() {
   $ret = array();
@@ -62,7 +62,7 @@ function colorbox_update_7001() {
 
 /**
  * Delete the unused colorbox_title_trim and
- * colorbox_title_trim_length variabels.
+ * colorbox_title_trim_length variables.
  */
 function colorbox_update_7002() {
   $ret = array();
@@ -81,7 +81,7 @@ function colorbox_update_7002() {
 }
 
 /**
- * Delete the unused colorbox_login and colorbox_login_links variabels.
+ * Delete the unused colorbox_login and colorbox_login_links variables.
  */
 function colorbox_update_7200() {
   $ret = array();
@@ -92,7 +92,7 @@ function colorbox_update_7200() {
 }
 
 /**
- * Delete the unused colorbox_auto_image_nodes variabel.
+ * Delete the unused colorbox_auto_image_nodes variable.
  */
 function colorbox_update_7201() {
   $ret = array();
@@ -102,7 +102,7 @@ function colorbox_update_7201() {
 }
 
 /**
- * Update the colorbox_compression_type variabel.
+ * Update the colorbox_compression_type variable.
  */
 function colorbox_update_7202() {
   $ret = array();
