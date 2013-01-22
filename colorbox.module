@@ -256,6 +256,7 @@ function colorbox_field_formatter_info() {
         'colorbox_gallery_custom' => '',
         'colorbox_caption' => 'auto',
         'colorbox_caption_custom' => '',
+        'colorbox_multivalue_index' => NULL,
       ),
     ),
   );
@@ -442,17 +443,20 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
  */
 function colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $index = $display['settings']['colorbox_multivalue_index'];
 
   foreach ($items as $delta => $item) {
-    $element[$delta] = array(
-      '#theme' => 'colorbox_image_formatter',
-      '#item' => $item,
-      '#entity_type' => $entity_type,
-      '#entity' => $entity,
-      '#node' => $entity, // Left for legacy support.
-      '#field' => $field,
-      '#display_settings' => $display['settings'],
-    );
+    if ($index === NULL || $index === $delta) {
+      $element[$delta] = array(
+        '#theme' => 'colorbox_image_formatter',
+        '#item' => $item,
+        '#entity_type' => $entity_type,
+        '#entity' => $entity,
+        '#node' => $entity, // Left for legacy support.
+        '#field' => $field,
+        '#display_settings' => $display['settings'],
+      );
+    }
   }
 
   return $element;
