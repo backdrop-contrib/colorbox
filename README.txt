@@ -47,7 +47,7 @@ The Colorbox plugin:
 Installation:
 ------------
 1. Download and unpack the Colorbox plugin in "sites/all/libraries".
-   Link: http://colorpowered.com/colorbox/colorbox.zip
+   Link: https://github.com/jackmoore/colorbox/archive/master.zip
    Drush users can use the command "drush colorbox-plugin".
 2. Download and unpack the Colorbox module directory in your modules folder
    (this will usually be "sites/all/modules/").
@@ -155,21 +155,3 @@ The fix is to add this to the theme CSS:
   max-width: none;
 }
 
-
-Example styles borders do not display in Internet Explorer:
------------------------------------------------------------
-If you use one of the example styles and have problems with the border
-images not loading in Internet Explorer please read
-http://colorpowered.com/colorbox/#help_paths.
-
-The default style in Colorbox module does not have this problem.
-
-
-Contributions:
---------------
-* Porting all features from the Thickbox module,
-  by Fredrik Jonsson (http://drupal.org/user/5546).
-* Image module integration improvements by recrit
-  (http://drupal.org/user/452914).
-* Help with testing and many good suggestions by Shane
-  (http://drupal.org/user/262473).
