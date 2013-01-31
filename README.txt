@@ -47,7 +47,7 @@ The Colorbox plugin:
 Installation:
 ------------
 1. Download and unpack the Colorbox plugin in "sites/all/libraries".
-   Link: https://github.com/jackmoore/colorbox/archive/master.zip
+   Link: https://github.com/jackmoore/colorbox/archive/1.x.zip
    Drush users can use the command "drush colorbox-plugin".
 2. Download and unpack the Colorbox module directory in your modules folder
    (this will usually be "sites/all/modules/").
