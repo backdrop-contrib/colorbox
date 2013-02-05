@@ -179,7 +179,7 @@ If you would like to have the characters %5B and %5D please use the html entity 
         'inline' => 'true'
       ),
       'attributes' => array(
-        'class' => 'colorbox-inline',
+        'class' => array('colorbox-inline'),
         'rel' => $gallery_id
       )
     );
@@ -189,7 +189,6 @@ If you would like to have the characters %5B and %5D please use the html entity 
     // If the nid is present make the link degrade to the node page if
     // JavaScript is off.
     $link_target = isset($values->nid) ? 'node/' . $values->nid : '';
-
     $link_tag = l($link_text, $link_target, $link_options);
 
     // The outside div is there to hide all of the divs because if the specific Colorbox
