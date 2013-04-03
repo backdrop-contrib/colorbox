@@ -143,7 +143,7 @@ function colorbox_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Overlay close'),
     '#default_value' => variable_get('colorbox_overlayclose', 1),
-    '#description' => t('Enable closing ColorBox by clicking on the background overlay.'),
+    '#description' => t('Enable closing Colorbox by clicking on the background overlay.'),
   );
   $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
     '#type' => 'textfield',
@@ -177,7 +177,7 @@ function colorbox_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Fixed'),
     '#default_value' => variable_get('colorbox_fixed', 1),
-    '#description' => t('If the ColorBox should be displayed in a fixed position within the visitor\'s viewport or relative to the document.'),
+    '#description' => t('If the Colorbox should be displayed in a fixed position within the visitor\'s viewport or relative to the document.'),
   );
 
   $form['colorbox_custom_settings']['colorbox_slideshow_settings'] = array(
