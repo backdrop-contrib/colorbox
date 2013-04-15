@@ -25,8 +25,8 @@ function theme_colorbox_image_formatter($variables) {
 
   $image = array(
     'path' => $item['uri'],
-    'alt' => $item['alt'],
-    'title' => $item['title'],
+    'alt' => isset($item['alt']) ? $item['alt'] : '',
+    'title' => isset($item['title']) ? $item['title'] : '',
     'style_name' => $settings['colorbox_node_style'],
   );
 
