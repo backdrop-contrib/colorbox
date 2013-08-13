@@ -187,6 +187,8 @@ function _colorbox_doheader() {
       'initialHeight' => variable_get('colorbox_initialheight', '250'),
       'fixed' => variable_get('colorbox_fixed', 1) ? TRUE : FALSE,
       'scrolling' => variable_get('colorbox_scrolling', 1) ? TRUE : FALSE,
+      'mobildetect' => variable_get('colorbox_mobil_detect', 1) ? TRUE : FALSE,
+      'mobildevicewidth' => variable_get('colorbox_mobil_device_width', '480px'),
     );
   }
   else {
@@ -199,6 +201,8 @@ function _colorbox_doheader() {
       'maxWidth' => '98%',
       'maxHeight' => '98%',
       'fixed' => TRUE,
+      'mobildetect' => variable_get('colorbox_mobil_detect', 1) ? TRUE : FALSE,
+      'mobildevicewidth' => variable_get('colorbox_mobil_device_width', '480px'),
     );
   }
 
