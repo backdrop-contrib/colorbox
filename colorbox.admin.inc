@@ -250,22 +250,22 @@ function colorbox_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['colorbox_advanced_settings']['colorbox_mobil_detect'] = array(
+  $form['colorbox_advanced_settings']['colorbox_mobile_detect'] = array(
     '#type' => 'radios',
-    '#title' => t('Mobil detection'),
+    '#title' => t('Mobile detection'),
     '#options' => array(1 => t('On'), 0 => t('Off')),
-    '#default_value' => variable_get('colorbox_mobil_detect', 1),
+    '#default_value' => variable_get('colorbox_mobile_detect', 1),
     '#description' => t('If on (default) Colorbox will not be active for devices with a the max width set below.'),
   );
-  $form['colorbox_advanced_settings']['colorbox_mobil_device_width'] = array(
+  $form['colorbox_advanced_settings']['colorbox_mobile_device_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Device with'),
-    '#default_value' => variable_get('colorbox_mobil_device_width', '480px'),
+    '#default_value' => variable_get('colorbox_mobile_device_width', '480px'),
     '#size' => 30,
-    '#description' => t('Set the mobil device max with. Default: 480px.'),
+    '#description' => t('Set the mobile device max with. Default: 480px.'),
     '#states' => array(
       'visible' => array(
-        ':input[name="colorbox_mobil_detect"]' => array('value' => '1'),
+        ':input[name="colorbox_mobile_detect"]' => array('value' => '1'),
       ),
     ),
   );
