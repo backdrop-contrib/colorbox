@@ -47,7 +47,7 @@ function colorbox_requirements($phase) {
  * Implements hook_uninstall().
  */
 function colorbox_uninstall() {
-  db_query("DELETE FROM {variable} WHERE name LIKE 'colorbox_%'");
+  db_delete('variable')->condition('name', db_like('colorbox_') . '%', 'LIKE')->execute();
 }
 
 /**
