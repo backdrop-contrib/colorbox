@@ -135,16 +135,18 @@ function theme_colorbox_imagefield($variables) {
     $image = theme('image', $variables['image']);
   }
 
-  $options = array(
+  $options = drupal_parse_url($variables['path']);
+  $options += array(
     'html' => TRUE,
     'attributes' => array(
       'title' => $variables['title'],
       'class' => $class,
       'rel' => $variables['gid'],
-    )
+    ),
+    'language' => array('language' => NULL),
   );
 
-  return l($image, $variables['path'], $options);
+  return l($image, $options['path'], $options);
 }
 
 /**
