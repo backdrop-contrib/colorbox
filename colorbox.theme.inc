@@ -35,6 +35,10 @@ function theme_colorbox_image_formatter($variables) {
     $image['height'] = $item['height'];
   }
 
+  if (isset($item['attributes'])) {
+    $image['attributes'] = $item['attributes'];
+  }
+
   $entity_title = entity_label($entity_type, $entity);
 
   switch ($settings['colorbox_caption']) {
