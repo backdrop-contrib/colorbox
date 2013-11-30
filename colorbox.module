@@ -44,6 +44,7 @@ function colorbox_theme() {
         'node' => NULL,  // Left for legacy support.
         'field' => array(),
         'display_settings' => array(),
+        'delta' => null,
       ),
       'file' => 'colorbox.theme.inc',
     ),
@@ -256,6 +257,7 @@ function colorbox_field_formatter_info() {
       'field types' => array('image'),
       'settings' => array(
         'colorbox_node_style' => '',
+        'colorbox_node_style_first' => '',
         'colorbox_image_style' => '',
         'colorbox_gallery' => 'post',
         'colorbox_gallery_custom' => '',
@@ -284,6 +286,14 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#empty_option' => t('None (original image)'),
     '#options' => $image_styles_hide,
     '#description' => t('Image style to use in the content.'),
+  );
+  $element['colorbox_node_style_first'] = array(
+    '#title' => t('Content image style for first image'),
+    '#type' => 'select',
+    '#default_value' => $settings['colorbox_node_style_first'],
+    '#empty_option' => t('No special style.'),
+    '#options' => $image_styles,
+    '#description' => t('Image style to use in the content for the first image.'),
   );
   $element['colorbox_image_style'] = array(
     '#title' => t('Colorbox image style'),
@@ -415,6 +425,10 @@ function colorbox_field_formatter_settings_summary($field, $instance, $view_mode
     $summary[] = t('Content image style: Original image');
   }
 
+  if (isset($image_styles[$settings['colorbox_node_style_first']])) {
+    $summary[] = t('Content image style of first image: @style', array('@style' => $image_styles[$settings['colorbox_node_style_first']]));
+  }
+
   if (isset($image_styles[$settings['colorbox_image_style']])) {
     $summary[] = t('Colorbox image style: @style', array('@style' => $image_styles[$settings['colorbox_image_style']]));
   }
@@ -466,6 +480,7 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
         '#node' => $entity, // Left for legacy support.
         '#field' => $field,
         '#display_settings' => $display['settings'],
+        '#delta' => $delta,
       );
     }
   }

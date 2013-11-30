@@ -30,6 +30,10 @@ function theme_colorbox_image_formatter($variables) {
     'style_name' => $settings['colorbox_node_style'],
   );
 
+  if ($variables['delta'] == 0 && !empty($settings['colorbox_node_style_first'])) {
+    $image['style_name'] = $settings['colorbox_node_style_first'];
+  }
+
   if (isset($item['width']) && isset($item['height'])) {
     $image['width'] = $item['width'];
     $image['height'] = $item['height'];
