@@ -32,6 +32,7 @@ function colorbox_theme() {
         'widget' => NULL,
       ),
       'template' => 'colorbox-insert-image',
+      'pattern' => 'colorbox_insert_image__[a-z0-9_]+',
       'file' => 'colorbox.theme.inc',
     ),
 
@@ -489,7 +490,7 @@ function colorbox_insert_styles() {
  */
 function colorbox_insert_content($item, $style, $widget) {
   list($item['module_name'], $item['style_name']) = explode('__', $style['name'], 2);
-  return theme('colorbox_insert_image', array('item' => $item, 'widget' => $widget));
+  return theme(array('colorbox_insert_image__' . str_replace('-', '_', $item['style_name']), 'colorbox_insert_image'), array('item' => $item, 'widget' => $widget));
 }
 
 /**
