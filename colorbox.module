@@ -310,15 +310,12 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
   );
   $element['colorbox_gallery_custom'] = array(
     '#title' => t('Custom gallery'),
-    '#type' => 'machine_name',
+    '#type' => 'textfield',
     '#maxlength' => 32,
     '#default_value' => $settings['colorbox_gallery_custom'],
-    '#description' => t('All images on a page with the same gallery value (rel attribute) will be grouped together. It must only contain lowercase letters, numbers, and underscores.'),
+    '#description' => t('All images on a page with the same gallery value (rel attribute) will be grouped together. It must only contain lowercase letters, numbers, hyphen and underscores.'),
+    '#element_validate' => array('colorbox_gallery_custom_validate'),
     '#required' => FALSE,
-    '#machine_name' => array(
-      'exists' => 'colorbox_gallery_exists',
-      'error' => t('The custom gallery field must only contain lowercase letters, numbers, and underscores.'),
-    ),
     '#states' => array(
       'visible' => array(
         ':input[name$="[settings_edit_form][settings][colorbox_gallery]"]' => array('value' => 'custom'),
@@ -382,6 +379,15 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
   }
 
   return $element;
+}
+
+/**
+ * Validate function for colorbox_gallery_custom.
+ */
+function colorbox_gallery_custom_validate($element, &$form_state) {
+  if ($element['#value'] != drupal_html_class($element['#value'])) {
+    form_error($element, t('%name must only contain lowercase letters, numbers, hyphen and underscores.', array('%name' => $element['#title'])));
+  }
 }
 
 /**
