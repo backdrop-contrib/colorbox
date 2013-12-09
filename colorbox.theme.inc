@@ -161,10 +161,11 @@ function theme_colorbox_imagefield($variables) {
  * Preprocess variables for the colorbox-insert-image.tpl.php file.
  */
 function template_preprocess_colorbox_insert_image(&$variables) {
-  $variables['file'] = file_load($variables['item']['fid']);
-  $variables['style_name'] = $variables['item']['style_name'];
-  $variables['width'] = $variables['item']['width'];
-  $variables['height'] = $variables['item']['height'];
+  $item = $variables['item'];
+  $variables['file'] = file_load($item['fid']);
+  $variables['style_name'] = $item['style_name'];
+  $variables['width'] = isset($item['width']) ? $item['width'] : NULL;
+  $variables['height'] = isset($item['height']) ? $item['height'] : NULL;
 
   // Determine dimensions of the image after the image style transformations.
   image_style_transform_dimensions($variables['style_name'], $variables);
