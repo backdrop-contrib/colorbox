@@ -142,7 +142,7 @@ function _colorbox_active() {
     return FALSE;
   }
 
-  // Code from the block_list funtion in block.module.
+  // Code from the block_list function in block.module.
   $path = drupal_get_path_alias($_GET['q']);
   $colorbox_pages = variable_get('colorbox_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*");
   // Compare with the internal and path alias (if any).
