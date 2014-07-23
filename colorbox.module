@@ -347,7 +347,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#type' => 'select',
     '#default_value' => $settings['colorbox_caption'],
     '#options' => $caption,
-    '#description' => t('Automatic will use the first none empty value of the title, the alt text and the content title.'),
+    '#description' => t('Automatic will use the first non-empty value of the title, the alt text and the content title.'),
   );
   $element['colorbox_caption_custom'] = array(
     '#title' => t('Custom caption'),
