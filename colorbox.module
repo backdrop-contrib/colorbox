@@ -219,7 +219,9 @@ function _colorbox_doheader() {
 
   // Add and initialise the Colorbox plugin.
   $variant = variable_get('colorbox_compression_type', 'minified');
-  libraries_load('colorbox', $variant);
+  if (module_exists('libraries')) {
+    libraries_load('colorbox', $variant);
+  }
   drupal_add_js($path . '/js/colorbox.js');
 
   // Add JS and CSS based on selected style.
