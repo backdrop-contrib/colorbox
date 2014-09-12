@@ -43,6 +43,22 @@ function theme_colorbox_image_formatter($variables) {
     $image['attributes'] = $item['attributes'];
   }
 
+  // Allow image attributes to be overridden.
+  if (isset($variables['item']['override']['attributes'])) {
+    foreach (array('width', 'height', 'alt', 'title') as $key) {
+      if (isset($variables['item']['override']['attributes'][$key])) {
+        $image[$key] = $variables['item']['override']['attributes'][$key];
+        unset($variables['item']['override']['attributes'][$key]);
+      }
+    }
+    if (isset($image['attributes'])) {
+      $image['attributes'] = $variables['item']['override']['attributes'] + $image['attributes'];
+    }
+    else {
+      $image['attributes'] = $variables['item']['override']['attributes'];
+    }
+  }
+
   $entity_title = entity_label($entity_type, $entity);
 
   switch ($settings['colorbox_caption']) {
