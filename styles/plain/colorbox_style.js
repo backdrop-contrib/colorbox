@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorboxPlainStyle = {
+Backdrop.behaviors.initColorboxPlainStyle = {
   attach: function (context, settings) {
     $(context).bind('cbox_complete', function () {
       // Make all the controls invisible.

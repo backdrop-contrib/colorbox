@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorboxAdminSettings = {
+Backdrop.behaviors.initColorboxAdminSettings = {
   attach: function (context, settings) {
     $('div.colorbox-custom-settings-activate input.form-radio', context).click(function () {
       if (this.value == 1) {

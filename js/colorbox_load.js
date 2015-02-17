@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorboxLoad = {
+Backdrop.behaviors.initColorboxLoad = {
   attach: function (context, settings) {
     if (!$.isFunction($.colorbox)) {
       return;

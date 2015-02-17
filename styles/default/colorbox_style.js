@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorboxDefaultStyle = {
+Backdrop.behaviors.initColorboxDefaultStyle = {
   attach: function (context, settings) {
     $(context).bind('cbox_complete', function () {
       // Only run if there is a title.

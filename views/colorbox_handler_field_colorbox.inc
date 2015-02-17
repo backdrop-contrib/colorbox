@@ -144,8 +144,8 @@ If you would like to have the characters %5B and %5D please use the html entity 
    */
   function render($values) {
     // Load the necessary js file for Colorbox activation.
-    if (_colorbox_active() && !variable_get('colorbox_inline', 0)) {
-      drupal_add_js(drupal_get_path('module', 'colorbox') . '/js/colorbox_inline.js');
+    if (_colorbox_active() && !config_get('colorbox.settings', 'colorbox_inline')) { 
+      backdrop_add_js(backdrop_get_path('module', 'colorbox') . '/js/colorbox_inline.js');
     }
 
     // We need to have multiple unique IDs, one for each record.
@@ -162,10 +162,10 @@ If you would like to have the characters %5B and %5D please use the html entity 
     $tokens = $this->get_render_tokens($this->options['alter']);
     $popup = filter_xss_admin($this->options['popup']);
     $caption = filter_xss_admin($this->options['caption']);
+    $gallery = backdrop_html_class($this->options['custom_gid']);
     $popup = strtr($popup, $tokens);
     $caption = strtr($caption, $tokens);
-    $gallery = strtr($this->options['custom_gid'] , $tokens);
-    $gallery = drupal_html_class($gallery);
+    $gallery = strtr($gallery, $tokens);
 
     $width = $this->options['width'] ? $this->options['width'] : '';
     $height = $this->options['height'] ? $this->options['height'] : '';

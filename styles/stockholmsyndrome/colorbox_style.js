@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorboxStockholmsyndromeStyle = {
+Backdrop.behaviors.initColorboxStockholmsyndromeStyle = {
   attach: function (context, settings) {
     $(context).bind('cbox_open', function () {
       // Hide close button initially.

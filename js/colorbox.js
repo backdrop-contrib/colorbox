@@ -1,6 +1,6 @@
 (function ($) {
 
-Drupal.behaviors.initColorbox = {
+Backdrop.behaviors.initColorbox = {
   attach: function (context, settings) {
     if (!$.isFunction($.colorbox)) {
       return;
@@ -19,7 +19,7 @@ Drupal.behaviors.initColorbox = {
       .colorbox(settings.colorbox);
 
     $(context).bind('cbox_complete', function () {
-      Drupal.attachBehaviors('#cboxLoadedContent');
+      Backdrop.attachBehaviors('#cboxLoadedContent');
     });
   }
 };

@@ -94,10 +94,10 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Shorten the caption for the example styles or when caption shortening is active.
-  $colorbox_style = variable_get('colorbox_style', 'default');
-  $trim_length = variable_get('colorbox_caption_trim_length', 75);
-  if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || variable_get('colorbox_caption_trim', 0)) && (drupal_strlen($caption) > $trim_length)) {
-    $caption = drupal_substr($caption, 0, $trim_length - 5) . '...';
+  $colorbox_style = config_get('colorbox.settings', 'colorbox_style');   
+  $trim_length = config_get('colorbox.settings', 'colorbox_caption_trim_length');   
+  if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || config_get('colorbox.settings', 'colorbox_caption_trim')) && (backdrop_strlen($caption) > $trim_length)) {
+    $caption = backdrop_substr($caption, 0, $trim_length - 5) . '...';
   }
 
   // Build the gallery id.
@@ -159,7 +159,7 @@ function theme_colorbox_imagefield($variables) {
     $image = theme('image', $variables['image']);
   }
 
-  $options = drupal_parse_url($variables['path']);
+  $options = backdrop_parse_url($variables['path']);
   $options += array(
     'html' => TRUE,
     'attributes' => array(
@@ -193,22 +193,22 @@ function template_preprocess_colorbox_insert_image(&$variables) {
   $class[] = 'image-' . $variables['style_name'];
 
   foreach ($class as $key => $value) {
-    $class[$key] = drupal_html_class($value);
+    $class[$key] = backdrop_html_class($value);
   }
 
   $variables['class'] = implode(' ', $class);
 
   $variables['uri'] = image_style_path($variables['style_name'], $variables['file']->uri);
   $absolute = isset($variables['widget']['settings']['insert_absolute']) ? $variables['widget']['settings']['insert_absolute'] : NULL;
-  $variables['url'] = insert_create_url($variables['uri'], $absolute, variable_get('clean_url'));
+  $variables['url'] = insert_create_url($variables['uri'], $absolute, config_get('system.core', 'clean_url'));
 
   // http://drupal.org/node/1923336
   if (function_exists('image_style_path_token')) {
     $token_query = array(IMAGE_DERIVATIVE_TOKEN => image_style_path_token($variables['style_name'], $variables['file']->uri));
-    $variables['url'] .= (strpos($variables['url'], '?') !== FALSE ? '&' : '?') . drupal_http_build_query($token_query);
+    $variables['url'] .= (strpos($variables['url'], '?') !== FALSE ? '&' : '?') . backdrop_http_build_query($token_query);
   }
 
-  if ($style_name = variable_get('colorbox_image_style', '')) {
+  if ($style_name = config_get('colorbox.settings', 'colorbox_image_style')) {   
     $variables['path'] = image_style_url($style_name, $variables['file']->uri);
   }
   else {
@@ -216,7 +216,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
   }
 
   $variables['gallery_id'] = '';
-  switch (variable_get('colorbox_insert_gallery', 0)) {
+  switch (config_get('colorbox.settings', 'colorbox_insert_gallery')) {   
     case 0:
     case 1:
     case 2:

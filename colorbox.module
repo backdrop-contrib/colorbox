@@ -10,6 +10,16 @@
  */
 define('COLORBOX_MIN_PLUGIN_VERSION', '1.3.21.1');
 
+/**
+ * Implements hook_config_info().
+ */
+function colorbox_config_info() {
+  $prefixes['colorbox.settings'] = array(
+    'label' => t('Colorbox settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
 
 /**
  * Implements hook_theme().
@@ -55,11 +65,14 @@ function colorbox_theme() {
  * Implements hook_init().
  */
 function colorbox_init() {
-  // Do not load colorbox during the Drupal installation process, e.g. if part
+  // Do not load colorbox during the Backdrop installation process, e.g. if part
   // of installation profiles.
-  if (!drupal_installation_attempted()) {
+  if (!backdrop_installation_attempted()) {
     _colorbox_doheader();
   }
+
+$path = backdrop_get_path('module', 'colorbox');
+backdrop_add_js($path . '/js/jquery.colorbox-min.js');
 }
 
 /**
@@ -67,49 +80,11 @@ function colorbox_init() {
  */
 function colorbox_views_api() {
   return array(
-    'api' => 2,
-    'path' => drupal_get_path('module', 'colorbox') . '/views',
+    'api' => 3,
+    'path' => backdrop_get_path('module', 'colorbox') . '/views',
   );
 }
 
-/**
- * Implements hook_libraries_info().
- */
-function colorbox_libraries_info() {
-  $libraries['colorbox'] = array(
-    'name' => 'Colorbox plugin',
-    'vendor url' => 'http://www.jacklmoore.com/colorbox',
-    'download url' => 'https://github.com/jackmoore/colorbox/archive/1.x.zip',
-    'version arguments' => array(
-      'file' => 'jquery.colorbox-min.js',
-      'pattern' => '@(?i:Colorbox)\sv?([0-9\.a-z]+)@',
-      'lines' => 5,
-    ),
-    'files' => array(
-      'js' => array(
-        'jquery.colorbox-min.js',
-      ),
-    ),
-    'variants' => array(
-      'minified' => array(
-        'files' => array(
-          'js' => array(
-            'jquery.colorbox-min.js',
-          ),
-        ),
-      ),
-      'source' => array(
-        'files' => array(
-          'js' => array(
-            'jquery.colorbox.js',
-          ),
-        ),
-      ),
-    ),
-  );
-
-  return $libraries;
-}
 
 /**
  * Implements hook_menu().
@@ -121,7 +96,7 @@ function colorbox_menu() {
     'title' => 'Colorbox',
     'description' => 'Adjust Colorbox settings.',
     'file' => 'colorbox.admin.inc',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('colorbox_admin_settings'),
     'access arguments' => array('administer site configuration'),
   );
@@ -143,17 +118,14 @@ function _colorbox_active() {
   }
 
   // Code from the block_list function in block.module.
-  $path = drupal_get_path_alias($_GET['q']);
-  $colorbox_pages = variable_get('colorbox_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*");
+  $path = backdrop_get_path_alias($_GET['q']);
+  $colorbox_pages = config_get('colorbox.settings', 'colorbox_pages');
   // Compare with the internal and path alias (if any).
-  $page_match = drupal_match_path($path, $colorbox_pages);
+  $page_match = backdrop_match_path($path, $colorbox_pages);
   if ($path != $_GET['q']) {
-    $page_match = $page_match || drupal_match_path($_GET['q'], $colorbox_pages);
+    $page_match = $page_match || backdrop_match_path($_GET['q'], $colorbox_pages);
   }
-  $page_match = variable_get('colorbox_visibility', 0) == 0 ? !$page_match : $page_match;
-
-  // Allow other modules to change the state of colorbox for the current URL.
-  drupal_alter('colorbox_active', $page_match);
+  $page_match = config_get('colorbox.settings', 'colorbox_visibility') == 0 ? !$page_match : $page_match;
 
   return $page_match;
 }
@@ -170,30 +142,31 @@ function _colorbox_doheader() {
     return; // Don't add the JavaScript and CSS on specified paths.
   }
 
-  // Insert options and translated strings as javascript settings.
-  if (variable_get('colorbox_custom_settings_activate', 0)) {
+  $config = config('colorbox.settings');
+  // Insert options and translated strings as javascript settings.  
+  if ($config->get('colorbox_custom_settings_activate')) {
     $js_settings = array(
-      'transition' => variable_get('colorbox_transition_type', 'elastic'),
-      'speed' => variable_get('colorbox_transition_speed', 350),
-      'opacity' => variable_get('colorbox_opacity', '0.85'),
-      'slideshow' => variable_get('colorbox_slideshow', 0) ? TRUE : FALSE,
-      'slideshowAuto' => variable_get('colorbox_slideshowauto', 1) ? TRUE : FALSE,
-      'slideshowSpeed' => variable_get('colorbox_slideshowspeed', 2500),
-      'slideshowStart' => variable_get('colorbox_text_start', 'start slideshow'),
-      'slideshowStop' => variable_get('colorbox_text_stop', 'stop slideshow'),
-      'current' => strip_tags(variable_get('colorbox_text_current', '{current} of {total}')),
-      'previous' => strip_tags(variable_get('colorbox_text_previous', '« Prev')),
-      'next' => strip_tags(variable_get('colorbox_text_next', 'Next »')),
-      'close' => strip_tags(variable_get('colorbox_text_close', 'Close')),
-      'overlayClose' => variable_get('colorbox_overlayclose', 1) ? TRUE : FALSE,
-      'maxWidth' => variable_get('colorbox_maxwidth', '98%'),
-      'maxHeight' => variable_get('colorbox_maxheight', '98%'),
-      'initialWidth' => variable_get('colorbox_initialwidth', '300'),
-      'initialHeight' => variable_get('colorbox_initialheight', '250'),
-      'fixed' => variable_get('colorbox_fixed', 1) ? TRUE : FALSE,
-      'scrolling' => variable_get('colorbox_scrolling', 1) ? TRUE : FALSE,
-      'mobiledetect' => variable_get('colorbox_mobile_detect', 1) ? TRUE : FALSE,
-      'mobiledevicewidth' => variable_get('colorbox_mobile_device_width', '480px'),
+      'transition' => $config->get('colorbox_transition_type'), 
+      'speed' => $config->get('colorbox_transition_speed'),  
+      'opacity' => $config->get('colorbox_opacity'),  
+      'slideshow' => $config->get('colorbox_slideshow') ? TRUE : FALSE,   
+      'slideshowAuto' => $config->get('colorbox_slideshowauto') ? TRUE : FALSE,   
+      'slideshowSpeed' => $config->get('colorbox_slideshowspeed'),  
+      'slideshowStart' => $config->get('colorbox_text_start'),
+      'slideshowStop' => $config->get('colorbox_text_stop'),
+      'current' => strip_tags($config->get('colorbox_text_current')),
+      'previous' => strip_tags($config->get('colorbox_text_previous')), 
+      'next' => strip_tags($config->get('colorbox_text_next')),
+      'close' => strip_tags($config->get('colorbox_text_close')),
+      'overlayClose' => $config->get('colorbox_overlayclose') ? TRUE : FALSE,
+      'maxWidth' => $config->get('colorbox_maxwidth'),
+      'maxHeight' => $config->get('colorbox_maxheight'),  
+      'initialWidth' => $config->get('colorbox_initialwidth'),   
+      'initialHeight' => $config->get('colorbox_initialheight'),   
+      'fixed' => $config->get('colorbox_fixed') ? TRUE : FALSE,    
+      'scrolling' => $config->get('colorbox_scrolling') ? TRUE : FALSE,    
+      'mobiledetect' => $config->get('colorbox_mobile_detect') ? TRUE : FALSE,   
+      'mobiledevicewidth' => $config->get('colorbox_mobile_device_width'),   
     );
   }
   else {
@@ -206,26 +179,26 @@ function _colorbox_doheader() {
       'maxWidth' => '98%',
       'maxHeight' => '98%',
       'fixed' => TRUE,
-      'mobiledetect' => variable_get('colorbox_mobile_detect', 1) ? TRUE : FALSE,
-      'mobiledevicewidth' => variable_get('colorbox_mobile_device_width', '480px'),
+      'mobiledetect' => config_get('colorbox.settings', 'colorbox_mobile_detect') ? TRUE : FALSE,   
+      'mobiledevicewidth' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),   
     );
   }
 
-  $path = drupal_get_path('module', 'colorbox');
-  $style = variable_get('colorbox_style', 'default');
+  $path = backdrop_get_path('module', 'colorbox');
+  $style = config_get('colorbox.settings', 'colorbox_style');
 
   // Give other modules the possibility to override Colorbox settings and style.
   $data = &$js_settings;
-  drupal_alter('colorbox_settings', $data, $style);
+  backdrop_alter('colorbox_settings', $data, $style);
 
-  drupal_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
+  backdrop_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   // Add and initialise the Colorbox plugin.
-  $variant = variable_get('colorbox_compression_type', 'minified');
+  $variant = config_get('colorbox.settings', 'colorbox_compression_type'); 
   if (module_exists('libraries')) {
     libraries_load('colorbox', $variant);
   }
-  drupal_add_js($path . '/js/colorbox.js');
+  backdrop_add_js($path . '/js/colorbox.js');
 
   // Add JS and CSS based on selected style.
   switch ($style) {
@@ -234,19 +207,19 @@ function _colorbox_doheader() {
     case 'default':
     case 'plain':
     case 'stockholmsyndrome':
-      drupal_add_css($path . '/styles/' . $style . '/colorbox_style.css');
-      drupal_add_js($path . '/styles/' . $style . '/colorbox_style.js');
+      backdrop_add_css($path . '/styles/' . $style . '/colorbox_style.css');
+      backdrop_add_js($path . '/styles/' . $style . '/colorbox_style.js');
       break;
     default:
-      drupal_add_css($style . '/colorbox.css');
+      backdrop_add_css($style . '/colorbox.css');
   }
 
-  if (variable_get('colorbox_load', 0)) {
-    drupal_add_js($path . '/js/colorbox_load.js');
+  if (config_get('colorbox.settings', 'colorbox_load')) {   
+    backdrop_add_js($path . '/js/colorbox_load.js');
   }
 
-  if (variable_get('colorbox_inline', 0)) {
-    drupal_add_js($path . '/js/colorbox_inline.js');
+  if (config_get('colorbox.settings', 'colorbox_inline')) {
+    backdrop_add_js($path . '/js/colorbox_inline.js');
   }
 
   $already_added = TRUE;
@@ -363,10 +336,10 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
         ':input[name$="[settings_edit_form][settings][colorbox_caption]"]' => array('value' => 'custom'),
       ),
     ),
-  );
-  // Allow users to hide or set a custom recursion limit.
+  );      
+  // Allow users to hide or set a custom recursion limit.   
   // The module token_tweaks sets a global recursion limit that can not be bypassed.
-  if (module_exists('token') && $recursion_limit = min(variable_get('token_tree_recursion_limit', 3), variable_get('colorbox_token_recursion_limit', 3))) {
+  if (module_exists('token') && $recursion_limit = min(config_get('colorbox.settings', 'token_tree_recursion_limit'), config_get('colorbox.settings', 'colorbox_token_recursion_limit'))) {
     $element['colorbox_token'] = array(
       '#type' => 'fieldset',
       '#title' => t('Replacement patterns'),
