@@ -2,7 +2,7 @@
 
 Backdrop.behaviors.initColorboxInline = {
   attach: function (context, settings) {
-    if (!$.isFunction($.colorbox)) {
+    if (!$.isFunction($.colorbox) || typeof settings.colorbox === 'undefined') {
       return;
     }
 
