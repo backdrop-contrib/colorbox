@@ -321,11 +321,10 @@ function colorbox_admin_settings() {
 
 
 /**
- * Form submission handler for sharethis_configuration_form().
+ * Form submission handler for colorbox_admin_settings().
  */
 function colorbox_admin_settings_submit($form, &$form_state) {
 $config = config('colorbox.settings');
-
 foreach ($form_state['values'] as $key => $value)
 {
 $config->set($key, $value);

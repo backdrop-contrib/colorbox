@@ -1,15 +1,20 @@
 COLORBOX
-===========
+===================
 
 CONTENTS OF THIS FILE
 ---------------------
 
  - Introduction
+ - Tested
+ - Known Issues
+ - Special Thanks
  - Requirements
  - Installation
- - Permissions
+ - Coming From Drupal?
  - Usage
- - Sponsors
+ - License
+ - Credits
+ - Maintainers
 
 INTRODUCTION
 ------------
@@ -18,7 +23,6 @@ This is a very simple module that opens up images or content from your Backdrop 
 
 Colorbox is a light-weight, customizable lightbox plugin for jQuery 1.4.3+.
 This module allows for integration of Colorbox into Backdrop.
-The jQuery library is a part of Drupal since version 5+.
 
 Images, iframed or inline content etc. can be displayed in a
 overlay above the current page.
@@ -31,10 +35,14 @@ TESTED
 
 Installed and opened a few images/content in Backdrop 1.0
 
-
 KNOWN ISSUES
 ---------------------
-none yet -- not extremely tested yet.
+
+@todo
+
+SPECIAL THANKS
+--------------
+
 
 
 REQUIREMENTS
@@ -47,8 +55,13 @@ This module supplies the Colorbox Jquery plugin and Backdrop supplies the Jquery
 INSTALLATION
 ------------
 
-Colorbox can be installed via the standard Backdrop installation process
-(http://drupal.org/documentation/install/modules-themes/modules-7).
+Install this module using the official Backdrop CMS instructions at https://backdropcms.org/guide/modules
+
+
+COMING FROM DRUPAL?
+-------------------
+
+Nothing substantially different.
 
 PERMISSIONS
 ------------
@@ -58,9 +71,6 @@ PERMISSIONS
 
 USAGE
 -----
-
-Features:
----------
 
 The Colorbox module:
 
@@ -88,21 +98,22 @@ Documentation:
 -------------
 https://www.drupal.org/node/1971564
 
-
-License
+LICENSE
 -------
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory for
-complete text.
+This project is GPL v2 software. See the LICENSE.txt file in this directory for complete text.
 
-Maintainers
+CREDITS
+-----------
+
+This module is based on the Colorbox module for Drupal, originally written and maintained by a large number of contributors, including:
+
+- Fredrik Jonsson <http://drupal.org/user/5546>
+
+MAINTAINERS
 -----------
 
 - seeking
-
-Current Maintainers on Drupal:
-
- - Fredrik Jonsson <http://drupal.org/user/5546>
 
 Ported to Backdrop by:
 
