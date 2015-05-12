@@ -43,19 +43,28 @@ KNOWN ISSUES
 SPECIAL THANKS
 --------------
 
-
+http://www.jacklmoore.com/
 
 REQUIREMENTS
 ------------
 
-This module supplies the Colorbox Jquery plugin and Backdrop supplies the Jquery library.
+You need to download the Colorbox script separately from downloading this module at this address: http://www.jacklmoore.com/colorbox
 
-@todo -- decide on a library system for Backdrop and use that instead.
+Backdrop CMS supplies the correct version of JQuery.
+
 
 INSTALLATION
 ------------
 
 Install this module using the official Backdrop CMS instructions at https://backdropcms.org/guide/modules
+
+Then
+
+Download and install the Libraries module.
+
+Then and install the Colorbox script and place in /libraries/colorbox
+
+Documentation may be found here: https://www.drupal.org/node/1971564
 
 
 COMING FROM DRUPAL?

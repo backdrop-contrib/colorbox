@@ -6,130 +6,100 @@
  */
 
 /**
+ * Implements hook_requirements().
+ */
+function colorbox_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $t = get_t();
+    $library = libraries_detect('colorbox');
+    $error_type = isset($library['error']) ? drupal_ucfirst($library['error']) : '';
+    $error_message = isset($library['error message']) ? $library['error message'] : '';
+
+    if (empty($library['installed'])) {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'value' => $t('@e: At least @a', array('@e' => $error_type, '@a' => COLORBOX_MIN_PLUGIN_VERSION)),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('!error You need to download the !colorbox, extract the archive and place the colorbox directory in the %path directory on your server.', array('!error' => $error_message, '!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => 'sites/all/libraries')),
+      );
+    }
+    elseif (version_compare($library['version'], COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'severity' => REQUIREMENT_OK,
+        'value' => $library['version'],
+      );
+    }
+    else {
+      $requirements['colorbox_plugin'] = array(
+        'title' => $t('Colorbox plugin'),
+        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('You need to download a later version of the !colorbox and replace the old version located in the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => $library['library path'])),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
  * Implements hook_uninstall().
  */
 function colorbox_uninstall() {
   db_delete('variable')->condition('name', db_like('colorbox_') . '%', 'LIKE')->execute();
 }
 
-/**
- * Delete the unused colorbox_login_form variable.
- */
-function colorbox_update_7001() {
-  $ret = array();
-  variable_del('colorbox_login_form');
-
-  return $ret;
-}
-
-/**
- * Delete the unused colorbox_title_trim and
- * colorbox_title_trim_length variables.
- */
-function colorbox_update_7002() {
-  $ret = array();
-  $colorbox_title_trim = variable_get('colorbox_title_trim', NULL);
-  $colorbox_title_trim_length = variable_get('colorbox_title_trim_length', NULL);
-  if (!empty($colorbox_title_trim)) {
-    variable_set('colorbox_caption_trim', $colorbox_title_trim);
-  }
-  if (!empty($colorbox_title_trim_length)) {
-    variable_set('colorbox_caption_trim_length', $colorbox_title_trim_length);
-  }
-  variable_del('colorbox_title_trim');
-  variable_del('colorbox_title_trim_length');
-
-  return $ret;
-}
-
-/**
- * Delete the unused colorbox_login and colorbox_login_links variables.
- */
-function colorbox_update_7200() {
-  $ret = array();
-  variable_del('colorbox_login');
-  variable_del('colorbox_login_links');
-
-  return $ret;
-}
-
-/**
- * Delete the unused colorbox_auto_image_nodes variable.
- */
-function colorbox_update_7201() {
-  $ret = array();
-  variable_del('colorbox_auto_image_nodes');
-
-  return $ret;
-}
-
-/**
- * Update the colorbox_compression_type variable.
- */
-function colorbox_update_7202() {
-  $ret = array();
-  if (variable_get('colorbox_compression_type', 'minified') == 'none') {
-    variable_set('colorbox_compression_type', 'source');
-  }
-  else {
-    variable_set('colorbox_compression_type', 'minified');
-  }
-
-  return $ret;
-}
-
-
-
-
-
 function colorbox_update_1000() {
   $config = config('colorbox.settings');
-  
+
   $config->set('colorbox_image_style', update_variable_get('colorbox_image_style'));
   $config->set('colorbox_insert_gallery', update_variable_get('colorbox_insert_gallery'));
   $config->set('colorbox_load', update_variable_get('colorbox_load'));
   $config->set('colorbox_inline', update_variable_get('colorbox_inline'));
   $config->set('colorbox_style', update_variable_get('colorbox_style'));
-  
+
   $config->set('colorbox_custom_settings_activate', update_variable_get('colorbox_custom_settings_activate'));
   $config->set('colorbox_transition_type', update_variable_get('colorbox_transition_type'));
   $config->set('colorbox_transition_speed', update_variable_get('colorbox_transition_speed'));
   $config->set('colorbox_opacity', update_variable_get('colorbox_opacity'));
   $config->set('colorbox_text_current', update_variable_get('colorbox_text_current'));
-  
+
   $config->set('colorbox_text_previous', update_variable_get('colorbox_text_previous'));
   $config->set('colorbox_text_next', update_variable_get('colorbox_text_next'));
   $config->set('colorbox_text_close', update_variable_get('colorbox_text_close'));
   $config->set('colorbox_overlayclose', update_variable_get('colorbox_overlayclose'));
   $config->set('colorbox_maxwidth', update_variable_get('colorbox_maxwidth'));
-  
+
   $config->set('colorbox_maxheight', update_variable_get('colorbox_maxheight'));
   $config->set('colorbox_initialwidth', update_variable_get('colorbox_initialwidth'));
   $config->set('colorbox_initialheight', update_variable_get('colorbox_initialheight'));
   $config->set('colorbox_fixed', update_variable_get('colorbox_fixed'));
   $config->set('colorbox_slideshow', update_variable_get('colorbox_slideshow'));
-  
+
   $config->set('colorbox_scrolling', update_variable_get('colorbox_scrolling'));
   $config->set('colorbox_slideshow', update_variable_get('colorbox_slideshow'));
   $config->set('colorbox_slideshowauto', update_variable_get('colorbox_slideshowauto'));
   $config->set('colorbox_slideshowspeed', update_variable_get('colorbox_slideshowspeed'));
   $config->set('colorbox_text_start', update_variable_get('colorbox_text_start'));
-  
+
   $config->set('colorbox_text_stop', update_variable_get('colorbox_text_stop'));
   $config->set('colorbox_mobile_detect', update_variable_get('colorbox_mobile_detect'));
   $config->set('colorbox_mobile_device_width', update_variable_get('colorbox_mobile_device_width'));
   $config->set('colorbox_caption_trim', update_variable_get('colorbox_caption_trim'));
   $config->set('colorbox_caption_trim_length', update_variable_get('colorbox_caption_trim_length'));
-  
+
   $config->set('colorbox_visibility', update_variable_get('colorbox_visibility'));
   $config->set('colorbox_pages', update_variable_get('colorbox_pages'));
   $config->set('colorbox_compression_type', update_variable_get('colorbox_compression_type'));
   $config->set('colorbox_title_trim', update_variable_get('colorbox_title_trim'));
   $config->set('colorbox_title_trim_length', update_variable_get('colorbox_title_trim_length'));
-  
+
   $config->set('token_tree_recursion_limit', update_variable_get('token_tree_recursion_limit'));
   $config->set('colorbox_token_recursion_limit', update_variable_get('colorbox_token_recursion_limit'));
-  
+
   $config->save();
 
   // Delete variables.
@@ -138,43 +108,43 @@ function colorbox_update_1000() {
   update_variable_del('colorbox_load');
   update_variable_del('colorbox_inline');
   update_variable_del('colorbox_style');
-  
+
   update_variable_del('colorbox_custom_settings_activate');
   update_variable_del('colorbox_transition_type');
   update_variable_del('colorbox_transition_speed');
   update_variable_del('colorbox_opacity');
   update_variable_del('colorbox_text_current');
-  
+
   update_variable_del('colorbox_text_previous');
   update_variable_del('colorbox_text_next');
   update_variable_del('colorbox_text_close');
   update_variable_del('colorbox_overlayclose');
   update_variable_del('colorbox_maxwidth');
-  
+
   update_variable_del('colorbox_maxheight');
   update_variable_del('colorbox_initialwidth');
   update_variable_del('colorbox_initialheight');
   update_variable_del('colorbox_fixed');
   update_variable_del('colorbox_slideshow');
-  
+
   update_variable_del('colorbox_scrolling');
   update_variable_del('colorbox_slideshow');
   update_variable_del('colorbox_slideshowauto');
   update_variable_del('colorbox_slideshowspeed');
   update_variable_del('colorbox_text_start');
-  
+
   update_variable_del('colorbox_text_stop');
   update_variable_del('colorbox_mobile_detect');
   update_variable_del('colorbox_mobile_device_width');
   update_variable_del('colorbox_caption_trim');
   update_variable_del('colorbox_caption_trim_length');
-  
+
   update_variable_del('colorbox_visibility');
   update_variable_del('colorbox_pages');
   update_variable_del('colorbox_compression_type');
   update_variable_del('colorbox_title_trim');
   update_variable_del('colorbox_title_trim_length');
-  
+
   update_variable_del('token_tree_recursion_limit');
   update_variable_del('colorbox_token_recursion_limit');
 }

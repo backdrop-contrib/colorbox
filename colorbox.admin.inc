@@ -11,6 +11,8 @@
 function colorbox_admin_settings() {
   backdrop_add_js(backdrop_get_path('module', 'colorbox') . '/js/colorbox_admin_settings.js', array('preprocess' => FALSE));
 
+  $library = libraries_detect('colorbox');
+
   if (module_exists('insert')) {
     $form['colorbox_insert_module'] = array(
       '#type' => 'fieldset',
@@ -22,7 +24,7 @@ function colorbox_admin_settings() {
       '#title' => t('Image style'),
       '#empty_option' => t('None (original image)'),
       '#options' => $image_styles,
-      '#default_value' => config_get('colorbox.settings', 'colorbox_image_style'), 
+      '#default_value' => config_get('colorbox.settings', 'colorbox_image_style'),
       '#description' => t('Select which image style to use for viewing images in the colorbox.'),
     );
     $form['colorbox_insert_module']['colorbox_insert_gallery'] = array(
@@ -92,7 +94,7 @@ function colorbox_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Transition type'),
     '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_type'),  
+    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_type'),
     '#description' => t('The transition type.'),
   );
   $form['colorbox_custom_settings']['colorbox_transition_speed'] = array(
@@ -119,7 +121,7 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_text_previous'] = array(
     '#type' => 'textfield',
     '#title' => t('Previous'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_previous'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_previous'),
     '#size' => 30,
     '#description' => t('Text for the previous button in a shared relation group.'),
   );
@@ -153,21 +155,21 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_maxheight'] = array(
     '#type' => 'textfield',
     '#title' => t('Max height'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_maxheight'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_maxheight'),
     '#size' => 30,
     '#description' => t('Set a maximum height for loaded content. Example: "100%", 500, "500px".'),
   );
   $form['colorbox_custom_settings']['colorbox_initialwidth'] = array(
     '#type' => 'textfield',
     '#title' => t('Initial width'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_initialwidth'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_initialwidth'),
     '#size' => 30,
     '#description' => t('Set the initial width, prior to any content being loaded. Example: "100%", 500, "500px".'),
   );
   $form['colorbox_custom_settings']['colorbox_initialheight'] = array(
     '#type' => 'textfield',
     '#title' => t('Initial height'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_initialheight'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_initialheight'),
     '#size' => 30,
     '#description' => t('Set the initial height, prior to any content being loaded. Example: "100%", 500, "500px".'),
   );
@@ -222,14 +224,14 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_start'] = array(
     '#type' => 'textfield',
     '#title' => t('Start slideshow'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_start'),  
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_start'),
     '#size' => 30,
     '#description' => t('Text for the slideshow start button.'),
   );
   $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
     '#type' => 'textfield',
     '#title' => t('Stop slideshow'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_stop'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_stop'),
     '#size' => 30,
     '#description' => t('Text for the slideshow stop button.'),
   );
@@ -258,7 +260,7 @@ function colorbox_admin_settings() {
   $form['colorbox_advanced_settings']['colorbox_mobile_device_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Device with'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_mobile_device_width'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),
     '#size' => 30,
     '#description' => t('Set the mobile device max with. Default: 480px.'),
     '#states' => array(
@@ -271,14 +273,14 @@ function colorbox_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Caption shortening'),
     '#options' => array(0 => t('Default'), 1 => t('Yes')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_caption_trim'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_caption_trim'),
     '#description' => t('If the caption should be made shorter in the Colorbox to avoid layout problems. The default is to shorten for the example styles, they need it, but not for other styles.'),
   );
   $form['colorbox_advanced_settings']['colorbox_caption_trim_length'] = array(
     '#type' => 'select',
     '#title' => t('Caption max length'),
     '#options' => backdrop_map_assoc(array(40, 45, 50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120)),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_caption_trim_length'), 
+    '#default_value' => config_get('colorbox.settings', 'colorbox_caption_trim_length'),
     '#states' => array(
       'visible' => array(
         ':input[name="colorbox_caption_trim"]' => array('value' => '1'),
@@ -289,7 +291,7 @@ function colorbox_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Show Colorbox on specific pages'),
     '#options' => array(0 => t('All pages except those listed'), 1 => t('Only the listed pages')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_visibility'),  
+    '#default_value' => config_get('colorbox.settings', 'colorbox_visibility'),
   );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',

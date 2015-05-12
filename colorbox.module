@@ -22,6 +22,15 @@ function colorbox_config_info() {
 }
 
 /**
+ * Implements hook_autoload_info().
+ */
+function colorbox_autoload_info() {
+  return array(
+    'colorbox_handler_field_colorbox' => 'views/colorbox_handler_field_colorbox.inc',
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function colorbox_theme() {
@@ -71,8 +80,8 @@ function colorbox_init() {
     _colorbox_doheader();
   }
 
-$path = backdrop_get_path('module', 'colorbox');
-backdrop_add_js($path . '/js/jquery.colorbox-min.js');
+// $path = backdrop_get_path('module', 'colorbox');
+// backdrop_add_js($path . '/js/jquery.colorbox-min.js');
 }
 
 /**
@@ -83,6 +92,45 @@ function colorbox_views_api() {
     'api' => 3,
     'path' => backdrop_get_path('module', 'colorbox') . '/views',
   );
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function colorbox_libraries_info() {
+  $libraries['colorbox'] = array(
+    'name' => 'Colorbox plugin',
+    'vendor url' => 'http://www.jacklmoore.com/colorbox',
+    'download url' => 'https://github.com/jackmoore/colorbox/archive/1.x.zip',
+    'version arguments' => array(
+      'file' => 'jquery.colorbox-min.js',
+      'pattern' => '@(?i:Colorbox)\sv?([0-9\.a-z]+)@',
+      'lines' => 5,
+    ),
+    'files' => array(
+      'js' => array(
+        'jquery.colorbox-min.js',
+      ),
+    ),
+    'variants' => array(
+      'minified' => array(
+        'files' => array(
+          'js' => array(
+            'jquery.colorbox-min.js',
+          ),
+        ),
+      ),
+      'source' => array(
+        'files' => array(
+          'js' => array(
+            'jquery.colorbox.js',
+          ),
+        ),
+      ),
+    ),
+  );
+
+  return $libraries;
 }
 
 
@@ -143,30 +191,30 @@ function _colorbox_doheader() {
   }
 
   $config = config('colorbox.settings');
-  // Insert options and translated strings as javascript settings.  
+  // Insert options and translated strings as javascript settings.
   if ($config->get('colorbox_custom_settings_activate')) {
     $js_settings = array(
-      'transition' => $config->get('colorbox_transition_type'), 
-      'speed' => $config->get('colorbox_transition_speed'),  
-      'opacity' => $config->get('colorbox_opacity'),  
-      'slideshow' => $config->get('colorbox_slideshow') ? TRUE : FALSE,   
-      'slideshowAuto' => $config->get('colorbox_slideshowauto') ? TRUE : FALSE,   
-      'slideshowSpeed' => $config->get('colorbox_slideshowspeed'),  
+      'transition' => $config->get('colorbox_transition_type'),
+      'speed' => $config->get('colorbox_transition_speed'),
+      'opacity' => $config->get('colorbox_opacity'),
+      'slideshow' => $config->get('colorbox_slideshow') ? TRUE : FALSE,
+      'slideshowAuto' => $config->get('colorbox_slideshowauto') ? TRUE : FALSE,
+      'slideshowSpeed' => $config->get('colorbox_slideshowspeed'),
       'slideshowStart' => $config->get('colorbox_text_start'),
       'slideshowStop' => $config->get('colorbox_text_stop'),
       'current' => strip_tags($config->get('colorbox_text_current')),
-      'previous' => strip_tags($config->get('colorbox_text_previous')), 
+      'previous' => strip_tags($config->get('colorbox_text_previous')),
       'next' => strip_tags($config->get('colorbox_text_next')),
       'close' => strip_tags($config->get('colorbox_text_close')),
       'overlayClose' => $config->get('colorbox_overlayclose') ? TRUE : FALSE,
       'maxWidth' => $config->get('colorbox_maxwidth'),
-      'maxHeight' => $config->get('colorbox_maxheight'),  
-      'initialWidth' => $config->get('colorbox_initialwidth'),   
-      'initialHeight' => $config->get('colorbox_initialheight'),   
-      'fixed' => $config->get('colorbox_fixed') ? TRUE : FALSE,    
-      'scrolling' => $config->get('colorbox_scrolling') ? TRUE : FALSE,    
-      'mobiledetect' => $config->get('colorbox_mobile_detect') ? TRUE : FALSE,   
-      'mobiledevicewidth' => $config->get('colorbox_mobile_device_width'),   
+      'maxHeight' => $config->get('colorbox_maxheight'),
+      'initialWidth' => $config->get('colorbox_initialwidth'),
+      'initialHeight' => $config->get('colorbox_initialheight'),
+      'fixed' => $config->get('colorbox_fixed') ? TRUE : FALSE,
+      'scrolling' => $config->get('colorbox_scrolling') ? TRUE : FALSE,
+      'mobiledetect' => $config->get('colorbox_mobile_detect') ? TRUE : FALSE,
+      'mobiledevicewidth' => $config->get('colorbox_mobile_device_width'),
     );
   }
   else {
@@ -179,8 +227,8 @@ function _colorbox_doheader() {
       'maxWidth' => '98%',
       'maxHeight' => '98%',
       'fixed' => TRUE,
-      'mobiledetect' => config_get('colorbox.settings', 'colorbox_mobile_detect') ? TRUE : FALSE,   
-      'mobiledevicewidth' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),   
+      'mobiledetect' => config_get('colorbox.settings', 'colorbox_mobile_detect') ? TRUE : FALSE,
+      'mobiledevicewidth' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),
     );
   }
 
@@ -194,7 +242,7 @@ function _colorbox_doheader() {
   backdrop_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
   // Add and initialise the Colorbox plugin.
-  $variant = config_get('colorbox.settings', 'colorbox_compression_type'); 
+  $variant = config_get('colorbox.settings', 'colorbox_compression_type');
   if (module_exists('libraries')) {
     libraries_load('colorbox', $variant);
   }
@@ -214,7 +262,7 @@ function _colorbox_doheader() {
       backdrop_add_css($style . '/colorbox.css');
   }
 
-  if (config_get('colorbox.settings', 'colorbox_load')) {   
+  if (config_get('colorbox.settings', 'colorbox_load')) {
     backdrop_add_js($path . '/js/colorbox_load.js');
   }
 
@@ -336,8 +384,8 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
         ':input[name$="[settings_edit_form][settings][colorbox_caption]"]' => array('value' => 'custom'),
       ),
     ),
-  );      
-  // Allow users to hide or set a custom recursion limit.   
+  );
+  // Allow users to hide or set a custom recursion limit.
   // The module token_tweaks sets a global recursion limit that can not be bypassed.
   if (module_exists('token') && $recursion_limit = min(config_get('colorbox.settings', 'token_tree_recursion_limit'), config_get('colorbox.settings', 'colorbox_token_recursion_limit'))) {
     $element['colorbox_token'] = array(
