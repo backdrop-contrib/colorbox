@@ -169,7 +169,26 @@ function theme_colorbox_imagefield($variables) {
     ),
     'language' => array('language' => NULL),
   );
-
+  /*
+   * At this l() has the correct path to the image
+   * img src does not.
+   *
+   * the commmented out part at the end of $image is what was there before
+   * I hacksoared the crap out of it.
+   *
+   * TODO: figure out the correct way to do this!
+   */
+  $elbo = $variables['path'];
+  $alt = $variables['image']['alt'];
+  $title = $variables['image']['title'];
+  $width = $variables['image']['width'];
+  $height = $variables['image']['height'];
+  $image = "<img src=\"" .
+    $elbo . '"' .
+    'alt="' . $alt . '"' .
+    'title="' . $title . '"' .
+    'width="' . $width . '"' .
+    'height="' . $height . "\" />";//<img src=\"$elbo\" alt='banba' />";dpm($variables['image']['path']);
   return l($image, $options['path'], $options);
 }
 
