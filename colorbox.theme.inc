@@ -24,7 +24,7 @@ function theme_colorbox_image_formatter($variables) {
   $settings = $variables['display_settings'];
 
   $image = array(
-    'path' => $item['uri'],
+    'uri' => $item['uri'],
     'alt' => isset($item['alt']) ? $item['alt'] : '',
     'title' => isset($item['title']) ? $item['title'] : '',
     'style_name' => $settings['colorbox_node_style'],
@@ -124,10 +124,10 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   if ($style_name = $settings['colorbox_image_style']) {
-    $path = image_style_url($style_name, $image['path']);
+    $path = image_style_url($style_name, $image['uri']);
   }
   else {
-    $path = file_create_url($image['path']);
+    $path = file_create_url($image['uri']);
   }
 
   return theme('colorbox_imagefield', array('image' => $image, 'path' => $path, 'title' => $caption, 'gid' => $gallery_id));
