@@ -58,7 +58,7 @@ function colorbox_drush_command() {
 function colorbox_drush_help($section) {
   switch ($section) {
     case 'drush:colorbox-plugin':
-      return dt('Download and install the Colorbox plugin from jacklmoore.com/colorbox, default location is sites/all/libraries.');
+      return dt('Download and install the Colorbox plugin from jacklmoore.com/colorbox, default location is /libraries.');
   }
 }
 
@@ -81,7 +81,7 @@ function drush_colorbox_plugin() {
     $path = $args[0];
   }
   else {
-    $path = 'sites/all/libraries';
+    $path = '/libraries';
   }
 
   // Create the path if it does not exist.

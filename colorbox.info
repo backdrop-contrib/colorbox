@@ -1,6 +1,6 @@
 name = Colorbox
 description = A light-weight, customizable lightbox plugin
-version = BACKDROP_VERSION
+version = 1.x-1.1
 backdrop = 1.x
 dependencies[] = libraries
 type = module
