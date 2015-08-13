@@ -1,6 +1,13 @@
 COLORBOX
 ===================
 
+This is a very simple module that opens up images or content from your Backdrop site into a popup/modal "lightbox" and is very customizable.
+
+Colorbox is a light-weight, customizable lightbox plugin for jQuery 1.4.3+.  This module allows for integration of Colorbox into Backdrop.  Images, iframed or inline content etc. can be displayed in a overlay above the current page.
+
+* JQuery - http://jquery.com/
+* Colorbox - http://www.jacklmoore.com/colorbox/
+
 CONTENTS OF THIS FILE
 ---------------------
 
@@ -15,16 +22,6 @@ CONTENTS OF THIS FILE
  - License
  - Credits
  - Maintainers
-
-INTRODUCTION
-------------
-
-This is a very simple module that opens up images or content from your Backdrop site into a popup/modal "lightbox" and is very customizable.
-
-Colorbox is a light-weight, customizable lightbox plugin for jQuery 1.4.3+.  This module allows for integration of Colorbox into Backdrop.  Images, iframed or inline content etc. can be displayed in a overlay above the current page.
-
-* JQuery - http://jquery.com/
-* Colorbox - http://www.jacklmoore.com/colorbox/
 
 TESTED
 -----
