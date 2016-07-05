@@ -14,7 +14,7 @@ function colorbox_requirements($phase) {
   if ($phase == 'runtime') {
     $t = get_t();
     $library = libraries_detect('colorbox');
-    $error_type = isset($library['error']) ? drupal_ucfirst($library['error']) : '';
+    $error_type = isset($library['error']) ? backdrop_ucfirst($library['error']) : '';
     $error_message = isset($library['error message']) ? $library['error message'] : '';
 
     if (empty($library['installed'])) {
