@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Views data definitions of the Colorbox module.
