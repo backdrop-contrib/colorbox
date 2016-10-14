@@ -1,49 +1,8 @@
 <?php
-
 /**
  * @file
  * Install, update and uninstall functions for the colorbox module.
  */
-
-/**
- * Implements hook_requirements().
- */
-function colorbox_requirements($phase) {
-  $requirements = array();
-
-  if ($phase == 'runtime') {
-    $t = get_t();
-    $library = libraries_detect('colorbox');
-    $error_type = isset($library['error']) ? drupal_ucfirst($library['error']) : '';
-    $error_message = isset($library['error message']) ? $library['error message'] : '';
-
-    if (empty($library['installed'])) {
-      $requirements['colorbox_plugin'] = array(
-        'title' => $t('Colorbox plugin'),
-        'value' => $t('@e: At least @a', array('@e' => $error_type, '@a' => COLORBOX_MIN_PLUGIN_VERSION)),
-        'severity' => REQUIREMENT_ERROR,
-        'description' => $t('!error You need to download the !colorbox, extract the archive, rename the folder as colorbox and place the colorbox directory in the %path directory on your server.', array('!error' => $error_message, '!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => '/libraries')),
-      );
-    }
-    elseif (version_compare($library['version'], COLORBOX_MIN_PLUGIN_VERSION, '>=')) {
-      $requirements['colorbox_plugin'] = array(
-        'title' => $t('Colorbox plugin'),
-        'severity' => REQUIREMENT_OK,
-        'value' => $library['version'],
-      );
-    }
-    else {
-      $requirements['colorbox_plugin'] = array(
-        'title' => $t('Colorbox plugin'),
-        'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
-        'severity' => REQUIREMENT_ERROR,
-        'description' => $t('You need to download a later version of the !colorbox and replace the old version located in the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => $library['library path'])),
-      );
-    }
-  }
-
-  return $requirements;
-}
 
 /**
  * Implements hook_uninstall().

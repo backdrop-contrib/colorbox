@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Colorbox theme functions.
@@ -94,8 +93,8 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Shorten the caption for the example styles or when caption shortening is active.
-  $colorbox_style = config_get('colorbox.settings', 'colorbox_style');   
-  $trim_length = config_get('colorbox.settings', 'colorbox_caption_trim_length');   
+  $colorbox_style = config_get('colorbox.settings', 'colorbox_style');
+  $trim_length = config_get('colorbox.settings', 'colorbox_caption_trim_length');
   if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || config_get('colorbox.settings', 'colorbox_caption_trim')) && (backdrop_strlen($caption) > $trim_length)) {
     $caption = backdrop_substr($caption, 0, $trim_length - 5) . '...';
   }
@@ -208,7 +207,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
     $variables['url'] .= (strpos($variables['url'], '?') !== FALSE ? '&' : '?') . backdrop_http_build_query($token_query);
   }
 
-  if ($style_name = config_get('colorbox.settings', 'colorbox_image_style')) {   
+  if ($style_name = config_get('colorbox.settings', 'colorbox_image_style')) {
     $variables['path'] = image_style_url($style_name, $variables['file']->uri);
   }
   else {
@@ -216,7 +215,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
   }
 
   $variables['gallery_id'] = '';
-  switch (config_get('colorbox.settings', 'colorbox_insert_gallery')) {   
+  switch (config_get('colorbox.settings', 'colorbox_insert_gallery')) {
     case 0:
     case 1:
     case 2:

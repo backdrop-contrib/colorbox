@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Administrative page callbacks for the colorbox module.
@@ -9,9 +8,25 @@
  * General configuration form for controlling the colorbox behaviour.
  */
 function colorbox_admin_settings() {
-  backdrop_add_js(backdrop_get_path('module', 'colorbox') . '/js/colorbox_admin_settings.js', array('preprocess' => FALSE));
-
-  $library = libraries_detect('colorbox');
+  $colorbox_path = backdrop_get_path('module', 'colorbox') . '/libraries/colorbox';
+  $colorbox_styles = array(
+    'default' => t('Default'),
+    'plain' => t('Plain (mainly for images)'),
+    'stockholmsyndrome' => t('Stockholm Syndrome'),
+    $colorbox_path . '/example1' => t('Example 1'),
+    $colorbox_path . '/example2' => t('Example 2'),
+    $colorbox_path . '/example3' => t('Example 3'),
+    $colorbox_path . '/example4' => t('Example 4'),
+    $colorbox_path . '/example5' => t('Example 5'),
+    'none' => t('None'),
+  );
+  $form['colorbox_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Colorbox style'),
+    '#options' => $colorbox_styles,
+    '#default_value' => config_get('colorbox.settings', 'colorbox_style'),
+    '#description' => t('Select "None" if Colorbox styles are provided by your theme.'),
+  );
 
   if (module_exists('insert')) {
     $form['colorbox_insert_module'] = array(
@@ -36,6 +51,164 @@ function colorbox_admin_settings() {
     );
   }
 
+  $form['colorbox_custom_settings_activate'] = array(
+    '#type' => 'radios',
+    '#title' => t('Colorbox custom options'),
+    '#options' => array(
+      0 => t('Disabled'),
+      1 => t('Enabled'),
+    ),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_custom_settings_activate'),
+  );
+  $form['colorbox_custom_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Colorbox custom options'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="colorbox_custom_settings_activate"]' => array('value' => '1'),
+      ),
+    ),
+  );
+  $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Transition type'),
+    '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_type'),
+  );
+  $form['colorbox_custom_settings']['colorbox_transition_speed'] = array(
+    '#type' => 'select',
+    '#title' => t('Transition speed'),
+    '#field_suffix' => t('milliseconds'),
+    '#options' => backdrop_map_assoc(array(100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600)),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_speed'),
+    '#description' => t('Sets the speed of the fade and elastic transitions.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_opacity'] = array(
+    '#type' => 'select',
+    '#title' => t('Opacity'),
+    '#options' => backdrop_map_assoc(array('0', '0.10', '0.15', '0.20', '0.25', '0.30', '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65', '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1')),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_opacity'),
+    '#description' => t('The overlay opacity level. Range: 0 to 1.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_text_current'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text for the content group or gallery count'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_current'),
+    '#size' => 30,
+    '#description' => t('The placeholders {current} and {total} will be replaced with actual numbers at runtime.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_text_previous'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text for the previous button'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_previous'),
+    '#size' => 30,
+
+  );
+  $form['colorbox_custom_settings']['colorbox_text_next'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text for the next button'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_next'),
+    '#size' => 30,
+  );
+  $form['colorbox_custom_settings']['colorbox_text_close'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text for the close button'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_close'),
+    '#size' => 30,
+    '#description' => t('The "Esc" key will also close Colorbox.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_overlayclose'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Overlay close'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_overlayclose'),
+    '#description' => t('Enable closing Colorbox by clicking on the background overlay.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum width for loaded content'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_maxwidth'),
+    '#size' => 30,
+    '#description' => t('Example: "100%", 500, "500px".'),
+  );
+  $form['colorbox_custom_settings']['colorbox_maxheight'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum height for loaded content'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_maxheight'),
+    '#size' => 30,
+    '#description' => t('Example: "100%", 500, "500px".'),
+  );
+  $form['colorbox_custom_settings']['colorbox_initialwidth'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Initial width, prior to any content being loaded'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_initialwidth'),
+    '#size' => 30,
+    '#description' => t('Example: "100%", 500, "500px".'),
+  );
+  $form['colorbox_custom_settings']['colorbox_initialheight'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Initial height, prior to any content being loaded'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_initialheight'),
+    '#size' => 30,
+    '#description' => t('Example: "100%", 500, "500px".'),
+  );
+  $form['colorbox_custom_settings']['colorbox_fixed'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Fixed position'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_fixed'),
+    '#description' => t('If the Colorbox should be displayed in a fixed position within the visitor\'s viewport or relative to the document.'),
+  );
+  $form['colorbox_custom_settings']['colorbox_scrolling'] = array(
+    '#type' => 'radios',
+    '#title' => t('Scrollbars'),
+    '#options' => array(1 => t('On'), 0 => t('Off')),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_scrolling'),
+    '#description' => t('If set to Off, Colorbox will hide scrollbars for overflowing content. This could be used in conjunction with the resize method for a smoother transition if you are appending content to an already open instance of Colorbox.'),
+  );
+
+  $form['colorbox_slideshow'] = array(
+    '#type' => 'radios',
+    '#title' => t('Automatic Slideshow'),
+    '#options' => array(
+      0 => t('Off'),
+      1 => t('On'),
+    ),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshow'),
+    '#description' => t('An automatic slideshow to a content group / gallery.'),
+  );
+  $form['colorbox_slideshow_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Slideshow settings'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="colorbox_slideshow"]' => array('value' => '1'),
+      ),
+    ),
+  );
+  $form['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Automatically start to play the slideshow'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowauto'),
+  );
+  $form['colorbox_slideshow_settings']['colorbox_slideshowspeed'] = array(
+    '#type' => 'select',
+    '#title' => t('Slideshow speed'),
+    '#field_suffix' => t('milliseconds'),
+    '#options' => backdrop_map_assoc(array(1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000)),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowspeed'),
+  );
+  $form['colorbox_slideshow_settings']['colorbox_text_start'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Start button text'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_start'),
+    '#size' => 30,
+  );
+  $form['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Stop button text'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_text_stop'),
+    '#size' => 30,
+  );
+
   $form['colorbox_extra_features'] = array(
     '#type' => 'fieldset',
     '#title' => t('Extra features'),
@@ -51,197 +224,6 @@ function colorbox_admin_settings() {
     '#title' => t('Enable Colorbox inline'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_inline'),
     '#description' => t('This enables custom links that can open inline content in a Colorbox. Add the class "colorbox-inline" to the link and build the url like this "?width=500&height=500&inline=true#id-of-content". Other modules may activate this for easy Colorbox integration.'),
-  );
-
-  $form['colorbox_custom_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Styles and options'),
-  );
-  $colorbox_styles = array(
-    'default' => t('Default'),
-    'plain' => t('Plain (mainly for images)'),
-    'stockholmsyndrome' => t('Stockholm Syndrome'),
-    $library['library path'] . '/example1' => t('Example 1'),
-    $library['library path'] . '/example2' => t('Example 2'),
-    $library['library path'] . '/example3' => t('Example 3'),
-    $library['library path'] . '/example4' => t('Example 4'),
-    $library['library path'] . '/example5' => t('Example 5'),
-    'none' => t('None'),
-  );
-  $form['colorbox_custom_settings']['colorbox_style'] = array(
-    '#type' => 'select',
-    '#title' => t('Style'),
-    '#options' => $colorbox_styles,
-    '#default_value' => config_get('colorbox.settings', 'colorbox_style'),
-    '#description' => t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
-    '#type' => 'radios',
-    '#title' => t('Options'),
-    '#options' => array(0 => t('Default'), 1 => t('Custom')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_custom_settings_activate'),
-    '#description' => t('Use the default or custom options for Colorbox.'),
-    '#prefix' => '<div class="colorbox-custom-settings-activate">',
-    '#suffix' => '</div>',
-  );
-
-  $js_hide = config_get('colorbox.settings', 'colorbox_custom_settings_activate') ? '' : ' js-hide';
-  $form['colorbox_custom_settings']['wrapper_start'] = array(
-    '#markup' => '<div class="colorbox-custom-settings' . $js_hide . '">',
-  );
-
-  $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
-    '#type' => 'radios',
-    '#title' => t('Transition type'),
-    '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_type'),
-    '#description' => t('The transition type.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_transition_speed'] = array(
-    '#type' => 'select',
-    '#title' => t('Transition speed'),
-    '#options' => backdrop_map_assoc(array(100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600)),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_transition_speed'),
-    '#description' => t('Sets the speed of the fade and elastic transitions, in milliseconds.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_opacity'] = array(
-    '#type' => 'select',
-    '#title' => t('Opacity'),
-    '#options' => backdrop_map_assoc(array('0', '0.10', '0.15', '0.20', '0.25', '0.30', '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65', '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_opacity'),
-    '#description' => t('The overlay opacity level. Range: 0 to 1.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_text_current'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Current'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_current'),
-    '#size' => 30,
-    '#description' => t('Text format for the content group / gallery count. {current} and {total} are detected and replaced with actual numbers while Colorbox runs.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_text_previous'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Previous'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_previous'),
-    '#size' => 30,
-    '#description' => t('Text for the previous button in a shared relation group.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_text_next'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Next'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_next'),
-    '#size' => 30,
-    '#description' => t('Text for the next button in a shared relation group.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_text_close'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Close'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_close'),
-    '#size' => 30,
-    '#description' => t('Text for the close button. The "Esc" key will also close Colorbox.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_overlayclose'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Overlay close'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_overlayclose'),
-    '#description' => t('Enable closing Colorbox by clicking on the background overlay.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Max width'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_maxwidth'),
-    '#size' => 30,
-    '#description' => t('Set a maximum width for loaded content. Example: "100%", 500, "500px".'),
-  );
-  $form['colorbox_custom_settings']['colorbox_maxheight'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Max height'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_maxheight'),
-    '#size' => 30,
-    '#description' => t('Set a maximum height for loaded content. Example: "100%", 500, "500px".'),
-  );
-  $form['colorbox_custom_settings']['colorbox_initialwidth'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Initial width'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_initialwidth'),
-    '#size' => 30,
-    '#description' => t('Set the initial width, prior to any content being loaded. Example: "100%", 500, "500px".'),
-  );
-  $form['colorbox_custom_settings']['colorbox_initialheight'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Initial height'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_initialheight'),
-    '#size' => 30,
-    '#description' => t('Set the initial height, prior to any content being loaded. Example: "100%", 500, "500px".'),
-  );
-  $form['colorbox_custom_settings']['colorbox_fixed'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Fixed'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_fixed'),
-    '#description' => t('If the Colorbox should be displayed in a fixed position within the visitor\'s viewport or relative to the document.'),
-  );
-
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Slideshow settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshow'] = array(
-    '#type' => 'radios',
-    '#title' => t('Slideshow'),
-    '#options' => array(0 => t('Off'), 1 => t('On')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshow'),
-    '#description' => t('An automatic slideshow to a content group / gallery.'),
-    '#prefix' => '<div class="colorbox-slideshow-settings-activate">',
-    '#suffix' => '</div>',
-  );
-  $form['colorbox_custom_settings']['colorbox_scrolling'] = array(
-    '#type' => 'radios',
-    '#title' => t('Scrollbars'),
-    '#options' => array(1 => t('On'), 0 => t('Off')),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_scrolling'),
-    '#description' => t('If false, Colorbox will hide scrollbars for overflowing content. This could be used on conjunction with the resize method for a smoother transition if you are appending content to an already open instance of Colorbox.'),
-  );
-
-  $js_hide = config_get('colorbox.settings', 'colorbox_slideshow') ? '' : ' js-hide';
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_start'] = array(
-    '#markup' => '<div class="colorbox-slideshow-settings' . $js_hide . '">',
-  );
-
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Slideshow autostart'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowauto'),
-    '#description' => t('If the slideshow should automatically start to play.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowspeed'] = array(
-    '#type' => 'select',
-    '#title' => t('Slideshow speed'),
-    '#options' => backdrop_map_assoc(array(1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000)),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowspeed'),
-    '#description' => t('Sets the speed of the slideshow, in milliseconds.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_start'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Start slideshow'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_start'),
-    '#size' => 30,
-    '#description' => t('Text for the slideshow start button.'),
-  );
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Stop slideshow'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_text_stop'),
-    '#size' => 30,
-    '#description' => t('Text for the slideshow stop button.'),
-  );
-
-  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_stop'] = array(
-    '#markup' => '</div>',
-  );
-
-  $form['colorbox_custom_settings']['wrapper_stop'] = array(
-    '#markup' => '</div>',
   );
 
   $form['colorbox_advanced_settings'] = array(
@@ -290,7 +272,9 @@ function colorbox_admin_settings() {
   $form['colorbox_advanced_settings']['colorbox_visibility'] = array(
     '#type' => 'radios',
     '#title' => t('Show Colorbox on specific pages'),
-    '#options' => array(0 => t('All pages except those listed'), 1 => t('Only the listed pages')),
+    '#options' => array(
+      0 => t('All pages except those listed'),
+      1 => t('Only the listed pages')),
     '#default_value' => config_get('colorbox.settings', 'colorbox_visibility'),
   );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
@@ -309,6 +293,7 @@ function colorbox_admin_settings() {
     '#default_value' => config_get('colorbox.settings', 'colorbox_compression_type'),
   );
 
+  // Add a submit handler.
   $form['#submit'][] = 'colorbox_admin_settings_submit';
   // Add a submit button
   $form['actions']['#type'] = 'actions';
@@ -316,22 +301,19 @@ function colorbox_admin_settings() {
     '#type' => 'submit',
     '#value' => t('Save configuration'),
   );
-  // Return the form!
+
   return $form;
 }
-
-
 
 /**
  * Form submission handler for colorbox_admin_settings().
  */
 function colorbox_admin_settings_submit($form, &$form_state) {
-$config = config('colorbox.settings');
-foreach ($form_state['values'] as $key => $value)
-{
-$config->set($key, $value);
-}
+  $config = config('colorbox.settings');
+  foreach ($form_state['values'] as $key => $value) {
+    $config->set($key, $value);
+  }
 
-$config->save();
-backdrop_set_message(t('The configuration options have been saved.'));
+  $config->save();
+  backdrop_set_message(t('The configuration options have been saved.'));
 }
