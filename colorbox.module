@@ -208,6 +208,8 @@ function _colorbox_doheader() {
     );
   }
 
+  $js_settings['specificPagesDefaultValue'] = "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*";
+
   $path = backdrop_get_path('module', 'colorbox');
   $style = config_get('colorbox.settings', 'colorbox_style');
 

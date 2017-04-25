@@ -361,9 +361,7 @@ function colorbox_admin_settings() {
     '#type' => 'textarea',
     '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
     '#default_value' => config_get('colorbox.settings', 'colorbox_pages'),
-    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
-      '%blog' => 'blog',
-      '%blog-wildcard' => 'blog/*',
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard, and use <code>%front</code> for the front page. <p><a href=\"#\" class=\"colorbox-reset-specific-pages-default\">Reset to default</a></p>", array(
       '%front' => '<front>',
     )),
   );
