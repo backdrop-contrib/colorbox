@@ -1,85 +1,15 @@
 COLORBOX
-===================
+========
 
-This is a very simple module that opens up images or content from your Backdrop site into a popup/modal "lightbox" and is very customizable.
-
-Colorbox is a light-weight, customizable lightbox plugin for jQuery 1.4.3+.  This module allows for integration of Colorbox into Backdrop.  Images, iframed or inline content etc. can be displayed in a overlay above the current page.
-
-* JQuery - http://jquery.com/
-* Colorbox - http://www.jacklmoore.com/colorbox/
-
-CONTENTS OF THIS FILE
----------------------
-
- - Introduction
- - Tested
- - Known Issues
- - Special Thanks
- - Requirements
- - Installation
- - Coming From Drupal?
- - Usage
- - License
- - Credits
- - Maintainers
-
-TESTED
------
-
-Installed and opened a few images/content in Backdrop 1.1
-
-KNOWN ISSUES
----------------------
-
-@todo
-
-SPECIAL THANKS
---------------
-
-http://www.jacklmoore.com/
-
-REQUIREMENTS
-------------
-
-You need to download the Colorbox script separately from downloading this module at this address: http://www.jacklmoore.com/colorbox -- the correct version is linked in the status report of your website.
-
-Backdrop CMS supplies the correct version of JQuery.
-
-
-INSTALLATION
-------------
-
-Install this module using the official Backdrop CMS instructions at https://backdropcms.org/guide/modules
-
-Then
-
-Download and install the Libraries module.
-
-Then and install the Colorbox script so the scripts are in the folder /libraries/colorbox
-
-Documentation may be found here: https://www.drupal.org/node/1971564
-
-
-COMING FROM DRUPAL?
--------------------
-
-Nothing substantially different.
-
-PERMISSIONS
-------------
-
-@todo
-
-
-USAGE
------
+A light-weight, customizable lightbox plugin for jQuery 1.4.3+. Iframed or
+inline images or content can be displayed in a popup or modal "lightbox" above
+the current page.
 
 The Colorbox module:
 
-* Excellent integration with Image field and Image styles
+* Excellent integration with Image fields and Image styles
 * Choose between a default style and 5 example styles that are included.
 * Style the Colorbox with a custom colorbox.css file in your theme.
-* (coming soon) Drush command to download and install the Colorbox plugin in /libraries
 
 The Colorbox plugin:
 
@@ -89,32 +19,47 @@ The Colorbox plugin:
 * Completely unobtrusive, options are set in the JS and require no changes to existing HTML.
 * Released under the MIT License.
 
-Configuration:
--------------
-Go to "Configuration" -> "Media" -> "Colorbox" to find
-all the configuration options.
+Colorbox - http://www.jacklmoore.com/colorbox
 
-Documentation:
--------------
-https://www.drupal.org/node/1971564
 
-LICENSE
+Installation
+------------
+
+- Install this module using the official Backdrop CMS instructions at
+  https://backdropcms.org/user-guide/modules
+
+- Visit the configuration page under Administration > Configuration > Media >
+  Colorbox (admin/config/media/colorbox) and configure as necessary.
+
+
+Documentation
+-------------
+
+Documentation is located in the Wiki:
+https://github.com/backdrop-contrib/colorbox/wiki/Documentation
+
+
+Current Maintainers
+-------------------
+
+- jenlampton (https://github.com/jenlampton)
+- seeking additional maintainers
+
+
+Credits
 -------
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory for complete text.
+- Ported to Backdrop by [Andy Martha](https://github.com/biolithic)
+- Drupal module maintainer [Fredrik Jonsson](https://drupal.org/user/5546)
+- Drupal module maintainer [Sam Becker](https://www.drupal.org/u/sam152)
+- Drupal module maintainer [Andrii Podanenko](https://www.drupal.org/u/podarok)
+- Drupal module maintainer [Francisco José Cruz Romanos](https://www.drupal.org/u/grisendo)
+- Drupal module maintainer [Joe Wheaton](https://www.drupal.org/u/jdwfly)
+- The [Colorbox jQuery library](http://www.jacklmoore.com)
 
-CREDITS
------------
 
-This module is based on the Colorbox module for Drupal, originally written and maintained by a large number of contributors, including:
+License
+-------
 
-- Fredrik Jonsson <http://drupal.org/user/5546>
-
-MAINTAINERS
------------
-
-- seeking
-
-Ported to Backdrop by:
-
- - biolithic <https://github.com/biolithic>
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.
