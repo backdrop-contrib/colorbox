@@ -1,14 +1,8 @@
 <?php
-
 /**
  * @file
  * A light-weight, customizable lightbox plugin for jQuery 1.3
  */
-
-/**
- * The default path to the Colorbox directory.
- */
-define('COLORBOX_MIN_PLUGIN_VERSION', '1.3.21.1');
 
 /**
  * Implements hook_config_info().
@@ -79,9 +73,6 @@ function colorbox_init() {
   if (!backdrop_installation_attempted()) {
     _colorbox_doheader();
   }
-
-// $path = backdrop_get_path('module', 'colorbox');
-// backdrop_add_js($path . '/js/jquery.colorbox-min.js');
 }
 
 /**
@@ -95,44 +86,28 @@ function colorbox_views_api() {
 }
 
 /**
- * Implements hook_libraries_info().
+ * Implements hook_library_info().
  */
-function colorbox_libraries_info() {
+function colorbox_library_info() {
   $libraries['colorbox'] = array(
-    'name' => 'Colorbox plugin',
-    'vendor url' => 'http://www.jacklmoore.com/colorbox',
-    'download url' => 'https://github.com/jackmoore/colorbox/archive/1.x.zip',
-    'version arguments' => array(
-      'file' => 'jquery.colorbox-min.js',
-      'pattern' => '@(?i:Colorbox)\sv?([0-9\.a-z]+)@',
-      'lines' => 5,
+    'title' => 'Colorbox',
+    'website' => 'http://www.jacklmoore.com/colorbox',
+    'version' => '1.6.4',
+    'js' => array(
+      backdrop_get_path('module', 'colorbox') . '/libraries/colorbox/jquery.colorbox-min.js' => array(),
     ),
-    'files' => array(
-      'js' => array(
-        'jquery.colorbox-min.js',
-      ),
-    ),
-    'variants' => array(
-      'minified' => array(
-        'files' => array(
-          'js' => array(
-            'jquery.colorbox-min.js',
-          ),
-        ),
-      ),
-      'source' => array(
-        'files' => array(
-          'js' => array(
-            'jquery.colorbox.js',
-          ),
-        ),
-      ),
+  );
+  $libraries['colorbox-source'] = array(
+    'title' => 'Colorbox',
+    'website' => 'http://www.jacklmoore.com/colorbox',
+    'version' => '1.6.4',
+    'js' => array(
+      backdrop_get_path('module', 'colorbox') . '/libraries/colorbox/jquery.colorbox.js' => array(),
     ),
   );
 
   return $libraries;
 }
-
 
 /**
  * Implements hook_menu().
@@ -243,9 +218,13 @@ function _colorbox_doheader() {
 
   // Add and initialise the Colorbox plugin.
   $variant = config_get('colorbox.settings', 'colorbox_compression_type');
-  if (module_exists('libraries')) {
-    libraries_load('colorbox', $variant);
+  if ($variant == 'minified') {
+    backdrop_add_library('colorbox', 'colorbox');
   }
+  elseif ($variant == 'source') {
+    backdrop_add_library('colorbox', 'colorbox-source');
+  }
+
   backdrop_add_js($path . '/js/colorbox.js');
 
   // Add JS and CSS based on selected style.
@@ -317,7 +296,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
     '#title' => t('Content image style for first image'),
     '#type' => 'select',
     '#default_value' => $settings['colorbox_node_style_first'],
-    '#empty_option' => t('No special style.'),
+    '#empty_option' => t('None (original image)'),
     '#options' => $image_styles,
     '#description' => t('Image style to use in the content for the first image.'),
   );

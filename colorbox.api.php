@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * API documentation for the colorbox module.

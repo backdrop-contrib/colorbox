@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template file for Colorbox content inserted via the Insert module.
