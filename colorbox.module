@@ -366,7 +366,7 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
   );
   // Allow users to hide or set a custom recursion limit.
   // The module token_tweaks sets a global recursion limit that can not be bypassed.
-  if (module_exists('token') && $recursion_limit = min(config_get('colorbox.settings', 'token_tree_recursion_limit'), config_get('colorbox.settings', 'colorbox_token_recursion_limit'))) {
+  if ($recursion_limit = min(config_get('colorbox.settings', 'token_tree_recursion_limit'), config_get('colorbox.settings', 'colorbox_token_recursion_limit'))) {
     $element['colorbox_token'] = array(
       '#type' => 'fieldset',
       '#title' => t('Replacement patterns'),
