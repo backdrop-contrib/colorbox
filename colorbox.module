@@ -131,7 +131,7 @@ function colorbox_menu() {
 /**
  * Check if Colorbox should be active for the current URL.
  *
- * @return
+ * @return bool
  *   TRUE if Colorbox should be active for the current page.
  */
 function _colorbox_active() {
@@ -493,6 +493,8 @@ function colorbox_field_formatter_view($entity_type, $entity, $field, $instance,
 
 /**
  * Implements hook_insert_styles().
+ *
+ * @return array
  */
 function colorbox_insert_styles() {
   $insert_styles = array();
@@ -515,7 +517,7 @@ function colorbox_insert_content($item, $style, $widget) {
 /**
  * Machine names normally need to be unique but that does not apply to galleries.
  *
- * @return
+ * @return false
  *   Always FALSE
  */
 function colorbox_gallery_exists() {

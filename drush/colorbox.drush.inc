@@ -23,7 +23,7 @@ define('COLORBOX_DOWNLOAD_PREFIX', 'colorbox-');
  *
  * See `drush topic docs-commands` for a list of recognized keys.
  *
- * @return
+ * @return array
  *   An associative array describing your command(s).
  */
 function colorbox_drush_command() {
@@ -49,10 +49,10 @@ function colorbox_drush_command() {
  * This function is called whenever a drush user calls
  * 'drush help <name-of-your-command>'
  *
- * @param
+ * @param string $section
  *   A string with the help section (prepend with 'drush:')
  *
- * @return
+ * @return string
  *   A string with the help text for your command.
  */
 function colorbox_drush_help($section) {
