@@ -182,7 +182,7 @@ function theme_colorbox_imagefield($variables) {
     'attributes' => array(
       'title' => $variables['title'],
       'class' => $class,
-      'rel' => $variables['gid'],
+      'data-colorbox-gallery' => $variables['gid'],
     ),
     'language' => array('language' => NULL),
   );
