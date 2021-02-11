@@ -125,7 +125,8 @@ function theme_colorbox_image_formatter($variables) {
 
   // If gallery id is not empty add unique per-request token to avoid images being added manually to galleries.
   if (!empty($gallery_id)) {
-    // Check if gallery token has alrady been set, we need to reuse the token for the whole request.
+    // Check if gallery token has already been set, we need to reuse the token
+    // for the whole request.
     if (is_null($gallery_token)) {
       // We use a short token since randomness is not critical.
       $gallery_token = backdrop_random_key(8);
