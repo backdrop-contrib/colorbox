@@ -237,7 +237,7 @@ function colorbox_admin_settings() {
     '#title' => t('Mobile detection'),
     '#options' => array(1 => t('On'), 0 => t('Off')),
     '#default_value' => config_get('colorbox.settings', 'colorbox_mobile_detect'),
-    '#description' => t('If on (default) Colorbox will not be active for devices with a the max width set below.'),
+    '#description' => t('If On (default), Colorbox will not be active for devices with the max width set below.'),
   );
   $form['colorbox_advanced_settings']['colorbox_mobile_device_width'] = array(
     '#type' => 'textfield',
