@@ -183,6 +183,7 @@ function theme_colorbox_imagefield($variables) {
       'title' => $variables['title'],
       'class' => $class,
       'data-colorbox-gallery' => $variables['gid'],
+      'data-cbox-img-attrs' => '{"title": "' . $variables['image']['title'] . '", "alt": "' . $variables['image']['alt'] . '"}',
     ),
   );
 
