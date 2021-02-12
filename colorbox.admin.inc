@@ -241,10 +241,10 @@ function colorbox_admin_settings() {
   );
   $form['colorbox_advanced_settings']['colorbox_mobile_device_width'] = array(
     '#type' => 'textfield',
-    '#title' => t('Device with'),
+    '#title' => t('Device width'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),
     '#size' => 30,
-    '#description' => t('Set the mobile device max with. Default: 480px.'),
+    '#description' => t('Set the mobile device max width. Default: 480px.'),
     '#states' => array(
       'visible' => array(
         ':input[name="colorbox_mobile_detect"]' => array('value' => '1'),
