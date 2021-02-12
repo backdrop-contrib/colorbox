@@ -180,6 +180,7 @@ function _colorbox_doheader() {
       'next' => strip_tags($config->get('colorbox_text_next')),
       'close' => strip_tags($config->get('colorbox_text_close')),
       'overlayClose' => $config->get('colorbox_overlayclose') ? TRUE : FALSE,
+      'returnFocus' => $config->get('colorbox_returnfocus') ? TRUE : FALSE,
       'maxWidth' => $config->get('colorbox_maxwidth'),
       'maxHeight' => $config->get('colorbox_maxheight'),
       'initialWidth' => $config->get('colorbox_initialwidth'),
