@@ -164,7 +164,7 @@ function _colorbox_doheader() {
   }
 
   $config = config('colorbox.settings');
-  // Insert options and translated strings as javascript settings.
+  // Insert options and translated strings as JavaScript settings.
   if ($config->get('colorbox_custom_settings_activate')) {
     $js_settings = array(
       'transition' => $config->get('colorbox_transition_type'),
