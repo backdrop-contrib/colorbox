@@ -123,6 +123,12 @@ function colorbox_admin_settings() {
     '#default_value' => config_get('colorbox.settings', 'colorbox_overlayclose'),
     '#description' => t('Enable closing Colorbox by clicking on the background overlay.'),
   );
+  $form['colorbox_custom_settings']['colorbox_returnfocus'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Return focus'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_returnfocus'),
+    '#description' => t('Return focus when Colorbox exits to the element it was launched from.'),
+  );
   $form['colorbox_custom_settings']['colorbox_maxwidth'] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum width for loaded content'),
@@ -241,10 +247,10 @@ function colorbox_admin_settings() {
   );
   $form['colorbox_advanced_settings']['colorbox_mobile_device_width'] = array(
     '#type' => 'textfield',
-    '#title' => t('Device with'),
+    '#title' => t('Device width'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_mobile_device_width'),
     '#size' => 30,
-    '#description' => t('Set the mobile device max with. Default: 480px.'),
+    '#description' => t('Set the mobile device max width. Default: 480px.'),
     '#states' => array(
       'visible' => array(
         ':input[name="colorbox_mobile_detect"]' => array('value' => '1'),

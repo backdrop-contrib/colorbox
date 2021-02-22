@@ -164,7 +164,7 @@ function _colorbox_doheader() {
   }
 
   $config = config('colorbox.settings');
-  // Insert options and translated strings as javascript settings.
+  // Insert options and translated strings as JavaScript settings.
   if ($config->get('colorbox_custom_settings_activate')) {
     $js_settings = array(
       'transition' => $config->get('colorbox_transition_type'),
@@ -180,6 +180,7 @@ function _colorbox_doheader() {
       'next' => strip_tags($config->get('colorbox_text_next')),
       'close' => strip_tags($config->get('colorbox_text_close')),
       'overlayClose' => $config->get('colorbox_overlayclose') ? TRUE : FALSE,
+      'returnFocus' => $config->get('colorbox_returnfocus') ? TRUE : FALSE,
       'maxWidth' => $config->get('colorbox_maxwidth'),
       'maxHeight' => $config->get('colorbox_maxheight'),
       'initialWidth' => $config->get('colorbox_initialwidth'),
@@ -365,11 +366,19 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
   // Allow users to hide or set a custom recursion limit.
   // The module token_tweaks sets a global recursion limit that can not be bypassed.
   if ($recursion_limit = min(config_get('colorbox.settings', 'token_tree_recursion_limit'), config_get('colorbox.settings', 'colorbox_token_recursion_limit'))) {
+    // File entities do not have $field, only $instance.
+    if (!empty($field['bundles'])) {
+      $token_types = array_merge(array_keys($field['bundles']), array('file'));
+    }
+    else {
+      $token_types = array($instance['entity_type'], 'file');
+    }
+
     $element['colorbox_token'] = array(
       '#type' => 'fieldset',
       '#title' => t('Replacement patterns'),
       '#theme' => 'token_tree',
-      '#token_types' => array($instance['entity_type'], 'file'),
+      '#token_types' => $token_types,
       '#recursion_limit' => $recursion_limit,
       '#dialog' => TRUE,
       '#states' => array(

@@ -15,7 +15,12 @@ Backdrop.behaviors.initColorbox = {
     }
 
     settings.colorbox.rel = function () {
-      return $(this).data('colorbox-gallery')
+      if ($(this).data('colorbox-gallery')) {
+        return $(this).data('colorbox-gallery');
+      }
+      else {
+        return $(this).attr('rel');
+      }
     };
 
     $('.colorbox', context)
