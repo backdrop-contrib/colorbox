@@ -19,6 +19,7 @@
  * @ingroup themeable
  */
 function theme_colorbox_image_formatter($variables) {
+  global $language;
   static $gallery_token = NULL;
   $item = $variables['item'];
   $entity_type = $variables['entity_type'];
@@ -94,7 +95,7 @@ function theme_colorbox_image_formatter($variables) {
       break;
 
     case 'custom':
-      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE));
+      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE, 'language' => $language));
       break;
 
     default:
