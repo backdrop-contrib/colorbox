@@ -80,18 +80,23 @@ function theme_colorbox_image_formatter($variables) {
         $caption = '';
       }
       break;
+
     case 'title':
       $caption = $image['title'];
       break;
+
     case 'alt':
       $caption = $image['alt'];
       break;
+
     case 'node_title':
       $caption = $entity_title;
       break;
+
     case 'custom':
       $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE));
       break;
+
     default:
       $caption = '';
   }
@@ -110,18 +115,23 @@ function theme_colorbox_image_formatter($variables) {
     case 'post':
       $gallery_id = 'gallery-' . $entity_id;
       break;
+
     case 'page':
       $gallery_id = 'gallery-all';
       break;
+
     case 'field_post':
       $gallery_id = 'gallery-' . $entity_id . '-' . $field['field_name'];
       break;
+
     case 'field_page':
-      $gallery_id = 'gallery-' . $field['field_name'];
+      $gallery_id = isset($field['field_name']) ? 'gallery-' . $field['field_name'] : 'gallery-page';
       break;
+
     case 'custom':
       $gallery_id = $settings['colorbox_gallery_custom'];
       break;
+
     default:
       $gallery_id = '';
   }
