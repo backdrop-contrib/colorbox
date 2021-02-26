@@ -104,7 +104,7 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Build the gallery id.
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id) = entity_extract_ids($entity_type, $entity);
   $entity_id = !empty($id) ? $entity_type . '-' . $id : 'entity-id';
   switch ($settings['colorbox_gallery']) {
     case 'post':
