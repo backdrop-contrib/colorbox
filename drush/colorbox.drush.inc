@@ -56,7 +56,7 @@ function colorbox_drush_help($section) {
 /**
  * Implements drush_MODULE_post_pm_enable().
  */
-// Function drush_colorbox_post_pm_enable() {
+// function drush_colorbox_post_pm_enable() {
 //   $modules = func_get_args();
 //   if (in_array('colorbox', $modules)) {
 //     drush_colorbox_plugin();
