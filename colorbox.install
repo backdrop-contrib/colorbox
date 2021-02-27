@@ -21,6 +21,9 @@ function colorbox_uninstall() {
   db_delete('variable')->condition('name', db_like('colorbox_') . '%', 'LIKE')->execute();
 }
 
+/**
+ * Convert Drupal variables to config.
+ */
 function colorbox_update_1000() {
   $config = config('colorbox.settings');
 
