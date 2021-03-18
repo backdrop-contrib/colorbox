@@ -19,6 +19,7 @@
  * @ingroup themeable
  */
 function theme_colorbox_image_formatter($variables) {
+  global $language;
   static $gallery_token = NULL;
   $item = $variables['item'];
   $entity_type = $variables['entity_type'];
@@ -65,7 +66,7 @@ function theme_colorbox_image_formatter($variables) {
   $entity_title = entity_label($entity_type, $entity);
 
   switch ($settings['colorbox_caption']) {
-     case 'auto':
+    case 'auto':
       // If the title is empty use alt or the entity title in that order.
       if (!empty($image['title'])) {
         $caption = $image['title'];
@@ -80,23 +81,29 @@ function theme_colorbox_image_formatter($variables) {
         $caption = '';
       }
       break;
+
     case 'title':
       $caption = $image['title'];
       break;
+
     case 'alt':
       $caption = $image['alt'];
       break;
+
     case 'node_title':
       $caption = $entity_title;
       break;
+
     case 'custom':
-      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE));
+      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE, 'language' => $language));
       break;
+
     default:
       $caption = '';
   }
 
-  // Shorten the caption for the example styles or when caption shortening is active.
+  // Shorten the caption for the example styles or when caption shortening is
+  // active.
   $colorbox_style = config_get('colorbox.settings', 'colorbox_style');
   $trim_length = config_get('colorbox.settings', 'colorbox_caption_trim_length');
   if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || config_get('colorbox.settings', 'colorbox_caption_trim')) && (backdrop_strlen($caption) > $trim_length)) {
@@ -104,29 +111,35 @@ function theme_colorbox_image_formatter($variables) {
   }
 
   // Build the gallery id.
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id) = entity_extract_ids($entity_type, $entity);
   $entity_id = !empty($id) ? $entity_type . '-' . $id : 'entity-id';
   switch ($settings['colorbox_gallery']) {
     case 'post':
       $gallery_id = 'gallery-' . $entity_id;
       break;
+
     case 'page':
       $gallery_id = 'gallery-all';
       break;
+
     case 'field_post':
       $gallery_id = 'gallery-' . $entity_id . '-' . $field['field_name'];
       break;
+
     case 'field_page':
-      $gallery_id = 'gallery-' . $field['field_name'];
+      $gallery_id = isset($field['field_name']) ? 'gallery-' . $field['field_name'] : 'gallery-page';
       break;
+
     case 'custom':
       $gallery_id = $settings['colorbox_gallery_custom'];
       break;
+
     default:
       $gallery_id = '';
   }
 
-  // If gallery id is not empty add unique per-request token to avoid images being added manually to galleries.
+  // If gallery id is not empty add unique per-request token to avoid images
+  // being added manually to galleries.
   if (!empty($gallery_id)) {
     // Check if gallery token has already been set, we need to reuse the token
     // for the whole request.
@@ -144,7 +157,12 @@ function theme_colorbox_image_formatter($variables) {
     $path = file_create_url($image['uri']);
   }
 
-  return theme('colorbox_imagefield', array('image' => $image, 'path' => $path, 'title' => $caption, 'gid' => $gallery_id));
+  return theme('colorbox_imagefield', array(
+    'image' => $image,
+    'path' => $path,
+    'title' => $caption,
+    'gid' => $gallery_id,
+  ));
 }
 
 /**
@@ -194,6 +212,7 @@ function theme_colorbox_imagefield($variables) {
  * Preprocess variables for the colorbox-insert-image.tpl.php file.
  *
  * @param array $variables
+ *   Associative array of variables for that template.
  */
 function template_preprocess_colorbox_insert_image(&$variables) {
   $item = $variables['item'];
@@ -241,6 +260,7 @@ function template_preprocess_colorbox_insert_image(&$variables) {
     case 2:
       $variables['gallery_id'] = 'gallery-all';
       break;
+
     case 3:
       $variables['gallery_id'] = '';
       break;

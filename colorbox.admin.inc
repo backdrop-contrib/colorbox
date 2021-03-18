@@ -72,21 +72,58 @@ function colorbox_admin_settings() {
   $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
     '#type' => 'radios',
     '#title' => t('Transition type'),
-    '#options' => array('elastic' => t('Elastic'), 'fade' => t('Fade'), 'none' => t('None')),
+    '#options' => array(
+      'elastic' => t('Elastic'),
+      'fade' => t('Fade'),
+      'none' => t('None'),
+    ),
     '#default_value' => config_get('colorbox.settings', 'colorbox_transition_type'),
   );
   $form['colorbox_custom_settings']['colorbox_transition_speed'] = array(
     '#type' => 'select',
     '#title' => t('Transition speed'),
     '#field_suffix' => t('milliseconds'),
-    '#options' => backdrop_map_assoc(array(100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600)),
+    '#options' => backdrop_map_assoc(array(
+      100,
+      150,
+      200,
+      250,
+      300,
+      350,
+      400,
+      450,
+      500,
+      550,
+      600,
+    )),
     '#default_value' => config_get('colorbox.settings', 'colorbox_transition_speed'),
     '#description' => t('Sets the speed of the fade and elastic transitions.'),
   );
   $form['colorbox_custom_settings']['colorbox_opacity'] = array(
     '#type' => 'select',
     '#title' => t('Opacity'),
-    '#options' => backdrop_map_assoc(array('0', '0.10', '0.15', '0.20', '0.25', '0.30', '0.35', '0.40', '0.45', '0.50', '0.55', '0.60', '0.65', '0.70', '0.75', '0.80', '0.85', '0.90', '0.95', '1')),
+    '#options' => backdrop_map_assoc(array(
+      '0',
+      '0.10',
+      '0.15',
+      '0.20',
+      '0.25',
+      '0.30',
+      '0.35',
+      '0.40',
+      '0.45',
+      '0.50',
+      '0.55',
+      '0.60',
+      '0.65',
+      '0.70',
+      '0.75',
+      '0.80',
+      '0.85',
+      '0.90',
+      '0.95',
+      '1',
+    )),
     '#default_value' => config_get('colorbox.settings', 'colorbox_opacity'),
     '#description' => t('The overlay opacity level. Range: 0 to 1.'),
   );
@@ -199,7 +236,19 @@ function colorbox_admin_settings() {
     '#type' => 'select',
     '#title' => t('Slideshow speed'),
     '#field_suffix' => t('milliseconds'),
-    '#options' => backdrop_map_assoc(array(1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000)),
+    '#options' => backdrop_map_assoc(array(
+      1000,
+      1500,
+      2000,
+      2500,
+      3000,
+      3500,
+      4000,
+      4500,
+      5000,
+      5500,
+      6000,
+    )),
     '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowspeed'),
   );
   $form['colorbox_slideshow_settings']['colorbox_text_start'] = array(
@@ -267,7 +316,24 @@ function colorbox_admin_settings() {
   $form['colorbox_advanced_settings']['colorbox_caption_trim_length'] = array(
     '#type' => 'select',
     '#title' => t('Caption max length'),
-    '#options' => backdrop_map_assoc(array(40, 45, 50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120)),
+    '#options' => backdrop_map_assoc(array(
+      40,
+      45,
+      50,
+      55,
+      60,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100,
+      105,
+      110,
+      115,
+      120,
+    )),
     '#default_value' => config_get('colorbox.settings', 'colorbox_caption_trim_length'),
     '#states' => array(
       'visible' => array(
@@ -280,14 +346,19 @@ function colorbox_admin_settings() {
     '#title' => t('Show Colorbox on specific pages'),
     '#options' => array(
       0 => t('All pages except those listed'),
-      1 => t('Only the listed pages')),
+      1 => t('Only the listed pages'),
+    ),
     '#default_value' => config_get('colorbox.settings', 'colorbox_visibility'),
   );
   $form['colorbox_advanced_settings']['colorbox_pages'] = array(
     '#type' => 'textarea',
     '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
     '#default_value' => config_get('colorbox.settings', 'colorbox_pages'),
-    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
+      '%blog' => 'blog',
+      '%blog-wildcard' => 'blog/*',
+      '%front' => '<front>',
+    )),
   );
   $form['colorbox_advanced_settings']['colorbox_compression_type'] = array(
     '#type' => 'radios',
@@ -301,7 +372,7 @@ function colorbox_admin_settings() {
 
   // Add a submit handler.
   $form['#submit'][] = 'colorbox_admin_settings_submit';
-  // Add a submit button
+  // Add a submit button.
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
     '#type' => 'submit',
