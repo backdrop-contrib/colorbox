@@ -9,11 +9,11 @@
  *
  * Implements hook_colorbox_settings_alter().
  *
- * @param $settings
+ * @param array $settings
  *   An associative array of Colorbox settings. See the
  *   @link http://colorpowered.com/colorbox/ Colorbox documentation @endlink
  *   for the full list of supported parameters.
- * @param $style
+ * @param string $style
  *   The name of the active style plugin. If $style is 'none', no Colorbox
  *   theme will be loaded.
  */
