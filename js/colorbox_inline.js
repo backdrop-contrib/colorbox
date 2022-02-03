@@ -52,7 +52,7 @@ Backdrop.behaviors.initColorboxInline = {
         return $.urlParam('height', $(this).attr('href'));
       },
       title:function(){
-        return Drupal.checkPlain(decodeURIComponent(Drupal.checkPlain(
+        return Backdrop.checkPlain(decodeURIComponent(Backdrop.checkPlain(
           $.urlParam('title', $(this).attr('href')))));
       },
       iframe:function(){
