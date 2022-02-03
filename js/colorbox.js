@@ -39,7 +39,7 @@ Backdrop.behaviors.initColorbox = {
         // If a title attribute is supplied, sanitize it.
         var title = $(this).attr('title');
         if (title) {
-          extendParams.title = Drupal.checkPlain(title);
+          extendParams.title = Backdrop.checkPlain(title);
         }
         $(this).colorbox($.extend({}, settings.colorbox, extendParams));
       });

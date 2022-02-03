@@ -35,8 +35,8 @@ function hook_colorbox_settings_alter(&$settings, &$style) {
  *   URL or not.
  */
 function hook_colorbox_active_alter(&$active) {
-  $path = drupal_get_path_alias($_GET['q']);
-  if (drupal_match_path($path, 'admin/config/colorbox_test')) {
+  $path = backdrop_get_path_alias($_GET['q']);
+  if (backdrop_match_path($path, 'admin/config/colorbox_test')) {
     // Enable colorbox for this URL.
     $active = TRUE;
   }
