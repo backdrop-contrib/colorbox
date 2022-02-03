@@ -242,12 +242,6 @@ function template_preprocess_colorbox_insert_image(&$variables) {
   $absolute = isset($variables['widget']['settings']['insert_absolute']) ? $variables['widget']['settings']['insert_absolute'] : NULL;
   $variables['url'] = insert_create_url($variables['uri'], $absolute, config_get('system.core', 'clean_url'));
 
-  // http://drupal.org/node/1923336
-  if (function_exists('image_style_path_token')) {
-    $token_query = array(IMAGE_DERIVATIVE_TOKEN => image_style_path_token($variables['style_name'], $variables['file']->uri));
-    $variables['url'] .= (strpos($variables['url'], '?') !== FALSE ? '&' : '?') . backdrop_http_build_query($token_query);
-  }
-
   if ($style_name = config_get('colorbox.settings', 'colorbox_image_style')) {
     $variables['path'] = image_style_url($style_name, $variables['file']->uri);
   }
