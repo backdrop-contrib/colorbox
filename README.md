@@ -50,6 +50,7 @@ Credits
 -------
 
 - Ported to Backdrop by [Andy Martha](https://github.com/biolithic)
+- Drupal module maintainer [Paul McKibben](https://www.drupal.org/u/paulmckibben)
 - Drupal module maintainer [Fredrik Jonsson](https://drupal.org/user/5546)
 - Drupal module maintainer [Sam Becker](https://www.drupal.org/u/sam152)
 - Drupal module maintainer [Andrii Podanenko](https://www.drupal.org/u/podarok)
@@ -58,8 +59,10 @@ Credits
 - The [Colorbox jQuery library](http://www.jacklmoore.com)
 
 
-License
--------
+Licenses
+--------
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory for
-complete text.
+* This project is GPL v2 software. See the LICENSE.txt file in this directory
+  for complete text.
+* The Colorbox jQuery library is released under the [MIT License](https://opensource.org/licenses/mit-license.php).
+* The DOMpurify library is released under [a dual license of Apache-2.0 and MPL-2.0](https://github.com/cure53/DOMPurify/blob/main/LICENSE).

@@ -5,14 +5,16 @@
 
 (function ($) {
 
-Drupal.behaviors.initColorboxAdminSettings = {
+Backdrop.behaviors.initColorboxAdminSettings = {
   attach: function (context, settings) {
 
     $('div.colorbox-custom-settings-activate input.form-radio', context).click(function () {
       if (this.value == 1) {
+        console.log('show');
         $('div.colorbox-custom-settings', context).show();
       }
       else {
+        console.log('hide');
         $('div.colorbox-custom-settings', context).hide();
       }
     });
@@ -36,7 +38,7 @@ Drupal.behaviors.initColorboxAdminSettings = {
 
       event.preventDefault();
 
-      var colorbox_specific_pages_default_value = Drupal.settings.colorbox.specificPagesDefaultValue;
+      var colorbox_specific_pages_default_value = Backdrop.settings.colorbox.specificPagesDefaultValue;
 
       if (typeof colorbox_specific_pages_default_value !== 'undefined' && colorbox_specific_pages_default_value.length > 0) {
         $("#edit-colorbox-pages").val(colorbox_specific_pages_default_value);

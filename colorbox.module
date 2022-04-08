@@ -105,6 +105,22 @@ function colorbox_library_info() {
       backdrop_get_path('module', 'colorbox') . '/libraries/colorbox/jquery.colorbox.js' => array(),
     ),
   );
+  $libraries['DOMPurify'] = array(
+    'title' => 'DOMPurify',
+    'website' => 'https://github.com/cure53/DOMPurify',
+    'version' => '2.3.6',
+    'js' => array(
+      backdrop_get_path('module', 'colorbox') . '/libraries/DOMPurify/purify.min.js',
+    ),
+  );
+  $libraries['DOMPurify-source'] = array(
+    'title' => 'DOMPurify',
+    'website' => 'https://github.com/cure53/DOMPurify',
+    'version' => '2.3.6',
+    'js' => array(
+      backdrop_get_path('module', 'colorbox') . '/libraries/DOMPurify/purify.js',
+    ),
+  );
 
   return $libraries;
 }
@@ -221,13 +237,20 @@ function _colorbox_doheader() {
 
   backdrop_add_js(array('colorbox' => $js_settings), array('type' => 'setting', 'scope' => JS_DEFAULT));
 
-  // Add and initialise the Colorbox plugin.
+  // Add and initialize the Colorbox and DOMPurify libraries.
   $variant = config_get('colorbox.settings', 'colorbox_compression_type');
+  $dompurify = config_get('colorbox.settings', 'colorbox_dompurify_include');
   if ($variant == 'minified') {
     backdrop_add_library('colorbox', 'colorbox');
+    if ($dompurify) {
+      backdrop_add_library('colorbox', 'DOMPurify');
+    }
   }
   elseif ($variant == 'source') {
     backdrop_add_library('colorbox', 'colorbox-source');
+    if ($dompurify) {
+      backdrop_add_library('colorbox', 'DOMPurify');
+    }
   }
 
   backdrop_add_js($path . '/js/colorbox.js');
