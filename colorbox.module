@@ -207,9 +207,8 @@ function _colorbox_doheader() {
   }
 
   // Determine URL path to public files.
-  $js_settings['file_public_path'] = base_path() .
-    variable_get('file_public_path', conf_path() . '/files');
-
+  $file_public_path = config_get('system.core', 'file_public_path');
+  $js_settings['file_public_path'] = base_path() . $file_public_path;
   $js_settings['specificPagesDefaultValue'] = "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*";
 
   $path = backdrop_get_path('module', 'colorbox');
