@@ -8,24 +8,43 @@
  * General configuration form for controlling the colorbox behaviour.
  */
 function colorbox_admin_settings() {
-  $colorbox_path = backdrop_get_path('module', 'colorbox') . '/libraries/colorbox';
-  $colorbox_styles = array(
-    'default' => t('Default'),
-    'plain' => t('Plain (mainly for images)'),
-    'stockholmsyndrome' => t('Stockholm Syndrome'),
-    $colorbox_path . '/example1' => t('Example 1'),
-    $colorbox_path . '/example2' => t('Example 2'),
-    $colorbox_path . '/example3' => t('Example 3'),
-    $colorbox_path . '/example4' => t('Example 4'),
-    $colorbox_path . '/example5' => t('Example 5'),
-    'none' => t('None'),
+  $module_path = backdrop_get_path('module', 'colorbox');
+  $colorbox_path = $module_path . '/libraries/colorbox';
+  backdrop_add_js($module_path . '/js/colorbox_admin_settings.js', array('preprocess' => FALSE));
+
+  $form['colorbox_extra_features'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Extra features'),
   );
-  $form['colorbox_style'] = array(
-    '#type' => 'select',
-    '#title' => t('Colorbox style'),
-    '#options' => $colorbox_styles,
-    '#default_value' => config_get('colorbox.settings', 'colorbox_style'),
-    '#description' => t('Select "None" if Colorbox styles are provided by your theme.'),
+  $form['colorbox_extra_features']['colorbox_load'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Colorbox load'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_load'),
+    '#description' => t('This enables custom links that can open forms and paths in a Colorbox. Add the class "colorbox-load" to the link and build the url like this for paths "[path]?width=500&height=500&iframe=true" or "[path]?width=500&height=500" if you don\'t want an iframe. Other modules may activate this for easy Colorbox integration.'),
+  );
+  $form['colorbox_extra_features']['colorbox_inline'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Colorbox inline'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_inline'),
+    '#description' => t('This enables custom links that can open inline content in a Colorbox. Add the class "colorbox-inline" to the link and build the url like this "?width=500&height=500&inline=true#id-of-content". Other modules may activate this for easy Colorbox integration.'),
+  );
+
+  $form['colorbox_dompurify'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('HTML Captions'),
+    '#description' => t('The <a href="!dompurify_link">DOMPurify</a> ' .
+      'library is necessary if you want to use HTML in Colorbox captions. ' .
+      'Without it, all captions will be treated as plain text.',
+       array(
+         '!dompurify_link' => 'https://github.com/cure53/DOMPurify',
+       )
+    ),
+  );
+  $form['colorbox_dompurify']['colorbox_dompurify_include'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow HTML in Colorbox captions'),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_dompurify_include'),
+    '#description' => t('This setting will add the DOMPurity library.'),
   );
 
   if (module_exists('insert')) {
@@ -51,24 +70,44 @@ function colorbox_admin_settings() {
     );
   }
 
-  $form['colorbox_custom_settings_activate'] = array(
-    '#type' => 'radios',
-    '#title' => t('Colorbox custom options'),
-    '#options' => array(
-      0 => t('Disabled'),
-      1 => t('Enabled'),
-    ),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_custom_settings_activate'),
-  );
   $form['colorbox_custom_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Colorbox custom options'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="colorbox_custom_settings_activate"]' => array('value' => '1'),
-      ),
-    ),
+    '#title' => t('Styles and options'),
   );
+  $colorbox_styles = array(
+    'default' => t('Default'),
+    'plain' => t('Plain (mainly for images)'),
+    'stockholmsyndrome' => t('Stockholm Syndrome'),
+    $library_colorbox['library path'] . '/example1' => t('Example 1'),
+    $library_colorbox['library path'] . '/example2' => t('Example 2'),
+    $library_colorbox['library path'] . '/example3' => t('Example 3'),
+    $library_colorbox['library path'] . '/example4' => t('Example 4'),
+    $library_colorbox['library path'] . '/example5' => t('Example 5'),
+    'none' => t('None'),
+  );
+  $form['colorbox_custom_settings']['colorbox_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Style'),
+    '#options' => $colorbox_styles,
+    '#default_value' => config_get('colorbox.settings', 'colorbox_style'),
+    '#description' => t('Select "None" if Colorbox styles are provided by your theme.'),
+  );
+
+  $colorbox_custom_settings_activate = config_get('colorbox.settings', 'colorbox_custom_settings_activate');
+  $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = array(
+    '#type' => 'radios',
+    '#title' => t('Colorbox options'),
+    '#options' => array(0 => t('Use default options'), 1 => t('Use custom options')),
+    '#default_value' => $colorbox_custom_settings_activate,
+    '#prefix' => '<div class="colorbox-custom-settings-activate">',
+    '#suffix' => '</div>',
+  );
+
+  $js_hide_activate = $colorbox_custom_settings_activate ? '' : ' js-hide';
+  $form['colorbox_custom_settings']['wrapper_start'] = array(
+    '#markup' => '<div class="colorbox-custom-settings' . $js_hide_activate . '">',
+  );
+
   $form['colorbox_custom_settings']['colorbox_transition_type'] = array(
     '#type' => 'radios',
     '#title' => t('Transition type'),
@@ -200,6 +239,7 @@ function colorbox_admin_settings() {
     '#default_value' => config_get('colorbox.settings', 'colorbox_fixed'),
     '#description' => t('If the Colorbox should be displayed in a fixed position within the visitor\'s viewport or relative to the document.'),
   );
+
   $form['colorbox_custom_settings']['colorbox_scrolling'] = array(
     '#type' => 'radios',
     '#title' => t('Scrollbars'),
@@ -208,31 +248,33 @@ function colorbox_admin_settings() {
     '#description' => t('If set to Off, Colorbox will hide scrollbars for overflowing content. This could be used in conjunction with the resize method for a smoother transition if you are appending content to an already open instance of Colorbox.'),
   );
 
-  $form['colorbox_slideshow'] = array(
-    '#type' => 'radios',
-    '#title' => t('Automatic Slideshow'),
-    '#options' => array(
-      0 => t('Off'),
-      1 => t('On'),
-    ),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshow'),
-    '#description' => t('An automatic slideshow to a content group / gallery.'),
-  );
-  $form['colorbox_slideshow_settings'] = array(
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Slideshow settings'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="colorbox_slideshow"]' => array('value' => '1'),
-      ),
-    ),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
-  $form['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshow'] = array(
+    '#type' => 'radios',
+    '#title' => t('Slideshow'),
+    '#options' => array(0 => t('Off'), 1 => t('On')),
+    '#default_value' => config_get('colorbox.settings', 'colorbox_slideshow'),
+    '#description' => t('An automatic slideshow to a content group / gallery.'),
+    '#prefix' => '<div class="colorbox-slideshow-settings-activate">',
+    '#suffix' => '</div>',
+  );
+
+  $js_hide_slideshow = config_get('colorbox.settings', 'colorbox_slideshow') ? '' : ' js-hide';
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_start'] = array(
+    '#markup' => '<div class="colorbox-slideshow-settings' . $js_hide_slideshow . '">',
+  );
+
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowauto'] = array(
     '#type' => 'checkbox',
     '#title' => t('Automatically start to play the slideshow'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowauto'),
   );
-  $form['colorbox_slideshow_settings']['colorbox_slideshowspeed'] = array(
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_slideshowspeed'] = array(
     '#type' => 'select',
     '#title' => t('Slideshow speed'),
     '#field_suffix' => t('milliseconds'),
@@ -251,34 +293,25 @@ function colorbox_admin_settings() {
     )),
     '#default_value' => config_get('colorbox.settings', 'colorbox_slideshowspeed'),
   );
-  $form['colorbox_slideshow_settings']['colorbox_text_start'] = array(
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_start'] = array(
     '#type' => 'textfield',
     '#title' => t('Start button text'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_text_start'),
     '#size' => 30,
   );
-  $form['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['colorbox_text_stop'] = array(
     '#type' => 'textfield',
     '#title' => t('Stop button text'),
     '#default_value' => config_get('colorbox.settings', 'colorbox_text_stop'),
     '#size' => 30,
   );
 
-  $form['colorbox_extra_features'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Extra features'),
+  $form['colorbox_custom_settings']['colorbox_slideshow_settings']['wrapper_stop'] = array(
+    '#markup' => '</div>',
   );
-  $form['colorbox_extra_features']['colorbox_load'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable Colorbox load'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_load'),
-    '#description' => t('This enables custom links that can open forms and paths in a Colorbox. Add the class "colorbox-load" to the link and build the url like this for paths "[path]?width=500&height=500&iframe=true" or "[path]?width=500&height=500" if you don\'t want an iframe. Other modules may activate this for easy Colorbox integration.'),
-  );
-  $form['colorbox_extra_features']['colorbox_inline'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable Colorbox inline'),
-    '#default_value' => config_get('colorbox.settings', 'colorbox_inline'),
-    '#description' => t('This enables custom links that can open inline content in a Colorbox. Add the class "colorbox-inline" to the link and build the url like this "?width=500&height=500&inline=true#id-of-content". Other modules may activate this for easy Colorbox integration.'),
+
+  $form['colorbox_custom_settings']['wrapper_stop'] = array(
+    '#markup' => '</div>',
   );
 
   $form['colorbox_advanced_settings'] = array(

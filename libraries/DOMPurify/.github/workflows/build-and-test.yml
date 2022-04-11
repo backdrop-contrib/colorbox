@@ -1,0 +1,43 @@
+name: Build and Test
+
+# The event triggers are configured as following:
+# - on `main` -> trigger the workflow on every push
+# - on any pull request -> trigger the workflow
+# This is to avoid running the workflow twice on pull requests.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 15.x, 16.x, 17.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.0
+        with:
+          run: npm run test:ci
+        env:
+          TEST_BROWSERSTACK: ${{ startsWith(matrix.node-version, '17') }}
+          TEST_PROBE_ONLY: ${{ github.ref != 'refs/heads/main' }}
+          BS_USERNAME: ${{ secrets.BS_USERNAME }}
+          BS_ACCESSKEY: ${{ secrets.BS_ACCESSKEY }}

@@ -10,9 +10,11 @@ Backdrop.behaviors.initColorboxAdminSettings = {
 
     $('div.colorbox-custom-settings-activate input.form-radio', context).click(function () {
       if (this.value == 1) {
+        console.log('show');
         $('div.colorbox-custom-settings', context).show();
       }
       else {
+        console.log('hide');
         $('div.colorbox-custom-settings', context).hide();
       }
     });
