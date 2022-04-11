@@ -41,7 +41,7 @@ Backdrop.behaviors.initColorboxLoad = {
         if (e[1] == 'width') { e[1] = 'innerWidth'; }
         if (e[1] == 'height') { e[1] = 'innerHeight'; }
         if (e[2]) {
-          e[2] = Drupal.checkPlain(e[2]);
+          e[2] = Backdrop.checkPlain(e[2]);
         }
         p[e[1]] = e[2];
       }
@@ -76,5 +76,33 @@ Backdrop.behaviors.initColorboxLoad = {
       });
   }
 };
+
+/**
+ * Returns true if the passed-in href string is safe for colorbox_load.
+ *
+ * @param href
+ *   The href string to be tested.
+ *
+ * @return
+ *   Boolean true if the href is safe.
+ */
+function hrefIsSafe(href) {
+  var normalizedUrl = Backdrop.absoluteUrl(href);
+
+  // Only local, non-file-system URLs are allowed.
+  if (!Backdrop.urlIsLocal(normalizedUrl)) {
+    return false;
+  }
+
+  // Reject uploaded files from the public or private file system.
+  if (normalizedUrl.indexOf(Backdrop.settings.colorbox.file_public_path) !== -1 ||
+    normalizedUrl.match(/\/system\/files\//) ||
+    normalizedUrl.match(/[?|&]q=system\/files\//)) {
+    return false;
+  }
+
+  // All checks passed.
+  return true;
+}
 
 })(jQuery);

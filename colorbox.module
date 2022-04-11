@@ -420,18 +420,6 @@ function colorbox_field_formatter_settings_form($field, $instance, $view_mode, $
       ),
     );
   }
-  else {
-    $element['colorbox_token'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Replacement patterns'),
-      '#description' => '<strong class="error">' . t('For token support the <a href="@token_url">token module</a> must be installed.', array('@token_url' => 'http://drupal.org/project/token')) . '</strong>',
-      '#states' => array(
-        'visible' => array(
-          ':input[name$="[settings_edit_form][settings][colorbox_caption]"]' => array('value' => 'custom'),
-        ),
-      ),
-    );
-  }
 
   return $element;
 }
