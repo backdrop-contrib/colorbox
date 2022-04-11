@@ -38,23 +38,21 @@ function colorbox_theme() {
       ),
       'file' => 'colorbox.theme.inc',
     ),
-
     'colorbox_insert_image' => array(
       'variables' => array(
         'item' => NULL,
         'widget' => NULL,
       ),
-      'template' => 'colorbox-insert-image',
+      'template' => 'templates/colorbox-insert-image',
       'pattern' => 'colorbox_insert_image__[a-z0-9_]+',
       'file' => 'colorbox.theme.inc',
     ),
-
     'colorbox_image_formatter' => array(
       'variables' => array(
         'item' => NULL,
         'entity_type' => NULL,
         'entity' => NULL,
-  // Left for legacy support.
+        // Left for legacy support.
         'node' => NULL,
         'field' => array(),
         'display_settings' => array(),
