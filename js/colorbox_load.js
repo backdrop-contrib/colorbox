@@ -51,16 +51,25 @@ Backdrop.behaviors.initColorboxLoad = {
     $('.colorbox-load', context)
       .once('init-colorbox-load', function () {
         var href = $(this).attr('href');
-        if (!hrefIsSafe(href)) {
-          return;
-        }
 
         var params = $.urlParams(href);
+
+        // Always load in an iframe.
+        params.iframe = true;
+
+        // Set inner width and height if not already specified.
+        if (!params.hasOwnProperty('innerWidth')) {
+          params.innerWidth = $(window).width() * .8;
+        }
+        if (!params.hasOwnProperty('innerHeight')) {
+          params.innerHeight = $(window).height() * .8;
+        }
+
         if (!params.hasOwnProperty('title')) {
           // If a title attribute is supplied, sanitize it.
           var title = $(this).attr('title');
           if (title) {
-            params.title = Backdrop.checkPlain(title);
+            params.title = Drupal.colorbox.sanitizeMarkup(title);
           }
         }
         $(this).colorbox($.extend({}, settings.colorbox, params));

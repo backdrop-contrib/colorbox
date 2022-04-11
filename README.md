@@ -28,15 +28,25 @@ Installation
 - Install this module using the official Backdrop CMS instructions at
   https://backdropcms.org/user-guide/modules
 
-- Visit the configuration page under Administration > Configuration > Media >
-  Colorbox (admin/config/media/colorbox) and configure as necessary.
+- Configure your image fields or views to display images in colorboxes.
+
+- (Optional) Visit the configuration page under Administration > Configuration >
+  Media > Colorbox (admin/config/media/colorbox) and configure as necessary.
 
 
-Documentation
--------------
+Differences from Drupal
+-----------------------
 
-Documentation is located in the Wiki:
-https://github.com/backdrop-contrib/colorbox/wiki/Documentation
+- If you would like to use HTML tags in colorbox captions, you will need to enable
+  the new setting `Allow HTML in Colorbox captions`. This configuration will use
+  the DOMpurify library for sanitization. Please note: **The DOMpurify library
+  has several dependencies with security issues.** It is unknown whether the
+  colorbox use of DOMpurify could introduce a vulnerablity to your site. For
+  this reason it is recommend to leave this setting disabled.
+- The Backdrop version of Colorbox module does not require that you download or
+  install the Color library separately.
+- The Backdrop version of Colorbox module does not require that you download or
+  install the DomPurify library separately.
 
 
 Current Maintainers
@@ -50,6 +60,7 @@ Credits
 -------
 
 - Ported to Backdrop by [Andy Martha](https://github.com/biolithic)
+- Drupal module maintainer [Paul McKibben](https://www.drupal.org/u/paulmckibben)
 - Drupal module maintainer [Fredrik Jonsson](https://drupal.org/user/5546)
 - Drupal module maintainer [Sam Becker](https://www.drupal.org/u/sam152)
 - Drupal module maintainer [Andrii Podanenko](https://www.drupal.org/u/podarok)
@@ -58,8 +69,10 @@ Credits
 - The [Colorbox jQuery library](http://www.jacklmoore.com)
 
 
-License
--------
+Licenses
+--------
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory for
-complete text.
+* This project is GPL v2 software. See the LICENSE.txt file in this directory
+  for complete text.
+* The Colorbox jQuery library is released under the [MIT License](https://opensource.org/licenses/mit-license.php).
+* The DOMpurify library is released under [a dual license of Apache-2.0 and MPL-2.0](https://github.com/cure53/DOMPurify/blob/main/LICENSE).

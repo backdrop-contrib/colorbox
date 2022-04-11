@@ -52,8 +52,8 @@ Backdrop.behaviors.initColorboxInline = {
         return $.urlParam('height', $(this).attr('href'));
       },
       title:function(){
-        return Backdrop.checkPlain(decodeURIComponent(Backdrop.checkPlain(
-          $.urlParam('title', $(this).attr('href')))));
+        return Backdrop.colorbox.sanitizeMarkup(
+          decodeURIComponent($.urlParam('title', $(this).attr('href'))));
       },
       iframe:function(){
         return $.urlParam('iframe', $(this).attr('href'));
