@@ -89,12 +89,13 @@ function colorbox_views_api() {
  * Implements hook_library_info().
  */
 function colorbox_library_info() {
+  $colorbox_path = backdrop_get_path('module', 'colorbox');
   $libraries['colorbox'] = array(
     'title' => 'Colorbox',
     'website' => 'http://www.jacklmoore.com/colorbox',
     'version' => '1.6.4',
     'js' => array(
-      backdrop_get_path('module', 'colorbox') . '/libraries/colorbox/jquery.colorbox-min.js' => array(),
+      $colorbox_path . '/libraries/colorbox/jquery.colorbox-min.js' => array(),
     ),
   );
   $libraries['colorbox-source'] = array(
@@ -102,7 +103,7 @@ function colorbox_library_info() {
     'website' => 'http://www.jacklmoore.com/colorbox',
     'version' => '1.6.4',
     'js' => array(
-      backdrop_get_path('module', 'colorbox') . '/libraries/colorbox/jquery.colorbox.js' => array(),
+      $colorbox_path . '/libraries/colorbox/jquery.colorbox.js' => array(),
     ),
   );
   $libraries['DOMPurify'] = array(
@@ -110,7 +111,7 @@ function colorbox_library_info() {
     'website' => 'https://github.com/cure53/DOMPurify',
     'version' => '2.3.6',
     'js' => array(
-      backdrop_get_path('module', 'colorbox') . '/libraries/DOMPurify/purify.min.js',
+      $colorbox_path . '/libraries/DOMPurify/purify.min.js' => array(),
     ),
   );
   $libraries['DOMPurify-source'] = array(
@@ -118,7 +119,7 @@ function colorbox_library_info() {
     'website' => 'https://github.com/cure53/DOMPurify',
     'version' => '2.3.6',
     'js' => array(
-      backdrop_get_path('module', 'colorbox') . '/libraries/DOMPurify/purify.js',
+      $colorbox_path . '/libraries/DOMPurify/purify.js' => array(),
     ),
   );
 
