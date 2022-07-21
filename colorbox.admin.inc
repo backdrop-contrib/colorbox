@@ -78,11 +78,11 @@ function colorbox_admin_settings() {
     'default' => t('Default'),
     'plain' => t('Plain (mainly for images)'),
     'stockholmsyndrome' => t('Stockholm Syndrome'),
-    $library_colorbox['library path'] . '/example1' => t('Example 1'),
-    $library_colorbox['library path'] . '/example2' => t('Example 2'),
-    $library_colorbox['library path'] . '/example3' => t('Example 3'),
-    $library_colorbox['library path'] . '/example4' => t('Example 4'),
-    $library_colorbox['library path'] . '/example5' => t('Example 5'),
+    $colorbox_path . '/example1' => t('Example 1'),
+    $colorbox_path . '/example2' => t('Example 2'),
+    $colorbox_path . '/example3' => t('Example 3'),
+    $colorbox_path . '/example4' => t('Example 4'),
+    $colorbox_path . '/example5' => t('Example 5'),
     'none' => t('None'),
   );
   $form['colorbox_custom_settings']['colorbox_style'] = array(
