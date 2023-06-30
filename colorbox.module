@@ -111,7 +111,7 @@ function colorbox_library_info() {
     'website' => 'https://github.com/cure53/DOMPurify',
     'version' => '2.3.6',
     'js' => array(
-      $colorbox_path . '/libraries/DOMPurify/purify.min.js' => array(),
+      $colorbox_path . '/libraries/DOMPurify/dist/purify.min.js' => array(),
     ),
   );
   $libraries['DOMPurify-source'] = array(
@@ -119,7 +119,7 @@ function colorbox_library_info() {
     'website' => 'https://github.com/cure53/DOMPurify',
     'version' => '2.3.6',
     'js' => array(
-      $colorbox_path . '/libraries/DOMPurify/purify.js' => array(),
+      $colorbox_path . '/libraries/DOMPurify/dist/purify.js' => array(),
     ),
   );
 
