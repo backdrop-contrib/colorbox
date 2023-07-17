@@ -53,7 +53,8 @@ Current Maintainers
 -------------------
 
 - jenlampton (https://github.com/jenlampton)
-- seeking additional maintainers
+- Robert J. Lang (bugfolder) (https://github.com/bugfolder)
+- Seeking additional maintainers
 
 
 Credits
