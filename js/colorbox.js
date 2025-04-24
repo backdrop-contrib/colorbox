@@ -7,7 +7,7 @@
 
 Backdrop.behaviors.initColorbox = {
   attach: function (context, settings) {
-    if (!$.isFunction($.colorbox) || typeof settings.colorbox === 'undefined') {
+    if (typeof $.colorbox !== 'function' || typeof settings.colorbox === 'undefined') {
       return;
     }
 
@@ -80,7 +80,7 @@ Backdrop.behaviors.initColorbox = {
         }
       });
 
-    $(context).bind('cbox_complete', function () {
+    $(context).on('cbox_complete', function () {
       Backdrop.attachBehaviors('#cboxLoadedContent');
     });
   }

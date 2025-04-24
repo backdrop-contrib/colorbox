@@ -8,17 +8,15 @@
 Backdrop.behaviors.initColorboxAdminSettings = {
   attach: function (context, settings) {
 
-    $('div.colorbox-custom-settings-activate input.form-radio', context).click(function () {
+    $('div.colorbox-custom-settings-activate input.form-radio', context).on('click', function () {
       if (this.value == 1) {
-        console.log('show');
         $('div.colorbox-custom-settings', context).show();
       }
       else {
-        console.log('hide');
         $('div.colorbox-custom-settings', context).hide();
       }
     });
-    $('div.colorbox-slideshow-settings-activate input.form-radio', context).click(function () {
+    $('div.colorbox-slideshow-settings-activate input.form-radio', context).on('click', function () {
       if (this.value == 1) {
         $('div.colorbox-slideshow-settings', context).show();
       }
@@ -26,7 +24,7 @@ Backdrop.behaviors.initColorboxAdminSettings = {
         $('div.colorbox-slideshow-settings', context).hide();
       }
     });
-    $('div.colorbox-title-trim-settings-activate input.form-radio', context).click(function () {
+    $('div.colorbox-title-trim-settings-activate input.form-radio', context).on('click', function () {
       if (this.value == 1) {
         $('div.colorbox-title-trim-settings', context).show();
       }
@@ -34,7 +32,7 @@ Backdrop.behaviors.initColorboxAdminSettings = {
         $('div.colorbox-title-trim-settings', context).hide();
       }
     });
-    $('.colorbox-reset-specific-pages-default', context).click(function (event) {
+    $('.colorbox-reset-specific-pages-default', context).on('click', function (event) {
 
       event.preventDefault();
 
